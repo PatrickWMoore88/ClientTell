@@ -1,0 +1,13 @@
+extends layout
+
+block content
+      div.main
+        main.container.mt-5
+          section.d-flex.flex-column.align-items-center.mt-5
+            div.col-md-6(style="display: flex; justify-content: center; flex-wrap: wrap; padding-top: 20px")
+              h2 Streamline Your Business
+              p ClientTell helps you manage users effortlessly.
+              img(src="/crm-dashboard.png", alt="CRM Dashboard", class="img-fluid rounded")
+              div(style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;")
+                a(href="/get/users", class="btn btn-primary btn-lg") View Users
+                a(href="/create/users", class="btn btn-outline-secondary btn-lg") Add New User

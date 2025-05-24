@@ -1,0 +1,20 @@
+.env
+.dockerignore
+CRM TABLE SET UP.xlsx
+node_modules
+Dockerfile
+docker*
+app/sql
+app/views/clients.pug
+app/views/contacts.pug
+app/views/customers.pug
+app/views/employees.pug
+app/views/leads.pug
+app/views/notes.pug
+app/views/payment_details.pug
+app/views/seo_changelogs.pug
+app/views/websites.pug
+images/
+logo/
+routes/adminHandler.js
+package-lock.json

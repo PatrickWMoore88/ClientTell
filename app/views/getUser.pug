@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    h1.text-center.my-4(style="padding: 50px;")= title
+    div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').card.p-4
+      h2(style="color: white; font-weight: bold; text-decoration: none;")= user.username.toUpperCase()
+      p.info ID: #{user.id}
+      p.info Email: #{user.email}
+      p.info Member Since: #{user.member_since instanceof Date ? user.member_since.toLocaleDateString() : user.member_since}
+      div.text-end
+        form(action=`/update/users/${user.id}`, method="GET", style="display: inline;")
+          input(type="hidden", name="_method", value="GET")
+          button(type="submit", class="btn btn-info mt-3") Edit User
+        a(href="/get/users", class="btn btn-info mt-3 ms-3") Back to User List
+        form(action=`/delete/users/${user.id}`, method="POST", style="display: inline;")
+          input(type="hidden", name="_method", value="DELETE")
+          button(type="submit", class="btn btn-danger mt-3 ms-3") Delete User
