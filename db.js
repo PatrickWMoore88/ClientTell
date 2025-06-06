@@ -107,7 +107,7 @@ async function createTables() {
     };
 
     for (const [table, query] of Object.entries(tableDefinitions)) {
-      if (!exists[`${table}_exists`]) {
+      if (!tableExists[`${table}_exists`]) {
         await pool.query(query);
         console.log(`Table '${table}' created!`);
       } else {
