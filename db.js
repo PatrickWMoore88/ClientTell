@@ -27,7 +27,7 @@ async function createTables() {
   // Debugging: Log query results to verify structure
   console.log("Table existence check result:", exists);
 
-  if (!exists) {
+  // if (!exists) {
     const tableDefinitions = {
       clients: `
         CREATE TABLE clients (
@@ -118,7 +118,7 @@ async function createTables() {
         console.log(`Table '${table}' already exists, skipping creation.`);
       }
     }
-  }
+  // }
 }
 
 async function seedDatabase() {
@@ -175,6 +175,8 @@ async function seedDatabase() {
     if (rowCount === 0) {
       await pool.query(query);
       console.log(`Seed data added for '${table}'!`);
+      console.log("Seeding database now...");
+      console.log("Checking table existence before seeding:", await pool.query(checkQuery));
     } else {
       console.log(`Seed data already exists for '${table}', skipping.`);
     }
