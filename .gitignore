@@ -14,7 +14,6 @@ app/views/notes.pug
 app/views/payment_details.pug
 app/views/seo_changelogs.pug
 app/views/websites.pug
-images/
 logo/
 routes/adminHandler.js
 package-lock.json

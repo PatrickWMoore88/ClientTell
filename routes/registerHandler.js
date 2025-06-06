@@ -14,7 +14,8 @@ router.get('/register', async (req, res) => {
 
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const saltRounds = 10; // Adjust for security level
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   await db.runQuery('INSERT INTO users (username, email, password) VALUES ($1, $2, $3)', [username, email, hashedPassword]);
   res.redirect('/login');
