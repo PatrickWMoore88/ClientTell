@@ -18,7 +18,7 @@ async function createTables() {
     EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'campaigns') AS campaigns_exists,
     EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'leads') AS leads_exists,
     EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'tasks') AS tasks_exists,
-    EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'team_members') AS team_exists;
+    EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'team_members') AS team_exists,
     EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'users') AS users_exists;
   `;
 
