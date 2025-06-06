@@ -72,7 +72,7 @@ async function createTables() {
       role VARCHAR(100), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`, 
     users: `CREATE TABLE IF NOT EXISTS users (
-      id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL,
+      id SERIAL PRIMARY KEY, username VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL,
       password VARCHAR(100) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`
   };
@@ -137,7 +137,7 @@ async function seedDatabase() {
       ('Bob White', 'bob@example.com', 'Frontend Developer');
     `,
     users: `
-      INSERT INTO users (name, email, password)
+      INSERT INTO users (username, email, password)
       VALUES 
       ('Administrator', 'info@conversionwebdesign.com', '${hashedPassword}');
     `
