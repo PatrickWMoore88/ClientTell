@@ -20,10 +20,14 @@ async function createTables() {
     EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'team_members') AS team_exists;
   `;
 
+  // Make sure we're correctly referencing the returned row object
   const res = await pool.query(checkQuery);
-  const tableExists = res.rows[0].exists;
+  const exists = res.rows[0];
 
-  if (!tableExists) {
+  // Debugging: Log query results to verify structure
+  console.log("Table existence check result:", exists);
+
+  if (!exists) {
     const tableDefinitions = {
       clients: `
         CREATE TABLE clients (
@@ -107,7 +111,7 @@ async function createTables() {
     };
 
     for (const [table, query] of Object.entries(tableDefinitions)) {
-      if (!tableExists[`${table}_exists`]) {
+      if (!exists[`${table}_exists`]) {
         await pool.query(query);
         console.log(`Table '${table}' created!`);
       } else {
