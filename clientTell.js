@@ -11,7 +11,7 @@ const port = 3000;
 
 const db = require('./db');
 
-await db.createTables();
+db.createTables();
 
 app.use(session({
   secret: 'yourSecretKey',
