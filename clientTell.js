@@ -29,7 +29,7 @@ app.use(methodOverride('_method'));
 
 const registerRouter = require('./routes/registerHandler');
 const statusRouter = require('./routes/statusHandler');
-const adminRouter = require('./routes/adminHandler');
+// const adminRouter = require('./routes/adminHandler');
 const usersRouter = require('./routes/userHandler');
 const loginRouter = require('./routes/loginHandler');
 app.use('/', registerRouter);
