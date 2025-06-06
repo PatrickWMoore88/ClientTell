@@ -176,7 +176,7 @@ async function seedDatabase() {
       await pool.query(query);
       console.log(`Seed data added for '${table}'!`);
       console.log("Seeding database now...");
-      console.log("Checking table existence before seeding:", await pool.query(checkQuery));
+      console.log("Checking table existence before seeding:", await pool.query(checkDataQuery));
     } else {
       console.log(`Seed data already exists for '${table}', skipping.`);
     }
