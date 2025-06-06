@@ -17,7 +17,7 @@ async function createTables() {
     EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'campaigns') AS campaigns_exists,
     EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'leads') AS leads_exists,
     EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'tasks') AS tasks_exists,
-    EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'team_members') AS team_members_exists;
+    EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'team_members') AS team_exists;
   `;
 
   // Get existence status for each table
@@ -65,7 +65,7 @@ async function createTables() {
       status VARCHAR(50) CHECK (status IN ('Pending', 'In Progress', 'Completed')),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`,
-    team_members: `CREATE TABLE IF NOT EXISTS team_members (
+    team: `CREATE TABLE IF NOT EXISTS team_members (
       id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL,
       role VARCHAR(100), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`
