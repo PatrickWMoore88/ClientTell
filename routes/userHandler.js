@@ -1,6 +1,9 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const router = express.Router();
 const db = require('../db');
+
+const saltRounds = 10; // Adjust for security level
 
 // // // // Table Data CRUD
 // // // // // Table Data Read Users
@@ -32,8 +35,9 @@ router.get('/create/users', async (req, res) => {
 // // // // // // Post New User
 router.post('/create/users', async (req, res) => {
     const { username, password, email } = req.body;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
     var memberSince = new Date().toLocaleDateString();
-    await db.runQuery('INSERT INTO users (username, password, email, member_since) VALUES ($1, $2, $3, $4)', [username, password, email, memberSince]);
+    await db.runQuery('INSERT INTO users (username, password, email, member_since) VALUES ($1, $2, $3, $4)', [username, hashedPassword, email, memberSince]);
     res.redirect('/get/users');
 });
 
@@ -74,7 +78,8 @@ router.post('/update/users/:user_id', async (req, res) => {
   if(password === " " || password === "" || password === null || password === undefined){
     password = user.rows[0].password
   }
-  const result = await db.runQuery('UPDATE users SET username = $1, email = $2, password = $3 WHERE ID = $4 RETURNING *', [username, email, password, req.params.user_id]);
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  const result = await db.runQuery('UPDATE users SET username = $1, email = $2, password = $3 WHERE ID = $4 RETURNING *', [username, email, hashedPassword, req.params.user_id]);
   console.log('User updated:', result.rows[0]);
   res.render('getUser', { title: 'CRM User', user: result.rows[0]});
 });
