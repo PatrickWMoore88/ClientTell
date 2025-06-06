@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    h1.text-center.my-4(style="padding: 50px;")= title
+    div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').card.p-4
+      h2(style="color: white; font-weight: bold; text-decoration: none;")= client.name.toUpperCase()
+      p.info ID: #{client.id}
+      p.info Email: #{client.email}
+      p.info Phone Number: #{client.phone}
+      p.info Company Name: #{client.company_name}
+      p.info Website URL: #{client.website_url}
+      p.info Status: #{client.status}
+      p.info Client Since: #{client.create_at instanceof Date ? client.create_at.toLocaleDateString() : client.create_at}
+      div.text-end
+        form(action=`/update/clients/${client.id}`, method="GET", style="display: inline;")
+          input(type="hidden", name="_method", value="GET")
+          button(type="submit", class="btn btn-info mt-3") Edit client
+        a(href="/get/clients", class="btn btn-info mt-3 ms-3") Back to client List
+        form(action=`/delete/clients/${client.id}`, method="POST", style="display: inline;")
+          input(type="hidden", name="_method", value="DELETE")
+          button(type="submit", class="btn btn-danger mt-3 ms-3") Delete client

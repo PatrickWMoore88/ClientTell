@@ -1,0 +1,32 @@
+extends layout 
+
+block content
+    h1.text-center.my-4(style="padding: 50px;")= title
+    div.container.d-flex.justify-content-center.mt-4
+      div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').table-card.p-4
+        table.table.table-striped 
+          thead 
+            tr 
+              th(scope="col", style="padding-left: 15px") Name
+              th(scope="col", style="padding-left: 70px") Email Address
+              th(scope="col", style="padding-left: 25px") Phone Number
+              th(scope="col", style="padding-right: 20px") Company Name
+              th(scope="col", style="padding-left: 70px") Status
+              th(scope="col")
+          tbody 
+            each client in clients 
+              tr
+                td 
+                  a(href=`/get/clients/${client.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= client.name.toUpperCase()
+                td
+                  a(href=`/get/clients/${client.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= client.email 
+                td
+                  a(href=`/get/clients/${client.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 40px")= client.phone
+                td
+                  a(href=`/get/clients/${client.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-right: 30px")= client.company_name
+                td
+                  a(href=`/get/clients/${client.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= client.status
+                td(style="padding-left: 41px")
+                  a.btn.btn-info.btn-sm(href=`/get/clients/${client.id}`) View
+        div.p-4.d-flex.justify-content-end
+          a.btn.btn-info(href='/create/clients') Create New

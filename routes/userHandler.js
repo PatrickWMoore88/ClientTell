@@ -58,12 +58,7 @@ router.post('/delete/users/:user_id', async (req, res) => {
 router.get('/update/users/:user_id', async (req, res) => {
   try {
     const result = await db.runQuery(`SELECT * FROM users WHERE ID = $1`, [req.params.user_id]);
-    if(result.rows.length > 0){
-      res.render('updateUser', { title: 'Edit User', user: result.rows[0]});
-    }
-    else{
-      res.send('There is no user with that ID. Please Try Again');
-    }
+    result.rows.length > 0 ? res.render('updateUser', { title: 'Edit User', user: result.rows[0]}) : res.send('There is no user with that ID. Please Try Again');
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);

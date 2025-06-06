@@ -34,11 +34,13 @@ const statusRouter = require('./routes/statusHandler');
 // const adminRouter = require('./routes/adminHandler');
 const usersRouter = require('./routes/userHandler');
 const loginRouter = require('./routes/loginHandler');
+const clientsRouter = require('./routes/clientHandler');
 app.use('/', registerRouter);
 app.use('/', statusRouter);
 // app.use('/', adminRouter);
 app.use('/', usersRouter);
 app.use('/', loginRouter);
+app.use('/', clientsRouter);
 
 // Set the views directory
 app.set('views', path.join(__dirname, 'app/views'));

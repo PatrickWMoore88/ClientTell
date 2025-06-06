@@ -1,0 +1,33 @@
+extends layout
+
+block content
+    h1.text-center.mt-4(style="padding: 50px;")= title
+    div
+      form(action=`/update/clients/${client.id}`, method="POST", class="card", style="padding: 2rem; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 2rem;")
+        div.mb-3
+          label.form-label(for="name") Name:
+          input.form-control(type="text", name="name", required, value=client.name)
+        div.mb-3
+          label.form-label(for="email") Email:
+          input.form-control(type="email", name="email", value=client.email)
+        div.mb-3
+          label.form-label(for="phone") Phone:
+          input.form-control(type="text", name="phone", value=client.phone)
+        div.mb-3
+          label.form-label(for="company_name") Company:
+          input.form-control(type="text", name="company_name", value=client.company_name)
+        div.mb-3
+          label.form-label(for="website_url") Website URL:
+          input.form-control(type="text", name="website_url", value=client.website_url)
+        div.mb-3
+          label.form-label(for="status") Status:
+          input.form-control(type="text", name="status", value=client.status)
+        div.mb-3
+          label.form-label(for="create_at") Client Since:
+          - let displayDate = new Date(client.create_at).toLocaleDateString()
+          input.form-control(type="text", name="create_at", value=displayDate, readonly)
+        div.text-end
+          button.btn.btn-info(type="submit", class="mt-3") Save
+          a(href=`/get/clients/${client.id}`, class="btn btn-info mt-3 ms-3") Cancel
+
+          website_url
