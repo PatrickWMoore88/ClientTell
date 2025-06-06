@@ -1,5 +1,6 @@
-const { Pool } = require('pg');
 require('dotenv').config();
+const { Pool } = require('pg');
+const bcrypt = require('bcrypt');
 
 const pool = new Pool({
   host: process.env.PGHOST,
@@ -18,6 +19,7 @@ async function createTables() {
     EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'leads') AS leads_exists,
     EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'tasks') AS tasks_exists,
     EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'team_members') AS team_exists;
+    EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'users') AS users_exists;
   `;
 
   // Get existence status for each table
@@ -68,6 +70,10 @@ async function createTables() {
     team: `CREATE TABLE IF NOT EXISTS team_members (
       id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL,
       role VARCHAR(100), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );`, 
+    users: `CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL,
+      password VARCHAR(100) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`
   };
 
@@ -84,6 +90,9 @@ async function createTables() {
 }
 
 async function seedDatabase() {
+  const saltRounds = 10; // Adjust for security level
+  const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASS, saltRounds);
+
   const tablesToSeed = {
     clients: `
       INSERT INTO clients (name, email, phone, company_name, website_url, status)
@@ -127,6 +136,11 @@ async function seedDatabase() {
       ('Alice Johnson', 'alice@example.com', 'Project Manager'),
       ('Bob White', 'bob@example.com', 'Frontend Developer');
     `,
+    users: `
+      INSERT INTO users (name, email, password)
+      VALUES 
+      ('Administrator', 'info@conversionwebdesign.com', '${hashedPassword}');
+    `
   };
 
   for (const [table, query] of Object.entries(tablesToSeed)) {
