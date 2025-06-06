@@ -73,7 +73,7 @@ async function createTables() {
     );`, 
     users: `CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY, username VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL,
-      password VARCHAR(100) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      password VARCHAR(100) NOT NULL, member_since TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`
   };
 
