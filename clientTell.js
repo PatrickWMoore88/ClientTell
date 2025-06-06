@@ -34,7 +34,7 @@ const usersRouter = require('./routes/userHandler');
 const loginRouter = require('./routes/loginHandler');
 app.use('/', registerRouter);
 app.use('/', statusRouter);
-app.use('/', adminRouter);
+// app.use('/', adminRouter);
 app.use('/', usersRouter);
 app.use('/', loginRouter);
 
