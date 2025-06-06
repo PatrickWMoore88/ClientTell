@@ -15,8 +15,6 @@ passport.use(new LocalStrategy(async (username, password, done) => {
     }
 
     const user = result.rows[0];
-    console.log('Stored password hash:', user.password);
-    console.log('Entered password:', password);
 
     const isMatch = await bcrypt.compare(password, user.password);
     console.log('Password match result:', isMatch);
@@ -62,12 +60,6 @@ router.get('/login', async (req, res) => {
     res.send('Error ' + err);
   }
 });
-
-// router.post('/login', passport.authenticate('local', {
-//   successRedirect: '/dashboard',
-//   failureRedirect: '/login',
-//   failureFlash: true
-// }));
 
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {

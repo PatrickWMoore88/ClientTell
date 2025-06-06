@@ -74,7 +74,6 @@ router.get('/update/users/:user_id', async (req, res) => {
 router.post('/update/users/:user_id', async (req, res) => {
   var { username, email, password } = req.body
   const user = await db.runQuery(`SELECT * FROM users WHERE ID = $1`, [req.params.user_id])
-  console.log(user.rows[0])
   let finalPassword = user.rows[0].password; // Default to existing password
   if (password && password.trim() !== "" && password !== null && password !== undefined) {
     finalPassword = await bcrypt.hash(password, saltRounds); // Hash only if a new password is provided
@@ -83,7 +82,6 @@ router.post('/update/users/:user_id', async (req, res) => {
     'UPDATE users SET username = $1, email = $2, password = $3 WHERE ID = $4 RETURNING *',
     [username, email, finalPassword, req.params.user_id]
   );
-  console.log('User updated:', result.rows[0]);
   res.render('getUser', { title: 'CRM User', user: result.rows[0]});
 });
 
