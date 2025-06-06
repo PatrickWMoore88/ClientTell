@@ -10,7 +10,7 @@ block content
       p.info Company Name: #{client.company_name}
       p.info Website URL: #{client.website_url}
       p.info Status: #{client.status}
-      p.info Client Since: #{client.create_at instanceof Date ? client.create_at.toLocaleDateString() : client.create_at}
+      p.info Client Since: #{client.created_at instanceof Date ? client.created_at.toLocaleDateString() : client.created_at}
       div.text-end
         form(action=`/update/clients/${client.id}`, method="GET", style="display: inline;")
           input(type="hidden", name="_method", value="GET")

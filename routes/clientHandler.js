@@ -12,7 +12,7 @@ router.get('/get/clients', async (req, res) => {
 });
 
 
-// // // // // // Get A Single User
+// // // // // // Get A Single Client
 router.get('/get/clients/:id', async (req, res) => {
   const result = await db.runQuery(`SELECT * FROM clients WHERE ID = $1`, [req.params.id]);
   result.rows.length > 0 ? res.render('getClient', { title: 'Client', client: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
@@ -34,8 +34,8 @@ router.get('/create/clients', async (req, res) => {
 // // // // // // Post New Client
 router.post('/create/clients', async (req, res) => {
     const { name, email, phone, company_name, website_url, status } = req.body;
-    var create_at = new Date().toLocaleDateString();
-    await db.runQuery('INSERT INTO clients (name, email, phone, company_name, website_url, status, create_at) VALUES ($1, $2, $3, $4, $5, $6, $7)', [name, email, phone, company_name, website_url, status, create_at]);
+    var created_at = new Date().toLocaleDateString();
+    await db.runQuery('INSERT INTO clients (name, email, phone, company_name, website_url, status, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7)', [name, email, phone, company_name, website_url, status, created_at]);
     res.redirect('/get/clients');
 });
 
