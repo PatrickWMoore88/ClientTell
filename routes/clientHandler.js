@@ -13,7 +13,7 @@ router.get('/get/clients', async (req, res) => {
 
 // // // // // // Get A Single Client
 router.get('/get/clients/:id', async (req, res) => {
-  const result = await db.runQuery(`SELECT * FROM users WHERE ID = $1`, [req.params.id]);
+  const result = await db.runQuery(`SELECT * FROM clients WHERE ID = $1`, [req.params.id]);
   result.rows.length > 0 ? res.render('getClients', { title: 'Clients', client: result.rows[0] }) : res.send('There is no client with that ID. Please Try Again');
 });
 
@@ -23,7 +23,7 @@ router.get('/get/clients/:id', async (req, res) => {
 // // // // // // Get Create Client Page
 router.get('/create/clients', async (req, res) => {
   try {
-    res.render('createUsers', { title: 'Create Users' });
+    res.render('createClients', { title: 'Create Client' });
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);
@@ -66,7 +66,7 @@ router.get('/update/clients/:id', async (req, res) => {
 router.post('/update/clients/:id', async (req, res) => {
   var { name, email, phone, company_name, website_url, status } = req.body
   const result = await db.runQuery(
-      'UPDATE users SET name = $1, email = $2, phone = $3, company_name = $4, website_url = $5, status = $6 WHERE ID = $7 RETURNING *',
+      'UPDATE clients SET name = $1, email = $2, phone = $3, company_name = $4, website_url = $5, status = $6 WHERE ID = $7 RETURNING *',
       [name, email, phone, company_name, website_url, status, req.params.id]
     );
   res.render('getClients', { title: 'Clients', client: result.rows[0]});
