@@ -29,18 +29,21 @@ app.use(passport.session());
 // Method Override Middleware
 app.use(methodOverride('_method'));
 
-const registerRouter = require('./routes/registerHandler');
-const statusRouter = require('./routes/statusHandler');
-// const adminRouter = require('./routes/adminHandler');
 const usersRouter = require('./routes/userHandler');
 const loginRouter = require('./routes/loginHandler');
+// const adminRouter = require('./routes/adminHandler');
+const statusRouter = require('./routes/statusHandler');
 const clientsRouter = require('./routes/clientHandler');
-app.use('/', registerRouter);
-app.use('/', statusRouter);
-// app.use('/', adminRouter);
+const registerRouter = require('./routes/registerHandler');
+const teamMembersRouter = require('./routes/teamMemberHandler');
+
 app.use('/', usersRouter);
 app.use('/', loginRouter);
+// app.use('/', adminRouter);
+app.use('/', statusRouter);
 app.use('/', clientsRouter);
+app.use('/', registerRouter);
+app.use('/', teamMembersRouter);
 
 // Set the views directory
 app.set('views', path.join(__dirname, 'app/views'));

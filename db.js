@@ -69,7 +69,7 @@ async function createTables() {
     );`,
     team: `CREATE TABLE IF NOT EXISTS team_members (
       id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL,
-      role VARCHAR(100), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      phone VARCHAR(20), role VARCHAR(100), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`, 
     users: `CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY, username VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL,

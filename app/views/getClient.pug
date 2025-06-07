@@ -14,8 +14,8 @@ block content
       div.text-end
         form(action=`/update/clients/${client.id}`, method="GET", style="display: inline;")
           input(type="hidden", name="_method", value="GET")
-          button(type="submit", class="btn btn-info mt-3") Edit client
-        a(href="/get/clients", class="btn btn-info mt-3 ms-3") Back to client List
+          button(type="submit", class="btn btn-info mt-3") Edit Client
+        a(href="/get/clients", class="btn btn-info mt-3 ms-3") Back to Client List
         form(action=`/delete/clients/${client.id}`, method="POST", style="display: inline;")
           input(type="hidden", name="_method", value="DELETE")
-          button(type="submit", class="btn btn-danger mt-3 ms-3") Delete client
+          button(type="submit", class="btn btn-danger mt-3 ms-3") Delete Client

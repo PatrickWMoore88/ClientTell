@@ -1,0 +1,29 @@
+extends layout 
+
+block content
+    h1.text-center.my-4(style="padding: 50px;")= title
+    div.container.d-flex.justify-content-center.mt-4
+      div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').table-card.p-4
+        table.table.table-striped 
+          thead 
+            tr 
+              th(scope="col", style="padding-left: 15px") Name
+              th(scope="col", style="padding-left: 70px") Email Address
+              th(scope="col", style="padding-left: 25px") Phone Number
+              th(scope="col", style="padding-left: 70px") Role
+              th(scope="col")
+          tbody 
+            each teamMember in teamMembers 
+              tr
+                td 
+                  a(href=`/get/team_members"${teamMember.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= teamMember.name.toUpperCase()
+                td
+                  a(href=`/get/team_members"${teamMember.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= teamMember.email 
+                td
+                  a(href=`/get/team_members"${teamMember.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 40px")= teamMember.phone
+                td
+                  a(href=`/get/team_members"${teamMember.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= teamMember.role
+                td(style="padding-left: 41px")
+                  a.btn.btn-info.btn-sm(href=`/get/team_members"${teamMember.id}`) View
+        div.p-4.d-flex.justify-content-end
+          a.btn.btn-info(href='/create/team_members') Create New
