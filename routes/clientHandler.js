@@ -23,7 +23,7 @@ router.get('/get/clients/:id', async (req, res) => {
 // // // // // // Get Create Client Page
 router.get('/create/clients', async (req, res) => {
   try {
-    res.render('createClients', { title: 'Create Client' });
+    res.render('createClient', { title: 'Create Client' });
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);

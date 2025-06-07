@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    h1.text-center.my-4(style="padding: 50px;")= title
+    div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').card.p-4
+    h2(style="color: white; font-weight: bold; text-decoration: none;")= campaign.name.toUpperCase()6
+      p.info Client: #{campaign.client_id}
+      p.info Type: #{campaign.type}
+      p.info Budget: #{campaign.budget}
+      p.info Start Date: #{campaign.start_date instanceof Date ? campaign.start_date.toLocaleDateString() : campaign.start_date}
+      p.info End Date: #{campaign.end_date instanceof Date ? campaign.end_date.toLocaleDateString() : campaign.end_date}
+      p.info Status: #{campaign.status}
+      p.info Creation Date: #{campaign.created_at}
+      div.text-end
+        form(action=`/update/campaigns/${campaign.id}`, method="GET", style="display: inline;")
+          input(type="hidden", name="_method", value="GET")
+          button(type="submit", class="btn btn-info mt-3") Edit Campaign
+        a(href="/get/campaigns", class="btn btn-info mt-3 ms-3") Back to Campaign List
+        form(action=`/delete/campaigns/${campaign.id}`, method="POST", style="display: inline;")
+          input(type="hidden", name="_method", value="DELETE")
+          button(type="submit", class="btn btn-danger mt-3 ms-3") Delete Campaign

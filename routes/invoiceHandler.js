@@ -14,7 +14,7 @@ router.get('/get/invoices', async (req, res) => {
 // // // // // // Get A Single Invoice
 router.get('/get/invoices/:id', async (req, res) => {
   const result = await db.runQuery(`SELECT * FROM invoices WHERE ID = $1`, [req.params.id]);
-  result.rows.length > 0 ? res.render('getProject', { title: 'Invoice', invoices: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
+  result.rows.length > 0 ? res.render('getProject', { title: 'Invoice', invoice: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
 });
 
 
@@ -23,7 +23,7 @@ router.get('/get/invoices/:id', async (req, res) => {
 // // // // // // Get Create Invoice Page
 router.get('/create/invoices', async (req, res) => {
   try {
-    res.render('createInvoices', { title: 'Create Invoice' });
+    res.render('createInvoice', { title: 'Create Invoice' });
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);

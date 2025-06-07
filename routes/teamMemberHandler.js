@@ -24,7 +24,7 @@ router.get('/get/team_members/:id', async (req, res) => {
 // // // // // // Get Create Team Members Page
 router.get('/create/team_members', async (req, res) => {
   try {
-    res.render('createTeamMembers', { title: 'Create Team Member' });
+    res.render('createTeamMember', { title: 'Create Team Member' });
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);

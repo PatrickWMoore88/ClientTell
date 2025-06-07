@@ -25,7 +25,7 @@ router.get('/get/users/:user_id', async (req, res) => {
 // // // // // // Get Create User Page
 router.get('/create/users', async (req, res) => {
   try {
-    res.render('createUsers', { title: 'Create Users' });
+    res.render('createUser', { title: 'Create User' });
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);
