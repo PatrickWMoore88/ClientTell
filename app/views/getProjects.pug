@@ -8,6 +8,7 @@ block content
           thead 
             tr 
               th(scope="col", style="padding-left: 15px") Name
+              th(scope="col", style="padding-left: 20px") Client
               th(scope="col", style="padding-left: 25px") Start Date
               th(scope="col", style="padding-right: 20px") Deadline
               th(scope="col", style="padding-left: 70px") Status
@@ -17,6 +18,8 @@ block content
               tr
                 td 
                   a(href=`/get/projects/${project.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= project.name.toUpperCase()
+                td
+                  a(href=`/get/projects/${project.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= project.client_id
                 td
                   a(href=`/get/projects/${project.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 40px")= project.start_date instanceof Date ? project.start_date.toLocaleDateString() : project.start_date
                 td
