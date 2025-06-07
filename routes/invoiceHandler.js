@@ -23,7 +23,7 @@ router.get('/get/invoices/:id', async (req, res) => {
 // // // // // // Get Create Invoice Page
 router.get('/create/invoices', async (req, res) => {
   try {
-    res.render('createInvoice', { title: 'Create Invoice' });
+    res.render('createInvoices', { title: 'Create Invoice' });
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);
