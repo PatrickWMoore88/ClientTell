@@ -65,7 +65,7 @@ router.get('/update/team_members/:id', async (req, res) => {
 
 // // // // // // Post Updates To A Given Team Member
 router.post('/update/team_members/:id', async (req, res) => {
-  var { name, email, phone, company_name, website_url, status } = req.body
+  var { name, email, phone, role } = req.body
   const result = await db.runQuery(
       'UPDATE team_members SET name = $1, email = $2, phone = $3, role = $4 WHERE ID = $5 RETURNING *',
       [name, email, phone, role, req.params.id]
