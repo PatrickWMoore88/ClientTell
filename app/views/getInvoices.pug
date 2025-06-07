@@ -1,0 +1,35 @@
+extends layout 
+
+block content
+    h1.text-center.my-4(style="padding: 50px;")= title
+    div.container.d-flex.justify-content-center.mt-4
+      div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').table-card.p-4
+        table.table.table-striped 
+          thead 
+            tr 
+              th(scope="col", style="padding-left: 15px") Client
+              th(scope="col", style="padding-left: 20px") Project
+              th(scope="col", style="padding-left: 25px") Amount
+              th(scope="col", style="padding-right: 20px") Status
+              th(scope="col", style="padding-right: 20px") Due Date
+              th(scope="col", style="padding-left: 70px") Issued Date
+              th(scope="col")
+          tbody 
+            each invoice in invoices 
+              tr
+                td 
+                  a(href=`/get/invoices/${invoice.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= invoice.client_id
+                td
+                  a(href=`/get/invoices/${invoice.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= invoice.project_id
+                td
+                  a(href=`/get/invoices/${invoice.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 40px")= invoice.amount
+                td
+                  a(href=`/get/invoices/${invoice.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-right: 30px")= invoice.status 
+                td
+                  a(href=`/get/invoices/${invoice.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= invoice.due_date instanceof Date ? invoice.due_date.toLocaleDateString() : invoice.due_date
+                td 
+                  a(href=`/get/invoices/${invoice.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= invoice.issued_at instanceof Date ? invoice.issued_at.toLocaleDateString() : invoice.issued_at
+                td(style="padding-left: 41px")
+                  a.btn.btn-info.btn-sm(href=`/get/invoices/${invoice.id}`) View
+        div.p-4.d-flex.justify-content-end
+          a.btn.btn-info(href='/create/invoices') Create New Invoice
