@@ -18,9 +18,9 @@ block content
                 td 
                   a(href=`/get/projects/${project.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= project.name.toUpperCase()
                 td
-                  a(href=`/get/projects/${project.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 40px")= project.start_date
+                  a(href=`/get/projects/${project.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 40px")= project.start_date instanceof Date ? project.start_date.toLocaleDateString() : project.start_date
                 td
-                  a(href=`/get/projects/${project.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-right: 30px")= project.deadline
+                  a(href=`/get/projects/${project.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-right: 30px")= project.deadline instanceof Date ? project.deadline.toLocaleDateString() : project.deadline
                 td
                   a(href=`/get/projects/${project.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= project.status
                 td(style="padding-left: 41px")

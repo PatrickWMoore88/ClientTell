@@ -6,8 +6,8 @@ block content
       h2(style="color: white; font-weight: bold; text-decoration: none;")= project.name.toUpperCase()
       p.info ID: #{project.id}
       p.info Description: #{project.description}
-      p.info Start Date: #{project.start_date}
-      p.info Deadline: #{project.deadline}
+      p.info Start Date: #{project.start_date instanceof Date ? project.start_date.toLocaleDateString() : project.start_date}
+      p.info Deadline: #{project.deadline instanceof Date ? project.deadline.toLocaleDateString() : project.deadline}
       p.info Website URL: #{project.website_url}
       p.info Status: #{project.status}
       p.info Creation Date: #{project.created_at instanceof Date ? project.created_at.toLocaleDateString() : project.created_at}

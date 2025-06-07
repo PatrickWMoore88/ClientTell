@@ -12,10 +12,12 @@ block content
           input.form-control(type="text", name="description", value=project.description)
         div.mb-3
           label.form-label(for="start_date") Start Date:
-          input.form-control(type="text", name="start_date", value=project.start_date)
+          - let displayStartDate = new Date(project.start_date).toLocaleDateString()
+          input.form-control(type="text", name="start_date", value=displayStartDate)
         div.mb-3
           label.form-label(for="deadline") Deadline:
-          input.form-control(type="text", name="deadline", value=project.deadline)
+          - let displayDeadlineDate = new Date(project.deadline).toLocaleDateString()
+          input.form-control(type="text", name="deadline", value=displayDeadlineDate)
         div.mb-3
           label.form-label(for="status") Status:
           input.form-control(type="text", name="status", value=project.status)
