@@ -16,13 +16,13 @@ block content
             each teamMember in teamMembers 
               tr
                 td 
-                  a(href=`/get/team_members"${teamMember.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= teamMember.name.toUpperCase()
+                  a(href=`/get/team_members/${teamMember.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= teamMember.name.toUpperCase()
                 td
-                  a(href=`/get/team_members"${teamMember.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= teamMember.email 
+                  a(href=`/get/team_members/${teamMember.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= teamMember.email 
                 td
-                  a(href=`/get/team_members"${teamMember.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 40px")= teamMember.phone
+                  a(href=`/get/team_members/${teamMember.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 40px")= teamMember.phone
                 td
-                  a(href=`/get/team_members"${teamMember.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= teamMember.role
+                  a(href=`/get/team_members/${teamMember.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= teamMember.role
                 td(style="padding-left: 41px")
                   a.btn.btn-info.btn-sm(href=`/get/team_members"${teamMember.id}`) View
         div.p-4.d-flex.justify-content-end
