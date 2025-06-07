@@ -3,7 +3,7 @@ extends layout
 block content
     h1.text-center.my-4(style="padding: 50px;")= title
     div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').card.p-4
-    h2(style="color: white; font-weight: bold; text-decoration: none;")= campaign.name.toUpperCase()
+      h2(style="color: white; font-weight: bold; text-decoration: none;")= campaign.name.toUpperCase()
       p.info Client: #{campaign.client_id}
       p.info Type: #{campaign.type}
       p.info Budget: #{campaign.budget}
