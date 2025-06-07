@@ -36,6 +36,7 @@ const statusRouter = require('./routes/statusHandler');
 const clientsRouter = require('./routes/clientHandler');
 const invoiceRouter = require('./routes/invoiceHandler');
 const projectRouter = require('./routes/projectHandler');
+const campaignRouter = require('./routes/campaignHandler');
 const registerRouter = require('./routes/registerHandler');
 const teamMembersRouter = require('./routes/teamMemberHandler');
 
@@ -46,6 +47,7 @@ app.use('/', statusRouter);
 app.use('/', clientsRouter);
 app.use('/', invoiceRouter);
 app.use('/', projectRouter);
+app.use('/', campaignRouter);
 app.use('/', registerRouter);
 app.use('/', teamMembersRouter);
 
