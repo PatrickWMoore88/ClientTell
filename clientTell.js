@@ -34,6 +34,7 @@ const loginRouter = require('./routes/loginHandler');
 // const adminRouter = require('./routes/adminHandler');
 const statusRouter = require('./routes/statusHandler');
 const clientsRouter = require('./routes/clientHandler');
+const projectRouter = require('./routes/projectHandler');
 const registerRouter = require('./routes/registerHandler');
 const teamMembersRouter = require('./routes/teamMemberHandler');
 
@@ -42,6 +43,7 @@ app.use('/', loginRouter);
 // app.use('/', adminRouter);
 app.use('/', statusRouter);
 app.use('/', clientsRouter);
+app.use('/', projectRouter);
 app.use('/', registerRouter);
 app.use('/', teamMembersRouter);
 

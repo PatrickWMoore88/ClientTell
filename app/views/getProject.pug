@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    h1.text-center.my-4(style="padding: 50px;")= title
+    div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').card.p-4
+      h2(style="color: white; font-weight: bold; text-decoration: none;")= project.name.toUpperCase()
+      p.info ID: #{project.id}
+      p.info Description: #{project.description}
+      p.info Start Date: #{project.start_date}
+      p.info Deadline: #{project.deadline}
+      p.info Website URL: #{project.website_url}
+      p.info Status: #{project.status}
+      p.info Creation Date: #{project.created_at instanceof Date ? project.created_at.toLocaleDateString() : project.created_at}
+      div.text-end
+        form(action=`/update/projects/${project.id}`, method="GET", style="display: inline;")
+          input(type="hidden", name="_method", value="GET")
+          button(type="submit", class="btn btn-info mt-3") Edit Project
+        a(href="/get/projects", class="btn btn-info mt-3 ms-3") Back to Project List
+        form(action=`/delete/projects/${project.id}`, method="POST", style="display: inline;")
+          input(type="hidden", name="_method", value="DELETE")
+          button(type="submit", class="btn btn-danger mt-3 ms-3") Delete Project
