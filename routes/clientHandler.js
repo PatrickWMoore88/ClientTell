@@ -70,7 +70,7 @@ router.post('/update/clients/:id', async (req, res) => {
       'UPDATE clients SET name = $1, email = $2, phone = $3, company_name = $4, website_url = $5, status = $6 WHERE ID = $7 RETURNING *',
       [name, email, phone, company_name, website_url, status, req.params.id]
     );
-  res.render('getClients', { title: 'Clients', client: result.rows[0]});
+  res.render('getClient', { title: 'Client', client: result.rows[0]});
 });
 
 module.exports = router;

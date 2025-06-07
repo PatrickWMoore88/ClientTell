@@ -70,7 +70,7 @@ router.post('/update/team_members/:id', async (req, res) => {
       'UPDATE team_members SET name = $1, email = $2, phone = $3, role = $4 WHERE ID = $5 RETURNING *',
       [name, email, phone, role, req.params.id]
     );
-  res.render('getTeamMembers', { title: 'Team Members', teamMember: result.rows[0]});
+  res.render('getTeamMember', { title: 'Team Member', teamMember: result.rows[0]});
 });
 
 module.exports = router;
