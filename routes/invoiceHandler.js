@@ -33,9 +33,10 @@ router.get('/create/invoices', async (req, res) => {
 // // // // // // Post New Invoice
 router.post('/create/invoices', async (req, res) => {
     const { client_id, project_id, amount, status } = req.body;
-    var issued_at = new Date().toLocaleDateString();
-    const due_date = new Date(issued_at); // Create a copy of issued_at
-    due_date.setDate(due_date.getDate() + 7).toLocaleDateString(); // Add 7 days
+    var issued_at = new Date().toLocaleDateString()
+    var due_date = new Date(issued_at); // Create a copy of issued_at
+    due_date.setDate(due_date.getDate() + 7); // Add 7 days
+    due_date.toLocaleDateString()
     await db.runQuery('INSERT INTO invoices (client_id, project_id, amount, status, due_date, issued_at) VALUES ($1, $2, $3, $4, $5, $6)', [client_id, project_id, amount, status, due_date, issued_at]);
     res.redirect('/get/invoices');
 });
