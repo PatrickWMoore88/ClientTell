@@ -23,7 +23,7 @@ router.get('/get/projects/:id', async (req, res) => {
 // // // // // // Get Create Project Page
 router.get('/create/projects', async (req, res) => {
   try {
-    res.render('createProjects', { title: 'Create Project' });
+    res.render('createProject', { title: 'Create Project' });
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);
