@@ -9,7 +9,7 @@ const flash = require('connect-flash');
 const app = express();
 const port = 3000;
 
-const db = require('./db');
+const db = require('./app/config/db');
 
 db.initializeDatabase();
 
@@ -29,18 +29,18 @@ app.use(passport.session());
 // Method Override Middleware
 app.use(methodOverride('_method'));
 
-const leadRouter = require('./routes/leadHandler');
-const taskRouter = require('./routes/taskHandler');
-const usersRouter = require('./routes/userHandler');
-const loginRouter = require('./routes/loginHandler');
-// const adminRouter = require('./routes/adminHandler');
-const statusRouter = require('./routes/statusHandler');
-const clientRouter = require('./routes/clientHandler');
-const invoiceRouter = require('./routes/invoiceHandler');
-const projectRouter = require('./routes/projectHandler');
-const campaignRouter = require('./routes/campaignHandler');
-const registerRouter = require('./routes/registerHandler');
-const teamMembersRouter = require('./routes/teamMemberHandler');
+const leadRouter = require('./app/routes/leadHandler');
+const taskRouter = require('./app/routes/taskHandler');
+const usersRouter = require('./app/routes/userHandler');
+const loginRouter = require('./app/routes/loginHandler');
+// const adminRouter = require('./app/routes/adminHandler');
+const statusRouter = require('./app/routes/statusHandler');
+const clientRouter = require('./app/routes/clientHandler');
+const invoiceRouter = require('./app/routes/invoiceHandler');
+const projectRouter = require('./app/routes/projectHandler');
+const campaignRouter = require('./app/routes/campaignHandler');
+const registerRouter = require('./app/routes/registerHandler');
+const teamMembersRouter = require('./app/routes/teamMemberHandler');
 
 app.use('/', leadRouter);
 app.use('/', taskRouter);
@@ -63,6 +63,8 @@ app.use(express.static('public'));
 app.use(express.static('images'));
 
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server running on http://localhost:${port}`);
+// });
+
+module.exports = app;

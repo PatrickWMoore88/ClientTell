@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
-const db = require('../db');
+const db = require('../config/db');
 
 const saltRounds = 10; // Adjust for security level
 

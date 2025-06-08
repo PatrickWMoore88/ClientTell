@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../db');
+const db = require('../config/db');
 
 // vvvvvvvvvvvvvvvvvv Routes Begin Here vvvvvvvvvvvvvvvvvv 
 router.get('/', (req, res) => {
