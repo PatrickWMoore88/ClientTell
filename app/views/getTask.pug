@@ -3,17 +3,17 @@ extends layout
 block content
     h1.text-center.my-4(style="padding: 50px;")= title
     div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').card.p-4
-        //-   h2(style="color: white; font-weight: bold; text-decoration: none;")= lead.name.toUpperCase()
-      p.info Project: #{lead.project_id}
-      p.info Assigned To: #{lead.assigned_to}
-      p.info Description: #{lead.description}
-      p.info Status: #{lead.status}
-      p.info Creation Date: #{lead.created_at instanceof Date ? lead.created_at.toLocaleDateString() : lead.created_at}
+        //-   h2(style="color: white; font-weight: bold; text-decoration: none;")= task.name.toUpperCase()
+      p.info Project: #{task.project_id}
+      p.info Assigned To: #{task.assigned_to}
+      p.info Description: #{task.description}
+      p.info Status: #{task.status}
+      p.info Creation Date: #{task.created_at instanceof Date ? task.created_at.toLocaleDateString() : task.created_at}
       div.text-end
-        form(action=`/update/leads/${lead.id}`, method="GET", style="display: inline;")
+        form(action=`/update/tasks/${task.id}`, method="GET", style="display: inline;")
           input(type="hidden", name="_method", value="GET")
-          button(type="submit", class="btn btn-info mt-3") Edit Lead
-        a(href="/get/leads", class="btn btn-info mt-3 ms-3") Back to Lead List
-        form(action=`/delete/leads/${lead.id}`, method="POST", style="display: inline;")
+          button(type="submit", class="btn btn-info mt-3") Edit Task
+        a(href="/get/tasks", class="btn btn-info mt-3 ms-3") Back to Task List
+        form(action=`/delete/tasks/${task.id}`, method="POST", style="display: inline;")
           input(type="hidden", name="_method", value="DELETE")
-          button(type="submit", class="btn btn-danger mt-3 ms-3") Delete Lead
+          button(type="submit", class="btn btn-danger mt-3 ms-3") Delete Task
