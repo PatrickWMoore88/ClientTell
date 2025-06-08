@@ -63,7 +63,7 @@ async function createTables() {
     );`,
     tasks: `CREATE TABLE IF NOT EXISTS tasks (
       id SERIAL PRIMARY KEY, project_id INT REFERENCES projects(id) ON DELETE CASCADE,
-      assigned_to VARCHAR(255), description TEXT NOT NULL, due_date DATE,
+      assigned_to INT REFERENCES team_members(id) ON DELETE CASCADE, description TEXT NOT NULL, due_date DATE,
       status VARCHAR(50) CHECK (status IN ('Pending', 'In Progress', 'Completed')),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`,
