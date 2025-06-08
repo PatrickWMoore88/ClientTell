@@ -34,7 +34,7 @@ router.get('/create/tasks', async (req, res) => {
 router.post('/create/tasks', async (req, res) => {
     const { project_id, assigned_to, description, status } = req.body;
     var created_at = new Date().toLocaleDateString();
-    await db.runQuery('INSERT INTO tasks (project_id, assigned_to, description, status, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7)', [project_id, assigned_to, description, status, created_at]);
+    await db.runQuery('INSERT INTO tasks (project_id, assigned_to, description, status, created_at) VALUES ($1, $2, $3, $4, $5)', [project_id, assigned_to, description, status, created_at]);
     res.redirect('/get/tasks');
 });
 
