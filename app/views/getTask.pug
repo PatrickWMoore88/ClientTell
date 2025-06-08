@@ -3,11 +3,10 @@ extends layout
 block content
     h1.text-center.my-4(style="padding: 50px;")= title
     div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').card.p-4
-      h2(style="color: white; font-weight: bold; text-decoration: none;")= lead.name.toUpperCase()
-      p.info ID: #{lead.id}
-      p.info Email: #{lead.email}
-      p.info Phone Number: #{lead.phone}
-      p.info Source: #{lead.source}
+        //-   h2(style="color: white; font-weight: bold; text-decoration: none;")= lead.name.toUpperCase()
+      p.info Project: #{lead.project_id}
+      p.info Assigned To: #{lead.assigned_to}
+      p.info Description: #{lead.description}
       p.info Status: #{lead.status}
       p.info Creation Date: #{lead.created_at instanceof Date ? lead.created_at.toLocaleDateString() : lead.created_at}
       div.text-end

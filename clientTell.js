@@ -30,6 +30,7 @@ app.use(passport.session());
 app.use(methodOverride('_method'));
 
 const leadRouter = require('./routes/leadHandler');
+const taskRouter = require('./routes/taskHandler');
 const usersRouter = require('./routes/userHandler');
 const loginRouter = require('./routes/loginHandler');
 // const adminRouter = require('./routes/adminHandler');
@@ -42,6 +43,7 @@ const registerRouter = require('./routes/registerHandler');
 const teamMembersRouter = require('./routes/teamMemberHandler');
 
 app.use('/', leadRouter);
+app.use('/', taskRouter);
 app.use('/', usersRouter);
 app.use('/', loginRouter);
 // app.use('/', adminRouter);
