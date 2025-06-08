@@ -29,22 +29,24 @@ app.use(passport.session());
 // Method Override Middleware
 app.use(methodOverride('_method'));
 
+const leadRouter = require('./routes/leadHandler');
 const usersRouter = require('./routes/userHandler');
 const loginRouter = require('./routes/loginHandler');
 // const adminRouter = require('./routes/adminHandler');
 const statusRouter = require('./routes/statusHandler');
-const clientsRouter = require('./routes/clientHandler');
+const clientRouter = require('./routes/clientHandler');
 const invoiceRouter = require('./routes/invoiceHandler');
 const projectRouter = require('./routes/projectHandler');
 const campaignRouter = require('./routes/campaignHandler');
 const registerRouter = require('./routes/registerHandler');
 const teamMembersRouter = require('./routes/teamMemberHandler');
 
+app.use('/', leadRouter);
 app.use('/', usersRouter);
 app.use('/', loginRouter);
 // app.use('/', adminRouter);
 app.use('/', statusRouter);
-app.use('/', clientsRouter);
+app.use('/', clientRouter);
 app.use('/', invoiceRouter);
 app.use('/', projectRouter);
 app.use('/', campaignRouter);
