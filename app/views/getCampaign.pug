@@ -10,7 +10,7 @@ block content
       p.info Start Date: #{campaign.start_date instanceof Date ? campaign.start_date.toLocaleDateString() : campaign.start_date}
       p.info End Date: #{campaign.end_date instanceof Date ? campaign.end_date.toLocaleDateString() : campaign.end_date}
       p.info Status: #{campaign.status}
-      p.info Creation Date: #{campaign.created_at instanceof Date ? campaign.created_at.toLocaleDateString() : campaign.created_at}}
+      p.info Creation Date: #{campaign.created_at instanceof Date ? campaign.created_at.toLocaleDateString() : campaign.created_at}
       div.text-end
         form(action=`/update/campaigns/${campaign.id}`, method="GET", style="display: inline;")
           input(type="hidden", name="_method", value="GET")
