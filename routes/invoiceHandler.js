@@ -14,7 +14,7 @@ router.get('/get/invoices', async (req, res) => {
 // // // // // // Get A Single Invoice
 router.get('/get/invoices/:id', async (req, res) => {
   const result = await db.runQuery(`SELECT * FROM invoices WHERE ID = $1`, [req.params.id]);
-  result.rows.length > 0 ? res.render('getProject', { title: 'Invoice', invoice: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
+  result.rows.length > 0 ? res.render('getInvoice', { title: 'Invoice', invoice: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
 });
 
 
