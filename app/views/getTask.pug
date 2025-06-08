@@ -3,7 +3,6 @@ extends layout
 block content
     h1.text-center.my-4(style="padding: 50px;")= title
     div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').card.p-4
-        //-   h2(style="color: white; font-weight: bold; text-decoration: none;")= task.name.toUpperCase()
       p.info Project: #{task.project_id}
       p.info Assigned To: #{task.assigned_to}
       p.info Description: #{task.description}
