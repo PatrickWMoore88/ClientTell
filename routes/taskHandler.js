@@ -23,7 +23,7 @@ router.get('/get/tasks/:id', async (req, res) => {
 // // // // // // Get Create Task Page
 router.get('/create/tasks', async (req, res) => {
   try {
-    res.render('createProject', { title: 'Create Task' });
+    res.render('createTask', { title: 'Create Task' });
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);
