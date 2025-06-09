@@ -12,64 +12,44 @@ router.get('/get/clients', async (req, res) => {
 
 
 // // // // // // Get A Single Client
-// router.get('/get/clients/:id', async (req, res) => {
-//   const result = await db.runQuery(`SELECT * FROM clients WHERE ID = $1`, [req.params.id]);
-//   result.rows.length > 0 ? res.render('getClient', { title: 'Client', client: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
-// });
-
 router.get('/get/clients/:id', async (req, res) => {
-  const result = await db.runQuery(`SELECT 
-    c.id, c.name, c.email, c.phone, c.company_name,
-    p.name AS project_name, p.status AS project_status,
-    i.amount, i.status AS invoice_status,
-    cam.name AS campaign_name, cam.type AS campaign_type
-  FROM clients c
-  LEFT JOIN projects p ON p.client_id = c.id
-  LEFT JOIN invoices i ON i.client_id = c.id
-  LEFT JOIN campaigns cam ON cam.client_id = c.id
-  WHERE c.id = $1;`, [req.params.id]);
-
-  result.rows.length > 0 ? res.render('getClient', { title: 'Client', data: result.rows }) : res.send('There is no user with that ID. Please Try Again');
-});
-
-// router.get('/get/clients/:id', async (req, res) => {
-//   try {
-//     // Fetch Client Details
-//     const clientResult = await db.runQuery(
-//       `SELECT * FROM clients WHERE id = $1`, 
-//       [req.params.id]
-//     );
+  try {
+    // Fetch Client Details
+    const clientResult = await db.runQuery(
+      `SELECT * FROM clients WHERE id = $1`, 
+      [req.params.id]
+    );
     
-//     if (clientResult.rows.length === 0) {
-//       return res.send('There is no user with that ID. Please Try Again');
-//     }
+    if (clientResult.rows.length === 0) {
+      return res.send('There is no user with that ID. Please Try Again');
+    }
 
-//     // Fetch Related Projects, Invoices, and Campaigns
-//     const relatedDataQuery = `
-//       SELECT 
-//         p.id AS project_id, p.name AS project_name, p.status AS project_status,
-//         i.id AS invoice_id, i.amount, i.status AS invoice_status, i.due_date,
-//         cam.id AS campaign_id, cam.name AS campaign_name, cam.type AS campaign_type
-//       FROM clients c
-//       LEFT JOIN projects p ON p.client_id = c.id
-//       LEFT JOIN invoices i ON i.client_id = c.id
-//       LEFT JOIN campaigns cam ON cam.client_id = c.id
-//       WHERE c.id = $1;
-//     `;
+    // Fetch Related Projects, Invoices, and Campaigns
+    const relatedDataQuery = `
+      SELECT 
+        p.id AS project_id, p.name AS project_name, p.status AS project_status,
+        i.id AS invoice_id, i.amount, i.status AS invoice_status, i.due_date,
+        cam.id AS campaign_id, cam.name AS campaign_name, cam.type AS campaign_type
+      FROM clients c
+      LEFT JOIN projects p ON p.client_id = c.id
+      LEFT JOIN invoices i ON i.client_id = c.id
+      LEFT JOIN campaigns cam ON cam.client_id = c.id
+      WHERE c.id = $1;
+    `;
 
-//     const relatedDataResult = await db.runQuery(relatedDataQuery, [req.params.id]);
+    const relatedDataResult = await db.runQuery(relatedDataQuery, [req.params.id]);
 
-//     // Render Pug file with full dataset
-//     res.render('getClient', { 
-//       title: 'Client', 
-//       client: clientResult.rows[0],
-//       relatedData: relatedDataResult.rows 
-//     });
-//   } catch (error) {
-//     console.error('Error fetching client data:', error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
+    // Render Pug file with full dataset
+    res.render('getClient', { 
+      title: 'Client', 
+      client: clientResult.rows[0],
+      relatedData: relatedDataResult.rows 
+    });
+  } catch (error) {
+    console.error('Error fetching client data:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 
 
