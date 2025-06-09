@@ -4,24 +4,25 @@ block content
   div.container.mt-5
     h1.text-center #{client.name}
     p.text-center #{client.email} | #{client.phone} | #{client.website_url}
-    
+
     h3.mt-4 Projects
-    each project in projects
-      div.card.p-4.mb-3
-        h4= project.name
-        p Description: #{project.description}
-        p Status: #{project.status}
+    each data in relatedData
+      if data.project_id
+        div.card.p-4.mb-3
+          h4 #{data.project_name}
+          p Status: #{data.project_status}
 
     h3.mt-4 Invoices
-    each invoice in invoices
-      div.card.p-4.mb-3
-        p Amount: $#{invoice.amount}
-        p Due Date: #{invoice.due_date}
-        p Status: #{invoice.status}
+    each data in relatedData
+      if data.invoice_id
+        div.card.p-4.mb-3
+          p Amount: $#{data.amount}
+          p Due Date: #{data.due_date}
+          p Status: #{data.invoice_status}
 
     h3.mt-4 Marketing Campaigns
-    each campaign in campaigns
-      div.card.p-4.mb-3
-        p Type: #{campaign.type}
-        p Budget: $#{campaign.budget}
-        p Status: #{campaign.status}
+    each data in relatedData
+      if data.campaign_id
+        div.card.p-4.mb-3
+          p Type: #{data.campaign_type}
+          p Name: #{data.campaign_name}
