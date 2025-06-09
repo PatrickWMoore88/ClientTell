@@ -19,16 +19,19 @@ router.get('/get/clients', async (req, res) => {
 
 router.get('/get/clients/:id', async (req, res) => {
   try {
+    console.log(1)
     // Fetch Client Details
     const clientResult = await db.runQuery(
       `SELECT * FROM clients WHERE id = $1`, 
       [req.params.id]
     );
     
+    console.log(2)
     if (clientResult.rows.length === 0) {
       return res.send('There is no user with that ID. Please Try Again');
     }
 
+    console.log(3)
     // Fetch Related Projects, Invoices, and Campaigns
     const relatedDataQuery = `
       SELECT 
@@ -42,15 +45,16 @@ router.get('/get/clients/:id', async (req, res) => {
       WHERE c.id = $1;
     `;
 
+    console.log(4)
     const relatedDataResult = await db.runQuery(relatedDataQuery, [req.params.id]);
 
+    console.log(5)
     // Render Pug file with full dataset
     res.render('getClient', { 
       title: 'Client', 
       client: clientResult.rows[0],
       relatedData: relatedDataResult.rows 
     });
-
   } catch (error) {
     console.error('Error fetching client data:', error);
     res.status(500).send('Internal Server Error');
