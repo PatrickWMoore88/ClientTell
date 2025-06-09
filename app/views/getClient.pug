@@ -1,9 +1,11 @@
 extends layout
 
 block content
-  div.container.mt-5
-    h1.text-center #{client.name}
-    p.text-center #{client.email} | #{client.phone} | #{client.website_url}
+  each data in relatedData
+    if data.client_id  
+      div.container.mt-5
+        h1.text-center #{data.name}
+        p.text-center #{data.email} | #{data.phone} | #{data.website_url}
 
     h3.mt-4 Projects
     each data in relatedData
