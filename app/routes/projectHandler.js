@@ -6,14 +6,27 @@ const db = require('../config/db');
 // // // // // Table Data Read Projects
 // // // // // // Get All Projects
 router.get('/get/projects', async (req, res) => {
-  const result = await db.runQuery('SELECT * FROM projects');
+  const projectDataQuery = `SELECT 
+      p.*,
+      c.id AS client_id, c.name AS client_name
+    FROM projects p
+    LEFT JOIN clients c on c.id = p.client_id`;
+  
+  const result = await db.runQuery(projectDataQuery);
   res.render('getProjects', { title: 'Projects', projects: result.rows });
 });
 
 
 // // // // // // Get A Single Project
 router.get('/get/projects/:id', async (req, res) => {
-  const result = await db.runQuery(`SELECT * FROM projects WHERE ID = $1`, [req.params.id]);
+  const projectDataQuery = `SELECT 
+      p.*,
+      c.id AS client_id, c.name AS client_name
+    FROM projects p
+    LEFT JOIN clients c on c.id = p.client_id
+    WHERE p.id = $1`;
+  
+  const result = await db.runQuery(projectDataQuery, [req.params.id]);
   result.rows.length > 0 ? res.render('getProject', { title: 'Project', project: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
 });
 

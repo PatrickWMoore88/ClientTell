@@ -61,21 +61,28 @@ async function createTables() {
       status VARCHAR(50) CHECK (status IN ('New', 'Contacted', 'Converted', 'Lost')),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`,
+    team: `CREATE TABLE IF NOT EXISTS team_members (
+      id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL,
+      phone VARCHAR(20), role VARCHAR(100), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );`, 
     tasks: `CREATE TABLE IF NOT EXISTS tasks (
       id SERIAL PRIMARY KEY, project_id INT REFERENCES projects(id) ON DELETE CASCADE,
       assigned_to INT REFERENCES team_members(id) ON DELETE CASCADE, description TEXT NOT NULL, due_date DATE,
       status VARCHAR(50) CHECK (status IN ('Pending', 'In Progress', 'Completed')),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`,
-    team: `CREATE TABLE IF NOT EXISTS team_members (
-      id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL,
-      phone VARCHAR(20), role VARCHAR(100), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );`, 
     users: `CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY, username VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL,
       password VARCHAR(100) NOT NULL, member_since TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`
   };
+
+  // tasks: `CREATE TABLE IF NOT EXISTS tasks (
+  //     id SERIAL PRIMARY KEY, project_id INT REFERENCES projects(id) ON DELETE CASCADE,
+  //     assigned_to INT REFERENCES team_members(id) ON DELETE CASCADE, description TEXT NOT NULL, due_date DATE,
+  //     status VARCHAR(50) CHECK (status IN ('Pending', 'In Progress', 'Completed')),
+  //     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  //   );`,
 
   for (const [table, query] of Object.entries(tableDefinitions)) {
     if (!exists[`${table}_exists`]) {  // Only create if table doesn't exist
@@ -124,17 +131,17 @@ async function seedDatabase() {
       ('Mark Johnson', 'mark@example.com', '555-1234', 'LinkedIn', 'Contacted'),
       ('Emily Davis', 'emily@example.com', '555-5678', 'Referral', 'New');
     `,
-    tasks: `
-      INSERT INTO tasks (project_id, assigned_to, description, due_date, status)
-      VALUES 
-      (1, 'John Developer', 'Create homepage wireframes', '2025-06-10', 'Pending'),
-      (2, 'Jane SEO Expert', 'Keyword research', '2025-06-12', 'In Progress');
-    `,
     team_members: `
       INSERT INTO team_members (name, email, role)
       VALUES 
       ('Alice Johnson', 'alice@example.com', 'Project Manager'),
       ('Bob White', 'bob@example.com', 'Frontend Developer');
+    `,
+    tasks: `
+      INSERT INTO tasks (project_id, assigned_to, description, due_date, status)
+      VALUES 
+      (1, 2, 'Create homepage wireframes', '2025-06-10', 'Pending'),
+      (2, 1, 'Keyword research', '2025-06-12', 'In Progress');
     `,
     users: `
       INSERT INTO users (username, email, password)

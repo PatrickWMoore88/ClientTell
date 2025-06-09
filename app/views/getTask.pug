@@ -3,8 +3,8 @@ extends layout
 block content
     h1.text-center.my-4(style="padding: 50px;")= title
     div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').card.p-4
-      p.info Project: #{task.project_id}
-      p.info Assigned To: #{task.assigned_to}
+      p.info Project: #{task.project_name}
+      p.info Assigned To: #{task.team_member_name}
       p.info Description: #{task.description}
       p.info Status: #{task.status}
       p.info Creation Date: #{task.created_at instanceof Date ? task.created_at.toLocaleDateString() : task.created_at}

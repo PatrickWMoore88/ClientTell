@@ -5,7 +5,7 @@ block content
     div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').card.p-4
       h2(style="color: white; font-weight: bold; text-decoration: none;")= project.name.toUpperCase()
       p.info ID: #{project.id}
-      p.info Client: #{project.client_id}
+      p.info Client: #{project.client_name}
       p.info Description: #{project.description}
       p.info Start Date: #{project.start_date instanceof Date ? project.start_date.toLocaleDateString() : project.start_date}
       p.info Deadline: #{project.deadline instanceof Date ? project.deadline.toLocaleDateString() : project.deadline}

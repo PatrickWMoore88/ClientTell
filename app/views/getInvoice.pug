@@ -2,9 +2,9 @@ extends layout
 
 block content
     h1.text-center.my-4(style="padding: 50px;")= title
-    div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').card.p-4
-      p.info Client: #{invoice.client_id}
-      p.info Project: #{invoice.project_id}
+    div.cardBackgroud.card.p-4
+      p.info Client: #{invoice.client_name}
+      p.info Project: #{invoice.project_name}
       p.info Amount: #{invoice.amount}
       p.info Status: #{invoice.status}
       p.info Due Date: #{invoice.due_date instanceof Date ? invoice.due_date.toLocaleDateString() : invoice.due_date}

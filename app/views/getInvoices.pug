@@ -18,9 +18,9 @@ block content
             each invoice in invoices 
               tr
                 td 
-                  a(href=`/get/invoices/${invoice.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= invoice.client_id
+                  a(href=`/get/invoices/${invoice.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= invoice.client_name
                 td
-                  a(href=`/get/invoices/${invoice.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= invoice.project_id
+                  a(href=`/get/invoices/${invoice.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= invoice.project_name
                 td
                   a(href=`/get/invoices/${invoice.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 40px")= invoice.amount
                 td

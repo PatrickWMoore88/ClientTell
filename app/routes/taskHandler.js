@@ -6,15 +6,46 @@ const db = require('../config/db');
 // // // // // Table Data Read Tasks
 // // // // // // Get All Tasks
 router.get('/get/tasks', async (req, res) => {
-  const result = await db.runQuery('SELECT * FROM tasks');
-  res.render('getTasks', { title: 'Tasks', tasks: result.rows });
+  try {
+    // Fetch Invoice and Related Clients and Projects
+    const taskDataQuery = `SELECT 
+        t.*,
+        p.id AS project_id, p.name AS project_name,
+        tm.id AS team_member_id, tm.name AS team_member_name
+      FROM tasks t
+      LEFT JOIN projects p on p.id = t.project_id
+      LEFT JOIN team_members tm on tm.id = t.assigned_to`;
+
+    const result = await db.runQuery(taskDataQuery);
+
+    res.render('getTasks', { title: 'Tasks', tasks: result.rows });
+  } catch (error) {
+    console.error('Error fetching client data:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 
 // // // // // // Get A Single Task
 router.get('/get/tasks/:id', async (req, res) => {
-  const result = await db.runQuery(`SELECT * FROM tasks WHERE ID = $1`, [req.params.id]);
-  result.rows.length > 0 ? res.render('getTask', { title: 'Task', task: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
+  try {
+    // Fetch Invoice and Related Clients and Projects
+    const taskDataQuery = `SELECT 
+        t.*,
+        p.id AS project_id, p.name AS project_name,
+        tm.id AS team_member_id, tm.name AS team_member_name
+      FROM tasks t
+      LEFT JOIN projects p on p.id = t.project_id
+      LEFT JOIN team_members tm on tm.id = t.assigned_to
+      WHERE t.id = $1`;
+
+    const result = await db.runQuery(taskDataQuery, [req.params.id]);
+
+    result.rows.length > 0 ? res.render('getTask', { title: 'Task', task: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
+  } catch (error) {
+    console.error('Error fetching client data:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 

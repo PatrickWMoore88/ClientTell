@@ -1,29 +1,84 @@
 extends layout
 
 block content
-  div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);').card.p-4
+  div.cardBackgroud.card.p-4.mt-5
     div.container.mt-5
-      h1.text-center #{client.name}
-      p.text-center #{client.email} | #{client.phone} | #{client.website_url}
+      div.clientCardBackground.card.p-4.mb-3
+        h1(style= 'color: white;').text-center #{client.name}
+        //- p.info <b>Email:</b> #{client.email}
+        //- p.info <b>Phone:</b> #{client.phone} 
+        //- p.info <b>Website URL:</b> #{client.website_url}
 
-    div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); background-color: #017f81;').card.p-4.mb-3
-      h3.mt-4 Projects
-      each data in relatedData
-        if data.project_id
-          h4 #{data.project_name}
-          p Status: #{data.project_status}
+        p.text-center <b>Phone:</b> #{client.phone} | <b>Email:</b> #{client.email}
+        p.text-center <b>Website URL:</b> #{client.website_url}
 
-    div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); background-color: #017f81;').card.p-4.mb-3
-      h3.mt-4 Invoices
-      each data in relatedData
-        if data.invoice_id
-          p Amount: $#{data.amount}
-          p Due Date: #{data.due_date}
-          p Status: #{data.invoice_status}
+    h3(style= 'color: white;').mt-4 Projects
+      div.clientCardBackground.card.p-4.mb-3
+        div.container.d-flex.justify-content-center.mt-4
+          div.clientCard.table-card.p-4.mb-3
+            table.table.table-striped(style="font-size: 15px;") 
+                thead 
+                  tr 
+                    th(scope="col", style="padding-left: 15px") Name
+                    th(scope="col", style="padding-left: 70px") Status
+                    th(scope="col")
+                tbody 
+                  each project in projects 
+                    tr
+                      td 
+                        a(href=`/get/projects/${project.project_id}`, style="color: white; text-decoration: none; padding-left: 20px")= project.project_name
+                      td
+                        a(href=`/get/projects/${project.project_id}`, style="color: white; text-decoration: none; padding-left: 20px")= project.project_status
+                      td(style="padding-left: 41px")
+                        a.btn.btn-info.btn-sm(href=`/get/projects/${project.project_id}`) View
 
-    div(style= 'box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); background-color: #017f81;').card.p-4.mb-3
-      h3.mt-4 Marketing Campaigns
-      each data in relatedData
-        if data.campaign_id
-          p Type: #{data.campaign_type}
-          p Name: #{data.campaign_name}
+    h3(style= 'color: white;').mt-4 Invoices
+      div.clientCardBackground.card.p-4.mb-3
+        div.container.d-flex.justify-content-center.mt-4
+          div.clientCard.table-card.p-4.mb-3
+            table.table.table-striped(style="font-size: 15px;")
+                thead 
+                  tr 
+                    th(scope="col", style="padding-left: 15px") Amount
+                    th(scope="col", style="padding-left: 15px") Due Date
+                    th(scope="col", style="padding-left: 70px") Status
+                    th(scope="col")
+                tbody 
+                  each invoice in invoices 
+                    tr
+                      td 
+                        a(href=`/get/invoices/${invoice.invoice_id}`, style="color: white; text-decoration: none; padding-left: 20px")= invoice.amount
+                      td 
+                        a(href=`/get/invoices/${invoice.invoice_id}`, style="color: white; text-decoration: none; padding-left: 20px")= invoice.due_date instanceof Date ? invoice.due_date.toLocaleDateString() : invoice.due_date
+                      td
+                        a(href=`/get/invoices/${invoice.invoice_id}`, style="color: white; text-decoration: none; padding-left: 20px")= invoice.invoice_status
+                      td(style="padding-left: 41px")
+                        a.btn.btn-info.btn-sm(href=`/get/invoices/${invoice.invoice_id}`) View
+
+    h3(style= 'color: white;').mt-4 Marketing Campaigns
+      div.clientCardBackground.card.p-4.mb-3
+        div.container.d-flex.justify-content-center.mt-4
+          div.clientCard.table-card.p-4.mb-3
+            table.table.table-striped(style="font-size: 15px;") 
+                thead 
+                  tr 
+                    th(scope="col", style="padding-left: 15px") Type
+                    th(scope="col", style="padding-left: 70px") Name
+                    th(scope="col")
+                tbody 
+                  each campaign in campaigns
+                    tr
+                      td 
+                        a(href=`/get/campaigns/${campaign.campaign_id}`, style="color: white; text-decoration: none; padding-left: 20px")= campaign.campaign_type
+                      td
+                        a(href=`/get/campaigns/${campaign.campaign_id}`, style="color: white; text-decoration: none; padding-left: 20px")= campaign.campaign_name
+                      td(style="padding-left: 41px")
+                        a.btn.btn-info.btn-sm(href=`/get/campaigns/${campaign.campaign_id}`) View
+    div.text-end
+      form(action=`/update/clients/${client.id}`, method="GET", style="display: inline;")
+        input(type="hidden", name="_method", value="GET")
+        button(type="submit", class="btn btn-info mt-3") Edit Client
+      a(href="/get/clients", class="btn btn-info mt-3 ms-3") Back to Client List
+      form(action=`/delete/clients/${client.id}`, method="POST", style="display: inline;")
+        input(type="hidden", name="_method", value="DELETE")
+        button(type="submit", class="btn btn-danger mt-3 ms-3") Delete Client

@@ -6,17 +6,39 @@ const db = require('../config/db');
 // // // // // Table Data Read Invoices
 // // // // // // Get All Invoices
 router.get('/get/invoices', async (req, res) => {
-  const result = await db.runQuery('SELECT * FROM invoices');
+  const invoiceDataQuery = `SELECT 
+    i.*,
+    c.id AS client_id, c.name AS client_name,
+    p.id AS project_id, p.name AS project_name
+  FROM invoices i
+  LEFT JOIN clients c on c.id = i.client_id
+  LEFT JOIN projects p on p.id = i.project_id`;
+
+  const result = await db.runQuery(invoiceDataQuery);
   res.render('getInvoices', { title: 'Invoices', invoices: result.rows });
 });
 
-
 // // // // // // Get A Single Invoice
 router.get('/get/invoices/:id', async (req, res) => {
-  const result = await db.runQuery(`SELECT * FROM invoices WHERE ID = $1`, [req.params.id]);
-  result.rows.length > 0 ? res.render('getInvoice', { title: 'Invoice', invoice: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
-});
+   try {
+    // Fetch Invoice and Related Clients and Projects
+    const invoiceDataQuery = `SELECT 
+        i.*,
+        c.id AS client_id, c.name AS client_name,
+        p.id AS project_id, p.name AS project_name
+      FROM invoices i
+      LEFT JOIN clients c on c.id = i.client_id
+      LEFT JOIN projects p on p.id = i.project_id
+      WHERE i.id = $1`;
 
+    const invoiceDataResult = await db.runQuery(invoiceDataQuery, [req.params.id]);
+
+    invoiceDataResult.rows.length > 0 ? res.render('getInvoice', { title: 'Invoice', invoice: invoiceDataResult.rows[0]}) : res.send('There is no user with that ID. Please Try Again');
+  } catch (error) {
+    console.error('Error fetching client data:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 
 // // // // Table Data Create Invoices
