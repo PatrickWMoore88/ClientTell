@@ -26,7 +26,7 @@ router.get('/get/clients/:id', async (req, res) => {
       [req.params.id]
     );
     
-    console.log(2)
+    console.log("Length" + clientResult.rows.length)
     if (clientResult.rows.length === 0) {
       return res.send('There is no user with that ID. Please Try Again');
     }
