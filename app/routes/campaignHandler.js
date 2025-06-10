@@ -59,9 +59,6 @@ router.get('/create/campaigns', async (req, res) => {
 router.post('/create/campaigns', async (req, res) => {
     const { client_id, name, type, budget, start_date, end_date, status } = req.body;
     var created_at = new Date().toLocaleDateString()
-    // var due_date = new Date(issued_at); // Create a copy of issued_at
-    // due_date.setDate(due_date.getDate() + 7); // Add 7 days
-    // due_date.toLocaleDateString()
     await db.runQuery('INSERT INTO campaigns (client_id, name, type, budget, start_date, end_date, status, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)', [client_id, name, type, budget, start_date, end_date, status, created_at]);
     res.redirect('/get/campaigns');
 });
@@ -81,11 +78,17 @@ router.post('/delete/campaigns/:id', async (req, res) => {
 // // // // // // Get Update Campaign Page
 router.get('/update/campaigns/:id', async (req, res) => {
   try {
-    const result = await db.runQuery(`SELECT * FROM campaigns WHERE ID = $1`, [req.params.id]);
-    result.rows.length > 0 ? res.render('updateCampaign', { title: 'Update Campaign', campaign: result.rows[0]}) : res.send('There is no client with that ID. Please Try Again');
-  } catch (err) {
-    console.error(err);
-    res.send('Error ' + err);
+    const result = await db.runQuery(`SELECT id, name, type, budget, 
+             TO_CHAR(start_date, 'YYYY-MM-DD') AS start_date, 
+             TO_CHAR(end_date, 'YYYY-MM-DD') AS end_date, 
+             status 
+      FROM campaigns WHERE id = $1`, [req.params.id]);
+    const clientsResult = await db.runQuery(`SELECT id, name FROM clients ORDER BY name`);
+
+    res.render('updateCampaign', { title: 'Update Campaign', campaign: result.rows[0], clients: clientsResult.rows})
+  } catch (error) {
+    console.error('Error fetching dropdown data:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 

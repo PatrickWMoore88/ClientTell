@@ -22,15 +22,19 @@ block content
                     th(scope="col", style="padding-left: 15px") Name
                     th(scope="col", style="padding-left: 70px") Status
                     th(scope="col")
-                tbody 
-                  each project in projects 
-                    tr
-                      td 
-                        a(href=`/get/projects/${project.project_id}`, style="color: white; text-decoration: none; padding-left: 20px")= project.project_name
-                      td
-                        a(href=`/get/projects/${project.project_id}`, style="color: white; text-decoration: none; padding-left: 20px")= project.project_status
-                      td(style="padding-left: 41px")
-                        a.btn.btn-info.btn-sm(href=`/get/projects/${project.project_id}`) View
+                tbody
+                  if projects 
+                    each project in projects 
+                      tr
+                        td 
+                          a(href=`/get/projects/${project.project_id}`, style="color: white; text-decoration: none; padding-left: 20px")= project.project_name
+                        td
+                          a(href=`/get/projects/${project.project_id}`, style="color: white; text-decoration: none; padding-left: 20px")= project.project_status
+                        td(style="padding-left: 41px")
+                          a.btn.btn-info.btn-sm(href=`/get/projects/${project.project_id}`) View
+                  //- else
+                  //-   tr
+                  //-     td(colspan="1") No Projects Found
 
     h3(style= 'color: white;').mt-4 Invoices
       div.clientCardBackground.card.p-4.mb-3
@@ -44,16 +48,17 @@ block content
                     th(scope="col", style="padding-left: 70px") Status
                     th(scope="col")
                 tbody 
-                  each invoice in invoices 
-                    tr
-                      td 
-                        a(href=`/get/invoices/${invoice.invoice_id}`, style="color: white; text-decoration: none; padding-left: 20px")= invoice.amount
-                      td 
-                        a(href=`/get/invoices/${invoice.invoice_id}`, style="color: white; text-decoration: none; padding-left: 20px")= invoice.due_date instanceof Date ? invoice.due_date.toLocaleDateString() : invoice.due_date
-                      td
-                        a(href=`/get/invoices/${invoice.invoice_id}`, style="color: white; text-decoration: none; padding-left: 20px")= invoice.invoice_status
-                      td(style="padding-left: 41px")
-                        a.btn.btn-info.btn-sm(href=`/get/invoices/${invoice.invoice_id}`) View
+                  if invoices
+                    each invoice in invoices 
+                      tr
+                        td 
+                          a(href=`/get/invoices/${invoice.invoice_id}`, style="color: white; text-decoration: none; padding-left: 20px")= invoice.amount
+                        td 
+                          a(href=`/get/invoices/${invoice.invoice_id}`, style="color: white; text-decoration: none; padding-left: 20px")= invoice.due_date instanceof Date ? invoice.due_date.toLocaleDateString() : invoice.due_date
+                        td
+                          a(href=`/get/invoices/${invoice.invoice_id}`, style="color: white; text-decoration: none; padding-left: 20px")= invoice.invoice_status
+                        td(style="padding-left: 41px")
+                          a.btn.btn-info.btn-sm(href=`/get/invoices/${invoice.invoice_id}`) View
 
     h3(style= 'color: white;').mt-4 Marketing Campaigns
       div.clientCardBackground.card.p-4.mb-3
@@ -66,14 +71,15 @@ block content
                     th(scope="col", style="padding-left: 70px") Name
                     th(scope="col")
                 tbody 
-                  each campaign in campaigns
-                    tr
-                      td 
-                        a(href=`/get/campaigns/${campaign.campaign_id}`, style="color: white; text-decoration: none; padding-left: 20px")= campaign.campaign_type
-                      td
-                        a(href=`/get/campaigns/${campaign.campaign_id}`, style="color: white; text-decoration: none; padding-left: 20px")= campaign.campaign_name
-                      td(style="padding-left: 41px")
-                        a.btn.btn-info.btn-sm(href=`/get/campaigns/${campaign.campaign_id}`) View
+                  if campaigns
+                    each campaign in campaigns
+                      tr
+                        td 
+                          a(href=`/get/campaigns/${campaign.campaign_id}`, style="color: white; text-decoration: none; padding-left: 20px")= campaign.campaign_type
+                        td
+                          a(href=`/get/campaigns/${campaign.campaign_id}`, style="color: white; text-decoration: none; padding-left: 20px")= campaign.campaign_name
+                        td(style="padding-left: 41px")
+                          a.btn.btn-info.btn-sm(href=`/get/campaigns/${campaign.campaign_id}`) View
     div.text-end
       form(action=`/update/clients/${client.id}`, method="GET", style="display: inline;")
         input(type="hidden", name="_method", value="GET")

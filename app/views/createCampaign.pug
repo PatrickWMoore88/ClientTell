@@ -44,15 +44,14 @@ block content
 block scripts
   script.
     document.addEventListener("DOMContentLoaded", function () {
-      const dateInput = document.getElementById("startDateInput");
-      dateInput.addEventListener("click", function () {
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("endDateInput");
+
+      startDateInput.addEventListener("click", function () {
         this.showPicker ? this.showPicker() : this.focus();
       });
-    });
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const dateInput = document.getElementById("endDateInput");
-      dateInput.addEventListener("click", function () {
+      endDateInput.addEventListener("click", function () {
         this.showPicker ? this.showPicker() : this.focus();
       });
     });

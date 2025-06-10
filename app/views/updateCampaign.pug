@@ -5,28 +5,52 @@ block content
     div
       form(action=`/update/campaigns/${campaign.id}`, method="POST", class="card", style="padding: 2rem; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 2rem;")
         div.mb-3
-          label.form-label(for="client_id") Client:
-          input.form-control(type="text", name="client_id", required, value=campaign.client_id)
+          label.form-label(for="client_id") Select Client:
+          select.form-control(name="client_id", required)
+            each client in clients
+              option(value=client.id) #{client.name}
         div.mb-3
           label.form-label(for="name") Name:
           input.form-control(type="text", name="name", required, value=campaign.name)
         div.mb-3
-          label.form-label(for="type") Type:
-          input.form-control(type="text", name="type", value=campaign.type)
+          label.form-label(for="type") Campaign Type:
+          select.form-control(name="type", required)
+            option(value=campaign.type selected) #{campaign.type}
+            option(value="SEO") SEO
+            option(value="Google Ads") Google Ads
+            option(value="Social Media") Social Media
+            option(value="Email Marketing") Email Marketing
         div.mb-3
           label.form-label(for="budget") Budget:
           input.form-control(type="text", name="budget", value=campaign.budget)
         div.mb-3
           label.form-label(for="start_date") Start Date:
-          - let displayStartDate = new Date(campaign.start_date).toLocaleDateString()
-          input.form-control(type="text", name="start_date", value=displayStartDate, readonly)
+          input.form-control(type="date", name="start_date", id="startDateInput", value=campaign.start_date)
         div.mb-3
           label.form-label(for="end_date") End Date:
-          - let displayEndDate = new Date(campaign.end_date).toLocaleDateString()
-          input.form-control(type="text", name="end_date", value=displayEndDate, readonly)
+          input.form-control(type="date", name="end_date", id="endDateInput", value=campaign.end_date)
         div.mb-3
           label.form-label(for="status") Status:
-          input.form-control(type="text", name="status", value=campaign.status)
+          select.form-control(name="status", required)
+            option(value=campaign.status selected) #{campaign.status}
+            option(value="Active") Active
+            option(value="Completed") Completed
+            option(value="Paused") Paused
         div.text-end
           button.btn.btn-info(type="submit", class="mt-3") Save
           a(href=`/get/campaigns/${campaign.id}`, class="btn btn-info mt-3 ms-3") Cancel
+
+block scripts
+  script.
+    document.addEventListener("DOMContentLoaded", function () {
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("endDateInput");
+
+      startDateInput.addEventListener("click", function () {
+        this.showPicker ? this.showPicker() : this.focus();
+      });
+
+      endDateInput.addEventListener("click", function () {
+        this.showPicker ? this.showPicker() : this.focus();
+      });
+    });

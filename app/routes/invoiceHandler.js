@@ -63,9 +63,6 @@ router.get('/create/invoices', async (req, res) => {
 router.post('/create/invoices', async (req, res) => {
     const { client_id, project_id, amount, status, due_date } = req.body;
     var issued_at = new Date().toLocaleDateString()
-    // var due_date = new Date(issued_at); // Create a copy of issued_at
-    // due_date.setDate(due_date.getDate() + 7); // Add 7 days
-    // due_date.toLocaleDateString()
     await db.runQuery('INSERT INTO invoices (client_id, project_id, amount, status, due_date, issued_at) VALUES ($1, $2, $3, $4, $5, $6)', [client_id, project_id, amount, "Pending", due_date, issued_at]);
     res.redirect('/get/invoices');
 });
@@ -85,8 +82,13 @@ router.post('/delete/invoices/:id', async (req, res) => {
 // // // // // // Get Update Invoice Page
 router.get('/update/invoices/:id', async (req, res) => {
   try {
-    const result = await db.runQuery(`SELECT * FROM invoices WHERE ID = $1`, [req.params.id]);
-    result.rows.length > 0 ? res.render('updateInvoice', { title: 'Update Invoice', invoice: result.rows[0]}) : res.send('There is no client with that ID. Please Try Again');
+    const clientsResult = await db.runQuery(`SELECT id, name FROM clients ORDER BY name`);
+    const projectsResult = await db.runQuery(`SELECT id, name FROM projects ORDER BY name`);
+    const result = await db.runQuery(`SELECT id, client_id, project_id, amount, status,
+             TO_CHAR(due_date, 'YYYY-MM-DD') AS due_date, 
+             TO_CHAR(issued_at, 'YYYY-MM-DD') AS issued_at
+      FROM invoices WHERE id = $1`, [req.params.id]);
+    result.rows.length > 0 ? res.render('updateInvoice', { title: 'Update Invoice', invoice: result.rows[0], clients: clientsResult.rows, projects: projectsResult.rows}) : res.send('There is no client with that ID. Please Try Again');
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);

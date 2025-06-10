@@ -8,13 +8,11 @@ block content
           thead 
             tr
               th(scope="col", style="padding-left: 15px") Name
+              th(scope="col", style="padding-left: 25px") Campaign Type
               th(scope="col", style="padding-left: 20px") Client
-              th(scope="col", style="padding-left: 25px") Type
-              th(scope="col", style="padding-right: 20px") Budget
               th(scope="col", style="padding-right: 20px") Start Date
               th(scope="col", style="padding-right: 20px") End Date
               th(scope="col", style="padding-right: 20px") Status
-              th(scope="col", style="padding-right: 20px") Creation Date
               th(scope="col")
           tbody 
             each campaign in campaigns 
@@ -22,19 +20,15 @@ block content
                 td 
                   a(href=`/get/campaigns/${campaign.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= campaign.name
                 td
-                  a(href=`/get/campaigns/${campaign.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= campaign.client_name
-                td
                   a(href=`/get/campaigns/${campaign.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 40px")= campaign.type
                 td
-                  a(href=`/get/campaigns/${campaign.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= campaign.budget
+                  a(href=`/get/campaigns/${campaign.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= campaign.client_name
                 td 
                   a(href=`/get/campaigns/${campaign.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= campaign.start_date instanceof Date ? campaign.start_date.toLocaleDateString() : campaign.start_date
                 td
                   a(href=`/get/campaigns/${campaign.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= campaign.end_date instanceof Date ? campaign.end_date.toLocaleDateString() : campaign.end_date
                 td
-                  a(href=`/get/campaigns/${campaign.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-right: 30px")= campaign.status 
-                td 
-                  a(href=`/get/campaigns/${campaign.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= campaign.created_at instanceof Date ? campaign.created_at.toLocaleDateString() : campaign.created_at
+                  a(href=`/get/campaigns/${campaign.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-right: 30px")= campaign.status
                 td(style="padding-left: 41px")
                   a.btn.btn-info.btn-sm(href=`/get/campaigns/${campaign.id}`) View
         div.p-4.d-flex.justify-content-end

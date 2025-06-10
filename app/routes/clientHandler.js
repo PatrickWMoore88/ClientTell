@@ -25,7 +25,7 @@ router.get('/get/clients/:id', async (req, res) => {
     const projectsResult = await db.runQuery(`SELECT id AS project_id, name AS project_name, status AS project_status FROM projects WHERE client_id = $1`, [req.params.id]);
     const invoicesResult = await db.runQuery(`SELECT id AS invoice_id, amount, status AS invoice_status, due_date FROM invoices WHERE client_id = $1`, [req.params.id]);
     const campaignsResult = await db.runQuery(`SELECT id AS campaign_id, name AS campaign_name, type AS campaign_type FROM campaigns WHERE client_id = $1`, [req.params.id]);
-
+    
     // Render page with organized data
     res.render('getClient', {  
       title: 'Client',  
@@ -77,20 +77,23 @@ router.post('/delete/clients/:id', async (req, res) => {
 // // // // // // Get Update Client Page
 router.get('/update/clients/:id', async (req, res) => {
   try {
-    const result = await db.runQuery(`SELECT * FROM clients WHERE ID = $1`, [req.params.id]);
+    const result = await db.runQuery(`SELECT id, name, email, phone, company_name, website_url, status,
+              TO_CHAR(created_at, 'YYYY-MM-DD') AS created_at
+      FROM clients WHERE id = $1`, [req.params.id]);
+
     result.rows.length > 0 ? res.render('updateClient', { title: 'Update Client', client: result.rows[0]}) : res.send('There is no client with that ID. Please Try Again');
-  } catch (err) {
-    console.error(err);
-    res.send('Error ' + err);
+  } catch (error) {
+    console.error('Error fetching dropdown data:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
 // // // // // // Post Updates To A Given Client
 router.post('/update/clients/:id', async (req, res) => {
-  var { name, email, phone, company_name, website_url, status } = req.body
+  var { name, email, phone, company_name, website_url, status, created_at } = req.body
   const result = await db.runQuery(
-      'UPDATE clients SET name = $1, email = $2, phone = $3, company_name = $4, website_url = $5, status = $6 WHERE ID = $7 RETURNING *',
-      [name, email, phone, company_name, website_url, status, req.params.id]
+      'UPDATE clients SET name = $1, email = $2, phone = $3, company_name = $4, website_url = $5, status = $6, created_at = $7 WHERE ID = $8 RETURNING *',
+      [name, email, phone, company_name, website_url, status, created_at, req.params.id]
     );
   res.render('getClient', { title: 'Client', client: result.rows[0]});
 });

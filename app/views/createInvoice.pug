@@ -20,6 +20,13 @@ block content
           label.form-label(for="amount") Invoice Amount:
           input.form-control(type="number", name="amount", required, step="0.01")
         div.mb-3
+          label.form-label(for="status") Status:
+          select.form-control(name="status", required)
+            option(value="") -- Select a Status --
+            option(value="Pending") Pending
+            option(value="Paid") Paid
+            option(value="Overdue") Overdue
+        div.mb-3
           label.form-label(for="due_date") Due Date:
           input.form-control(type="date", name="due_date", id="dueDateInput", required)
         div.text-end
