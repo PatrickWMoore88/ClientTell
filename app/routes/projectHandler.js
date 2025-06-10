@@ -19,15 +19,21 @@ router.get('/get/projects', async (req, res) => {
 
 // // // // // // Get A Single Project
 router.get('/get/projects/:id', async (req, res) => {
-  const projectDataQuery = `SELECT 
-      p.*,
-      c.id AS client_id, c.name AS client_name
-    FROM projects p
-    LEFT JOIN clients c on c.id = p.client_id
-    WHERE p.id = $1`;
-  
-  const result = await db.runQuery(projectDataQuery, [req.params.id]);
-  result.rows.length > 0 ? res.render('getProject', { title: 'Project', project: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
+  try {
+      const projectDataQuery = `SELECT 
+          p.*,
+          c.id AS client_id, c.name AS client_name
+        FROM projects p
+        LEFT JOIN clients c on c.id = p.client_id
+        WHERE p.id = $1`;
+      
+      const result = await db.runQuery(projectDataQuery, [req.params.id]);
+      console.log(result.rows[0])
+      result.rows.length > 0 ? res.render('getProject', { title: 'Project', project: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
+    } catch (error) {
+    console.error('Error fetching client data:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 
@@ -36,7 +42,8 @@ router.get('/get/projects/:id', async (req, res) => {
 // // // // // // Get Create Project Page
 router.get('/create/projects', async (req, res) => {
   try {
-    res.render('createProject', { title: 'Create Project' });
+    const clientsResult = await db.runQuery(`SELECT id, name FROM clients ORDER BY name`);
+    res.render('createProject', { title: 'Create Project', clients: clientsResult.rows });
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);
@@ -66,8 +73,12 @@ router.post('/delete/projects/:id', async (req, res) => {
 // // // // // // Get Update Project Page
 router.get('/update/projects/:id', async (req, res) => {
   try {
-    const result = await db.runQuery(`SELECT * FROM projects WHERE ID = $1`, [req.params.id]);
-    result.rows.length > 0 ? res.render('updateProject', { title: 'Update Project', project: result.rows[0]}) : res.send('There is no client with that ID. Please Try Again');
+    const clientsResult = await db.runQuery(`SELECT id, name FROM clients ORDER BY name`);
+    const result = await db.runQuery(`SELECT id, client_id, name, description, status,
+                 TO_CHAR(start_date, 'YYYY-MM-DD') AS start_date, 
+                 TO_CHAR(deadline, 'YYYY-MM-DD') AS deadline
+          FROM projects WHERE id = $1`, [req.params.id]);
+    res.render('updateProject', { title: 'Update Project', project: result.rows[0], clients: clientsResult.rows})
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);
@@ -76,12 +87,27 @@ router.get('/update/projects/:id', async (req, res) => {
 
 // // // // // // Post Updates To A Given Project
 router.post('/update/projects/:id', async (req, res) => {
-  var { client_id, name, description, start_date, deadline, status } = req.body
-  const result = await db.runQuery(
-      'UPDATE projects SET client_id = $1, name = $2, description = $3, start_date = $4, deadline = $5, status = $6 WHERE ID = $7 RETURNING *',
-      [client_id, name, description, start_date, deadline, status, req.params.id]
-    );
-  res.render('getProject', { title: 'Project', project: result.rows[0]});
+  try {
+    var { client_id, name, description, start_date, deadline, status } = req.body
+    await db.runQuery(
+        'UPDATE projects SET client_id = $1, name = $2, description = $3, start_date = $4, deadline = $5, status = $6 WHERE ID = $7 RETURNING *',
+        [client_id, name, description, start_date, deadline, status, req.params.id]
+      );
+    const result = await db.runQuery(`
+        SELECT 
+          p.*,
+          c.name AS client_name
+        FROM projects p
+        LEFT JOIN clients c ON p.client_id = c.id
+        WHERE p.id = $1;
+      `, [req.params.id]);
+
+    console.log(result.rows[0])
+    res.render('getProject', { title: 'Project', project: result.rows[0]});
+  } catch (error) {
+    console.error('Error fetching dropdown data:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 module.exports = router;

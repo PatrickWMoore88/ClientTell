@@ -57,7 +57,7 @@ async function createTables() {
     );`,
     leads: `CREATE TABLE IF NOT EXISTS leads (
       id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL,
-      phone VARCHAR(20), source VARCHAR(255),
+      phone VARCHAR(20), source VARCHAR(255) CHECK (source IN ('Referral', 'Facebook', 'Nextdoor', 'Cold Call')),
       status VARCHAR(50) CHECK (status IN ('New', 'Contacted', 'Converted', 'Lost')),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`,

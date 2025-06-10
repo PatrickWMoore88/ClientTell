@@ -94,12 +94,26 @@ router.get('/update/campaigns/:id', async (req, res) => {
 
 // // // // // // Post Updates To A Given Invoice
 router.post('/update/campaigns/:id', async (req, res) => {
-  var { client_id, name, type, budget, start_date, end_date, status } = req.body
-  const result = await db.runQuery(
-      'UPDATE campaigns SET client_id = $1, name = $2, type = $3, budget = $4, start_date = $5, end_date = $6, status = $7 WHERE ID = $8 RETURNING *',
-      [client_id, name, type, budget, start_date, end_date, status, req.params.id]
-    );
-  res.render('getCampaign', { title: 'Campaign', campaign: result.rows[0]});
+  try {
+    var { client_id, name, type, budget, start_date, end_date, status } = req.body
+    await db.runQuery(
+        'UPDATE campaigns SET client_id = $1, name = $2, type = $3, budget = $4, start_date = $5, end_date = $6, status = $7 WHERE ID = $8 RETURNING *',
+        [client_id, name, type, budget, start_date, end_date, status, req.params.id]
+      );
+    const result = await db.runQuery(`
+          SELECT 
+            cam.*,
+            c.name AS client_name
+          FROM projects p
+          LEFT JOIN clients c ON cam.client_id = c.id
+          WHERE cam.id = $1;
+        `, [req.params.id]);
+
+    res.render('getCampaign', { title: 'Campaign', campaign: result.rows[0]});
+  } catch (error) {
+    console.error('Error fetching dropdown data:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 module.exports = router;

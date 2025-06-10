@@ -9,7 +9,7 @@ block content
       p.info Phone Number: #{lead.phone}
       p.info Source: #{lead.source}
       p.info Status: #{lead.status}
-      p.info Creation Date: #{lead.created_at instanceof Date ? lead.created_at.toLocaleDateString() : lead.created_at}
+      p.info Last Contact Date: #{lead.created_at instanceof Date ? lead.created_at.toLocaleDateString() : lead.created_at}
       div.text-end
         form(action=`/update/leads/${lead.id}`, method="GET", style="display: inline;")
           input(type="hidden", name="_method", value="GET")

@@ -8,22 +8,27 @@ block content
           label.form-label(for="name") Name:
           input.form-control(type="text", name="name", required, value=project.name)
         div.mb-3
-          label.form-label(for="client_id") Client:
-          input.form-control(type="text", name="client_id", required, value=project.client_id)
+          label.form-label(for="client_id") Select Client:
+          select.form-control(name="client_id", required)
+            each client in clients
+              option(value=client.id) #{client.name}
         div.mb-3
           label.form-label(for="description") Description:
           input.form-control(type="text", name="description", value=project.description)
         div.mb-3
           label.form-label(for="start_date") Start Date:
-          - let displayStartDate = new Date(project.start_date).toLocaleDateString()
-          input.form-control(type="date", name="start_date", value=displayStartDate, readonly)
+          input.form-control(type="date", name="start_date", id="startDateInput", value=project.start_date, required)
         div.mb-3
           label.form-label(for="deadline") Deadline:
-          - let displayDeadlineDate = new Date(project.deadline).toLocaleDateString()
-          input.form-control(type="date", name="deadline", required, value=displayDeadlineDate, readonly)
+          input.form-control(type="date", name="deadline", id="deadlineDateInput", value=project.deadline, required)
         div.mb-3
           label.form-label(for="status") Status:
-          input.form-control(type="text", name="status", value=project.status)
+          select.form-control(name="status", required)
+            option(value=project.status selected) #{project.status}
+            option(value="Planning") Planning
+            option(value="In Progress") In Progress
+            option(value="Completed") Completed
+            option(value="On Hold") On Hold
         div.mb-3
           label.form-label(for="created_at") Creation Date:
           - let displayDate = new Date(project.created_at).toLocaleDateString()
@@ -31,3 +36,18 @@ block content
         div.text-end
           button.btn.btn-info(type="submit", class="mt-3") Save
           a(href=`/get/projects/${project.id}`, class="btn btn-info mt-3 ms-3") Cancel
+
+block scripts
+  script.
+    document.addEventListener("DOMContentLoaded", function () {
+      const startDateInput = document.getElementById("startDateInput");
+      const endDateInput = document.getElementById("deadlineDateInput");
+
+      startDateInput.addEventListener("click", function () {
+        this.showPicker ? this.showPicker() : this.focus();
+      });
+
+      endDateInput.addEventListener("click", function () {
+        this.showPicker ? this.showPicker() : this.focus();
+      });
+    });

@@ -22,7 +22,7 @@ block content
         div.mb-3
           label.form-label(for="status") Status:
           select.form-control(name="status", required)
-            option(value=client.status) #{client.status}
+            option(value=client.status selected) #{client.status}
             option(value="Lead") Lead
             option(value="Active") Active
             option(value="Inactive") Inactive

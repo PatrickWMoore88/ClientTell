@@ -54,7 +54,14 @@ router.get('/get/tasks/:id', async (req, res) => {
 // // // // // // Get Create Task Page
 router.get('/create/tasks', async (req, res) => {
   try {
-    res.render('createTask', { title: 'Create Task' });
+    const teamMembersResult = await db.runQuery(`SELECT id, name FROM team_members ORDER BY name`);
+    const projectsResult = await db.runQuery(`SELECT id, name FROM projects ORDER BY name`);
+
+    res.render('createTask', { 
+      title: 'Create Task', 
+      teamMembers: teamMembersResult.rows, 
+      projects: projectsResult.rows 
+    });
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);
@@ -63,9 +70,10 @@ router.get('/create/tasks', async (req, res) => {
 
 // // // // // // Post New Task
 router.post('/create/tasks', async (req, res) => {
-    const { project_id, assigned_to, description, status } = req.body;
-    var created_at = new Date().toLocaleDateString();
-    await db.runQuery('INSERT INTO tasks (project_id, assigned_to, description, status, created_at) VALUES ($1, $2, $3, $4, $5)', [project_id, assigned_to, description, status, created_at]);
+    const { project_id, assigned_to, description, status, due_date } = req.body;
+    // var created_at = new Date().toLocaleDateString();
+    var created_at = new Date();
+    await db.runQuery('INSERT INTO tasks (project_id, assigned_to, description, status, due_date, created_at) VALUES ($1, $2, $3, $4, $5, $6)', [project_id, assigned_to, description, status, due_date, created_at]);
     res.redirect('/get/tasks');
 });
 
@@ -84,8 +92,13 @@ router.post('/delete/tasks/:id', async (req, res) => {
 // // // // // // Get Update Task Page
 router.get('/update/tasks/:id', async (req, res) => {
   try {
-    const result = await db.runQuery(`SELECT * FROM tasks WHERE ID = $1`, [req.params.id]);
-    result.rows.length > 0 ? res.render('updateTask', { title: 'Update Task', task: result.rows[0]}) : res.send('There is no client with that ID. Please Try Again');
+    const teamMembersResult = await db.runQuery(`SELECT id, name FROM team_members ORDER BY name`);
+    const projectsResult = await db.runQuery(`SELECT id, name FROM projects ORDER BY name`);
+    const result = await db.runQuery(`SELECT id, project_id, assigned_to, description, status,
+                 TO_CHAR(due_date, 'YYYY-MM-DD') AS due_date,
+                 TO_CHAR(created_at, 'YYYY-MM-DD') AS created_at
+          FROM tasks WHERE id = $1`, [req.params.id]);
+    res.render('updateTask', { title: 'Update Task', task: result.rows[0], teamMembers: teamMembersResult.rows, projects: projectsResult.rows})
   } catch (err) {
     console.error(err);
     res.send('Error ' + err);
@@ -94,12 +107,25 @@ router.get('/update/tasks/:id', async (req, res) => {
 
 // // // // // // Post Updates To A Given Task
 router.post('/update/tasks/:id', async (req, res) => {
-  var { project_id, assigned_to, description, status } = req.body
-  const result = await db.runQuery(
-      'UPDATE tasks SET project_id = $1, assigned_to = $2, description = $3, status = $4 WHERE ID = $5 RETURNING *',
-      [project_id, assigned_to, description, status, req.params.id]
-    );
-  res.render('getTask', { title: 'Task', task: result.rows[0]});
+  try {
+    var { project_id, assigned_to, description, status, due_date } = req.body
+    await db.runQuery(
+        'UPDATE tasks SET project_id = $1, assigned_to = $2, description = $3, status = $4, due_date = $5 WHERE ID = $6 RETURNING *',
+        [project_id, assigned_to, description, status, due_date, req.params.id]
+      );
+    const result = await db.runQuery(`
+              SELECT 
+                t.*,
+                tm.name AS team_member_name
+              FROM tasks t
+              LEFT JOIN team_members tm ON t.assigned_to = tm.id
+              WHERE t.id = $1;
+            `, [req.params.id]);
+    res.render('getTask', { title: 'Task', task: result.rows[0]});
+  } catch (error) {
+    console.error('Error fetching dropdown data:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 module.exports = router;

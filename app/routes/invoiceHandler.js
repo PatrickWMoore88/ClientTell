@@ -63,7 +63,7 @@ router.get('/create/invoices', async (req, res) => {
 router.post('/create/invoices', async (req, res) => {
     const { client_id, project_id, amount, status, due_date } = req.body;
     var issued_at = new Date().toLocaleDateString()
-    await db.runQuery('INSERT INTO invoices (client_id, project_id, amount, status, due_date, issued_at) VALUES ($1, $2, $3, $4, $5, $6)', [client_id, project_id, amount, "Pending", due_date, issued_at]);
+    await db.runQuery('INSERT INTO invoices (client_id, project_id, amount, status, due_date, issued_at) VALUES ($1, $2, $3, $4, $5, $6)', [client_id, project_id, amount, status, due_date, issued_at]);
     res.redirect('/get/invoices');
 });
 
@@ -97,12 +97,25 @@ router.get('/update/invoices/:id', async (req, res) => {
 
 // // // // // // Post Updates To A Given Invoice
 router.post('/update/invoices/:id', async (req, res) => {
-  var { client_id, project_id, amount, status, due_date } = req.body
-  const result = await db.runQuery(
-      'UPDATE invoices SET client_id = $1, project_id = $2, amount = $3, status = $4, due_date = $5 WHERE ID = $6 RETURNING *',
-      [client_id, project_id, amount, status, due_date, req.params.id]
-    );
-  res.render('getInvoice', { title: 'Invoice', invoice: result.rows[0]});
+  try {
+    var { client_id, project_id, amount, status, due_date } = req.body
+    await db.runQuery(
+        'UPDATE invoices SET client_id = $1, project_id = $2, amount = $3, status = $4, due_date = $5 WHERE ID = $6 RETURNING *',
+        [client_id, project_id, amount, status, due_date, req.params.id]
+      );
+    const result = await db.runQuery(`
+          SELECT 
+            i.*,
+            c.name AS client_name, c.company_name
+          FROM invoices i
+          LEFT JOIN clients c ON i.client_id = c.id
+          WHERE i.id = $1;
+        `, [req.params.id]);
+    res.render('getInvoice', { title: 'Invoice', invoice: result.rows[0]});
+  } catch (error) {
+    console.error('Error fetching dropdown data:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 module.exports = router;

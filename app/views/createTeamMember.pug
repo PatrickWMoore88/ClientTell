@@ -12,7 +12,7 @@ block content
           input.form-control(type="email", name="email", required)
         div.mb-3
           label.form-label(for="phone") Phone:
-          input.form-control(type="text", name="phone")
+          input.form-control(type="tel", name="phone", placeholder="e.g. 123-456-7890", pattern="^[0-9]{3}-[0-9]{3}-[0-9]{4}$", required)
         div.mb-3
           label.form-label(for="role") Role:
           input.form-control(type="text", name="role")

@@ -8,6 +8,7 @@ block content
       p.info Description: #{task.description}
       p.info Status: #{task.status}
       p.info Creation Date: #{task.created_at instanceof Date ? task.created_at.toLocaleDateString() : task.created_at}
+      p.info Due Date: #{task.due_date instanceof Date ? task.due_date.toLocaleDateString() : task.due_date}
       div.text-end
         form(action=`/update/tasks/${task.id}`, method="GET", style="display: inline;")
           input(type="hidden", name="_method", value="GET")

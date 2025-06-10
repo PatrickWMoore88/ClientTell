@@ -11,7 +11,8 @@ block content
               th(scope="col", style="padding-left: 70px") Email Address
               th(scope="col", style="padding-left: 25px") Phone Number
               th(scope="col", style="padding-right: 20px") Source
-              th(scope="col", style="padding-left: 70px") Status
+              th(scope="col", style="padding-left: 20px") Status
+              th(scope="col", style="padding-left: 70px") Last Contact Date
               th(scope="col")
           tbody 
             each lead in leads 
@@ -26,6 +27,8 @@ block content
                   a(href=`/get/leads/${lead.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-right: 30px")= lead.source
                 td
                   a(href=`/get/leads/${lead.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 20px")= lead.status
+                td
+                  a(href=`/get/leads/${lead.id}`, style="color: white; font-weight: bold; text-decoration: none; padding-left: 70px")= lead.created_at instanceof Date ? lead.created_at.toLocaleDateString() : lead.created_at
                 td(style="padding-left: 41px")
                   a.btn.btn-info.btn-sm(href=`/get/leads/${lead.id}`) View
         div.p-4.d-flex.justify-content-end

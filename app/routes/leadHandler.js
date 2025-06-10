@@ -54,7 +54,9 @@ router.post('/delete/leads/:id', async (req, res) => {
 // // // // // // Get Update Lead Page
 router.get('/update/leads/:id', async (req, res) => {
   try {
-    const result = await db.runQuery(`SELECT * FROM leads WHERE ID = $1`, [req.params.id]);
+    const result = await db.runQuery(`SELECT id, name, email, phone, source, status,
+                  TO_CHAR(created_at, 'YYYY-MM-DD') AS created_at
+          FROM leads WHERE id = $1`, [req.params.id]);
     result.rows.length > 0 ? res.render('updateLead', { title: 'Update Lead', lead: result.rows[0]}) : res.send('There is no client with that ID. Please Try Again');
   } catch (err) {
     console.error(err);

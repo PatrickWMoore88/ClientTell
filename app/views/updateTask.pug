@@ -6,16 +6,27 @@ block content
       form(action=`/update/tasks/${task.id}`, method="POST", class="card", style="padding: 2rem; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 2rem;")
         div.mb-3
           label.form-label(for="project_id") Project:
-          input.form-control(type="text", name="project_id", required, value=task.project_id)
+          select.form-control(name="project_id", required)
+            each project in projects
+              option(value=project.id) #{project.name}
         div.mb-3
           label.form-label(for="assigned_to") Assigned To:
-          input.form-control(type="text", name="assigned_to", value=task.assigned_to)
+          select.form-control(name="assigned_to", required)
+            each teamMember in teamMembers
+              option(value=teamMember.id) #{teamMember.name}
         div.mb-3
           label.form-label(for="description") Description:
           input.form-control(type="text", name="description", value=task.description)
         div.mb-3
           label.form-label(for="status") Status:
-          input.form-control(type="text", name="status", value=task.status)
+          select.form-control(name="status", required)
+            option(value=task.status selected) #{task.status}
+            option(value="Pending") Pending
+            option(value="In Progress") In Progress
+            option(value="Completed") Completed
+        div.mb-3
+          label.form-label(for="due_date") Due Date:
+          input.form-control(type="date", name="due_date", id="dueDateInput", value=task.due_date)
         div.mb-3
           label.form-label(for="created_at") Creation Date:
           - let displayDate = new Date(task.created_at).toLocaleDateString()
@@ -23,3 +34,13 @@ block content
         div.text-end
           button.btn.btn-info(type="submit", class="mt-3") Save
           a(href=`/get/tasks/${task.id}`, class="btn btn-info mt-3 ms-3") Cancel
+
+block scripts
+  script.
+    document.addEventListener("DOMContentLoaded", function () {
+      const dueDateInput = document.getElementById("dueDateInput");
+
+      dueDateInput.addEventListener("click", function () {
+        this.showPicker ? this.showPicker() : this.focus();
+      });
+    });

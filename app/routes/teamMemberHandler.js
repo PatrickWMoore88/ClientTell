@@ -13,10 +13,10 @@ router.get('/get/team_members', async (req, res) => {
 
 
 // // // // // // Get A Single Team Member
-// router.get('/get/team_members/:id', async (req, res) => {
-//   const result = await db.runQuery(`SELECT * FROM team_members WHERE ID = $1`, [req.params.id]);
-//   result.rows.length > 0 ? res.render('getTeamMember', { title: 'Team Member', teamMember: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
-// });
+router.get('/get/team_members/:id', async (req, res) => {
+  const result = await db.runQuery(`SELECT * FROM team_members WHERE ID = $1`, [req.params.id]);
+  result.rows.length > 0 ? res.render('getTeamMember', { title: 'Team Member', teamMember: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
+});
 
 router.get('/get/team_members/:id', async (req, res) => {
   const result = await db.runQuery(`SELECT 
