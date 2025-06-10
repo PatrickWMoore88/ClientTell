@@ -6,16 +6,36 @@ const db = require('../config/db');
 // // // // // Table Data Read Campaigns
 // // // // // // Get All Campaigns
 router.get('/get/campaigns', async (req, res) => {
-  const result = await db.runQuery('SELECT * FROM campaigns');
+  const campaignDataQuery = `SELECT 
+      cam.*,
+      c.id AS client_id, c.name AS client_name
+    FROM campaigns cam
+    LEFT JOIN clients c on c.id = cam.client_id`;
+  
+  const result = await db.runQuery(campaignDataQuery);
   res.render('getCampaigns', { title: 'Campaigns', campaigns: result.rows });
 });
 
 
 // // // // // // Get A Single Campaign
 router.get('/get/campaigns/:id', async (req, res) => {
-  const result = await db.runQuery(`SELECT * FROM campaigns WHERE ID = $1`, [req.params.id]);
-  result.rows.length > 0 ? res.render('getCampaign', { title: 'Campaign', campaign: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
-});
+  try {
+    // Fetch Invoice and Related Clients and Projects
+    const campaignDataQuery = `SELECT 
+        cam.*,
+        c.id AS client_id, c.name AS client_name
+      FROM campaigns cam
+      LEFT JOIN clients c on c.id = cam.client_id
+      WHERE cam.id = $1`;
+
+    const result = await db.runQuery(campaignDataQuery, [req.params.id]);
+
+    result.rows.length > 0 ? res.render('getCampaign', { title: 'Campaign', campaign: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
+  } catch (error) {
+    console.error('Error fetching client data:', error);
+    res.status(500).send('Internal Server Error');
+  }
+  });
 
 
 
@@ -23,10 +43,15 @@ router.get('/get/campaigns/:id', async (req, res) => {
 // // // // // // Get Create Campaign Page
 router.get('/create/campaigns', async (req, res) => {
   try {
-    res.render('createCampaign', { title: 'Create Campaign' });
-  } catch (err) {
-    console.error(err);
-    res.send('Error ' + err);
+    const clientsResult = await db.runQuery(`SELECT id, name FROM clients ORDER BY name`);
+
+    res.render('createCampaign', { 
+      title: 'Create Campaign', 
+      clients: clientsResult.rows
+    });
+  } catch (error) {
+    console.error('Error fetching dropdown data:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 

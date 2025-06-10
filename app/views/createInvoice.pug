@@ -5,20 +5,32 @@ block content
     div
       form(action="/create/invoices", method="POST", class="card", style="padding: 2rem; border: 1px solid #212529; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 2rem;")
         div.mb-3
-          label.form-label(for="client_id") Client:
-          input.form-control(type="text", name="client_id", required)
+          label.form-label(for="client_id") Select Client:
+          select.form-control(name="client_id", required)
+            option(value="") -- Select a Client -- 
+            each client in clients
+              option(value=client.id) #{client.name}
         div.mb-3
-          label.form-label(for="project_id") Project:
-          input.form-control(type="text", name="project_id", required)
+          label.form-label(for="project_id") Select Project:
+          select.form-control(name="project_id", required)
+            option(value="") -- Select a Project -- 
+            each project in projects
+              option(value=project.id) #{project.name}
         div.mb-3
-          label.form-label(for="amount") Amount:
-          input.form-control(type="text", name="amount")
-        div.mb-3
-          label.form-label(for="status") Status:
-          input.form-control(type="text", name="status")
+          label.form-label(for="amount") Invoice Amount:
+          input.form-control(type="number", name="amount", required, step="0.01")
         div.mb-3
           label.form-label(for="due_date") Due Date:
-          input.form-control(type="date", name="due_date")
+          input.form-control(type="date", name="due_date", id="dueDateInput", required)
         div.text-end
           button.btn.btn-info(type="submit", class="mt-3") Create Invoice
           a(href="/get/invoices", class="btn btn-info mt-3 ms-3") Back to Invoice List
+
+block scripts
+  script.
+    document.addEventListener("DOMContentLoaded", function () {
+      const dateInput = document.getElementById("dueDateInput");
+      dateInput.addEventListener("click", function () {
+        this.showPicker ? this.showPicker() : this.focus();
+      });
+    });

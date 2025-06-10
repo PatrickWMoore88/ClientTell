@@ -5,26 +5,54 @@ block content
     div
       form(action="/create/campaigns", method="POST", class="card", style="padding: 2rem; border: 1px solid #212529; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 2rem;")
         div.mb-3
-          label.form-label(for="client_id") Client:
-          input.form-control(type="text", name="client_id", required)
+          label.form-label(for="client_id") Select Client:
+          select.form-control(name="client_id", required)
+            option(value="") -- Select a Client -- 
+            each client in clients
+              option(value=client.id) #{client.name}
         div.mb-3
           label.form-label(for="name") Name:
           input.form-control(type="text", name="name", required)
         div.mb-3
-          label.form-label(for="type") Type:
-          input.form-control(type="text", name="type")
+          label.form-label(for="type") Campaign Type:
+          select.form-control(name="type", required)
+            option(value="") -- Select a Type --
+            option(value="SEO") SEO
+            option(value="Google Ads") Google Ads
+            option(value="Social Media") Social Media
+            option(value="Email Marketing") Email Marketing
         div.mb-3
           label.form-label(for="budget") Budget:
           input.form-control(type="text", name="budget", required)
         div.mb-3
           label.form-label(for="start_date") Start Date:
-          input.form-control(type="date", name="start_date")
+          input.form-control(type="date", name="start_date", id="startDateInput", required)
         div.mb-3
           label.form-label(for="end_date") End Date:
-          input.form-control(type="date", name="end_date")
+          input.form-control(type="date", name="end_date", id="endDateInput", required)
         div.mb-3
           label.form-label(for="status") Status:
-          input.form-control(type="text", name="status")
+          select.form-control(name="status", required)
+            option(value="") -- Select a Status --
+            option(value="Active") Active
+            option(value="Completed") Completed
+            option(value="Paused") Paused
         div.text-end
           button.btn.btn-info(type="submit", class="mt-3") Create Campaign
           a(href="/get/campaigns", class="btn btn-info mt-3 ms-3") Back to Campaign List
+
+block scripts
+  script.
+    document.addEventListener("DOMContentLoaded", function () {
+      const dateInput = document.getElementById("startDateInput");
+      dateInput.addEventListener("click", function () {
+        this.showPicker ? this.showPicker() : this.focus();
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const dateInput = document.getElementById("endDateInput");
+      dateInput.addEventListener("click", function () {
+        this.showPicker ? this.showPicker() : this.focus();
+      });
+    });

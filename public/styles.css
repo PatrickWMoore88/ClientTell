@@ -109,6 +109,15 @@ p.info {
     color: white;
 }
 
+select {
+  appearance: none; /* Ensures cross-browser consistency */
+  -webkit-appearance: none; /* Fix for Safari */
+  -moz-appearance: none; /* Fix for Firefox */
+  background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="black" d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
+  padding-right: 30px; /* Space for the arrow */
+  border-radius: 5px;
+}
+
 .cardBackgroud {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
