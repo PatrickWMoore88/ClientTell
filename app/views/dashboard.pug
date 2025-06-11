@@ -11,6 +11,7 @@ block content
                     div.card.bg-dark.text-white.p-4.chart-container
                         h4.text-center #{chart.charAt(0).toUpperCase() + chart.slice(1)} Overview
                         canvas(id=`${chart}Chart`)
+                        a.btn.btn-info(href=`/get/${chart}`, style="margin-top: 10px; margin-left: 25px") View #{chart.charAt(0).toUpperCase() + chart.slice(1)}
 
 
 block scripts
