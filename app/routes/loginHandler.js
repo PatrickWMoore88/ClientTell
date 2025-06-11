@@ -82,12 +82,32 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
-router.get('/dashboard', (req, res) => {
-  if (!req.user) {
-    console.warn('No active session. Redirecting to login.');
-    return res.redirect('/dashboard');
+router.get('/dashboard', async (req, res) => {
+  // if (!req.user) {
+  //   console.warn('No active session. Redirecting to login.');
+  //   return res.redirect('/dashboard');
+  // }
+  // res.render('dashboard', { user: req.user });
+  try {
+    const statsQuery = `
+      SELECT 
+        (SELECT COUNT(*) FROM clients) AS total_clients,
+        (SELECT COUNT(*) FROM projects) AS total_projects,
+        (SELECT COUNT(*) FROM invoices WHERE status = 'Pending') AS pending_invoices,
+        (SELECT COUNT(*) FROM invoices WHERE status = 'Paid') AS paid_invoices,
+        (SELECT COUNT(*) FROM campaigns) AS total_campaigns,
+        (SELECT COUNT(*) FROM leads WHERE status = 'Active') AS active_leads,
+        (SELECT COUNT(*) FROM tasks WHERE status = 'Completed') AS completed_tasks
+    `;
+
+    const result = await db.runQuery(statsQuery);
+
+    // console.log(result.rows[0])
+    res.render('dashboard', { title: 'Dashboard', user: req.user, stats: result.rows[0] });
+  } catch (error) {
+    console.error('Error fetching stats:', error);
+    res.status(500).send('Internal Server Error');
   }
-  res.render('dashboard', { user: req.user });
 });
 
 

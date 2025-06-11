@@ -194,6 +194,24 @@ select {
     color: white;
 }
 
+.chart-container {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  color: #fff !important;
+  margin-bottom: 30px;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #111;
+  border-radius: 10px;
+}
+canvas {
+  max-width: 100% !important;
+  height: 250px !important;
+}
+
 footer {
     position: relative;
     bottom: 0;

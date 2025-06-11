@@ -3,11 +3,30 @@ extends layout
 block content
       div.main
         main.container.mt-5
-          section.d-flex.flex-column.align-items-center.mt-5
-            div.col-md-6(style="display: flex; justify-content: center; flex-wrap: wrap; padding-top: 20px")
-              h2 Streamline Your Business
-              p ClientTell helps you manage users effortlessly.
-              img(src="/crm-dashboard.png", alt="CRM Dashboard", class="img-fluid rounded")
-              div(style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;")
-                a(href="/get/users", class="btn btn-primary btn-lg") View Users
-                a(href="/create/users", class="btn btn-outline-secondary btn-lg") Add New User
+          div.text-center
+            h1 ClientTell CRM - Streamline Your Business Relationships
+            p Manage clients, track projects, monitor invoices, and drive success from one powerful dashboard.
+
+          div.row.mt-4
+            div.col-md-6
+              img.img-fluid(src="/images/business.jpg", alt="Business Growth")
+
+            div.col-md-6
+              h3 Why Choose Us?
+              ul
+                li Secure & Efficient Client Management
+                li Detailed Project & Invoice Tracking
+                li User-Friendly Design & Intuitive Features
+
+          div.text-center.mt-5
+            a.btn.btn-primary(href="/register", class="btn btn-primary btn-lg") Get Started
+            a.btn.btn-outline-secondary(href="/login", class="btn btn-outline-secondary btn-lg") Log In
+
+          //- section.d-flex.flex-column.align-items-center.mt-5
+          //-   div.col-md-6(style="display: flex; justify-content: center; flex-wrap: wrap; padding-top: 20px")
+          //-     h2 Streamline Your Business
+          //-     p ClientTell helps you manage users effortlessly.
+          //-     img(src="/crm-dashboard.png", alt="CRM Dashboard", class="img-fluid rounded")
+          //-     div(style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;")
+          //-       a(href="/get/users", class="btn btn-primary btn-lg") View Users
+          //-       a(href="/create/users", class="btn btn-outline-secondary btn-lg") Add New User

@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  div.container.mt-5
+    div.text-center
+      h1 Contact Us
+      p Reach out to us with any questions or business inquiries.
+
+    form(action="/contact", method="POST").card.p-4
+      div.mb-3
+        label.form-label(for="name") Name:
+        input.form-control(type="text", name="name", required)
+
+      div.mb-3
+        label.form-label(for="email") Email:
+        input.form-control(type="email", name="email", required)
+
+      div.mb-3
+        label.form-label(for="message") Message:
+        textarea.form-control(name="message", required rows="4")
+
+      div.text-center
+        button.btn.btn-info(type="submit") Submit Inquiry

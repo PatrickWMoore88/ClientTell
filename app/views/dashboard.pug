@@ -1,15 +1,85 @@
 extends layout
 
 block content
-    h1.container.text-center.mt-4(style="padding: 50px;") Dashboard
-    //- div
-    //-     form(action="/login", method="POST", class="card", style="padding: 2rem; border: 1px solid #212529; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 2rem;").mt-3
-    //-         div.mb-3
-    //-             label.form-label(for="username") Username:
-    //-             input.form-control(type="text", name="username", required)
-    //-         div.mb-3
-    //-             label.form-label(for="password") Password:
-    //-             input.form-control(type="password", name="password", required)
-    //-         div.text-end
-    //-             button.btn.btn-info(type="submit", class="mt-3") Login
-    //-             a(href="/", class="btn btn-info mt-3 ms-3") Home Page
+    script#dashboardStats(type="application/json" data-stats=JSON.stringify(stats))
+    div.container.mt-5
+        h1.text-center Welcome #{user.username}
+
+        div.row.mt-4
+            each chart in ["clients", "projects", "invoices", "campaigns", "leads", "tasks"]
+                div.col-md-6
+                    div.card.bg-dark.text-white.p-4.chart-container
+                        h4.text-center #{chart.charAt(0).toUpperCase() + chart.slice(1)} Overview
+                        canvas(id=`${chart}Chart`)
+
+
+block scripts
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+    script.
+        console.log("Dashboard script is loading!");
+        document.addEventListener("DOMContentLoaded", function () {
+            const statsElement = document.getElementById("dashboardStats");
+            if (!statsElement) return console.error("Stats element not found.");
+
+            const stats = JSON.parse(statsElement.dataset.stats);
+            console.log("Dashboard stats:", stats);
+            
+            const createChart = (id, label, data) => {
+                new Chart(document.getElementById(id), {
+                    type: "bar",
+                    data: {
+                        labels: ["Total"],
+                        datasets: [{
+                            label: label,
+                            data: [data],
+                            backgroundColor: "#017f81",
+                            borderColor: "#fff",
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        scales: {
+                            x: {
+                                ticks: { color: "#fff" },
+                                grid: {
+                                    color: "#fff",
+                                    lineWidth: 1
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                max: 10,
+                                ticks: {
+                                    stepSize: 1,
+                                    color: "#fff",
+                                    callback: function(value, index, values) {
+                                        return Number.isInteger(value) ? value : "";
+                                    }
+                                },    
+                                grid: {
+                                    color: "#fff",
+                                    lineWidth: 1
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: "#fff",
+                                    font: { size: 14 }
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+
+            createChart("clientsChart", "Total Clients", stats.total_clients);
+            createChart("projectsChart", "Total Projects", stats.total_projects);
+            createChart("invoicesChart", "Pending Invoices", stats.pending_invoices);
+            createChart("campaignsChart", "Active Campaigns", stats.total_campaigns);
+            createChart("leadsChart", "Active Leads", stats.active_leads);
+            createChart("tasksChart", "Completed Tasks", stats.completed_tasks);
+        });
