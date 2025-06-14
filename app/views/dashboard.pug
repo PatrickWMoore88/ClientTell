@@ -9,78 +9,297 @@ block content
             each chart in ["clients", "projects", "invoices", "campaigns", "leads", "tasks"]
                 div.col-md-6
                     div.card.bg-dark.text-white.p-4.chart-container
+                        if chart === "invoices"
+                            div.text-center.mt-3
+                                label(for="filterOption") Filter Invoices:
+                                select#filterOption(onchange="updateChart()", style="margin-left: 5px;")
+                                    option(value="all") Show All
+                                    option(value="paid") Paid Invoices
+                                    option(value="pending") Pending Invoices
+                                    option(value="overdue") Overdue Invoices
                         h4.text-center #{chart.charAt(0).toUpperCase() + chart.slice(1)} Overview
                         canvas(id=`${chart}Chart`)
-                        a.btn.btn-info(href=`/get/${chart}`, style="margin-top: 10px; margin-left: 25px") View #{chart.charAt(0).toUpperCase() + chart.slice(1)}
+                        a.btn.btn-info.d-block.text-center.mt-3(href=`/get/${chart}`, style="margin-top: 10px;") View #{chart.charAt(0).toUpperCase() + chart.slice(1)}
 
 
 block scripts
     script(src="https://cdn.jsdelivr.net/npm/chart.js")
     script.
         console.log("Dashboard script is loading!");
+        function updateChart() {
+            const filter = document.getElementById("filterOption").value;
+
+            let filteredData;
+            switch(filter) {
+                case "paid": filteredData = [stats.paid_invoices]; break;
+                case "pending": filteredData = [stats.pending_invoices]; break;
+                case "overdue": filteredData = [stats.overdue_invoices]; break;
+                default: filteredData = [stats.total_invoices, stats.paid_invoices, stats.pending_invoices, stats.overdue_invoices];
+            }
+
+            chart.data.datasets[0].data = filteredData;
+            chart.update();
+        }
+
+
+        //- function buildDatasetsArray(data,labels, colors){
+        function buildDatasetsArray(data, labels){
+            return labels.map((label, index) => {
+                // Create an array filled with zeros
+                var dataArray = new Array(labels.length).fill(0);
+
+                if(data[index] !== undefined && data[index] !== "null"){
+                    // Set the correct data at the appropriate index
+                    dataArray[index] = data[index];
+                    return {
+                        label: "",
+                        data: dataArray,
+                        backgroundColor: "#017f81",
+                        borderColor: "#fff",
+                        borderWidth: 1,
+                        barThickness: 20
+                    };
+                }
+                else{
+                    return { error: "Invalid data entry at index " + index };
+
+                }
+            });
+        };
+
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    stacked: true,
+                    ticks: { 
+                        color: "#fff",
+                        padding: 5
+                    },
+                    grid: {
+                        color: "#fff",
+                        lineWidth: 2
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    max: 0,
+                    ticks: {
+                        stepSize: 1,
+                        autoSkip: false,
+                        precision: 0,
+                        color: "#fff",
+                        callback: function(value, index, values) {
+                            return Number.isInteger(value) ? value : "";
+                        }
+                    },    
+                    grid: {
+                        color: "#fff",
+                        lineWidth: 2
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        };
+
         document.addEventListener("DOMContentLoaded", function () {
             const statsElement = document.getElementById("dashboardStats");
             if (!statsElement) return console.error("Stats element not found.");
-
             const stats = JSON.parse(statsElement.dataset.stats);
-            console.log("Dashboard stats:", stats);
             
             const createChart = (id, label, data) => {
-                new Chart(document.getElementById(id), {
-                    type: "bar",
-                    data: {
-                        labels: ["Total"],
-                        datasets: [{
-                            label: label,
-                            data: [data],
-                            backgroundColor: "#017f81",
-                            borderColor: "#fff",
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        scales: {
-                            x: {
-                                ticks: { color: "#fff" },
-                                grid: {
-                                    color: "#fff",
-                                    lineWidth: 1
-                                }
+                switch(id){
+                    case "clientsChart":
+                        var labelsArray = ["Total", "Leads", "Active", "Inactive"];
+                        //- var colorsArray = ["#017f81", "white", "#ffcc00", "green"];
+                        //- var datasetsArray = buildDatasetsArray(data, labelsArray, colorsArray);
+                        var datasetsArray = buildDatasetsArray(data, labelsArray);
+                        var largestDataset = Math.max(...data)
+                        options.scales.y.max =largestDataset + 1
+                        new Chart(document.getElementById(id), {
+                            type: "bar",
+                            data: {
+                                labels: labelsArray,
+                                datasets: datasetsArray
                             },
-                            y: {
-                                beginAtZero: true,
-                                max: 10,
-                                ticks: {
-                                    stepSize: 1,
-                                    color: "#fff",
-                                    callback: function(value, index, values) {
-                                        return Number.isInteger(value) ? value : "";
-                                    }
-                                },    
-                                grid: {
-                                    color: "#fff",
-                                    lineWidth: 1
-                                }
+                            options: options
+                        });
+                        break;
+                    case "projectsChart":
+                        var labelsArray = ["Total", "Planning", "In Progress", "On Hold", "Completed"];
+                        var datasetsArray = buildDatasetsArray(data, labelsArray);
+                        var largestDataset = Math.max(...data)
+                        options.scales.y.max =largestDataset + 1
+                        new Chart(document.getElementById(id), {
+                            type: "bar",
+                            data: {
+                                labels: labelsArray,
+                                datasets: datasetsArray
+                            },
+                            options: options
+                        });
+                        break;
+                    case "invoicesChart":
+                        //- var labelsArray = ["Total", "Paid", "Pending", "Overdue"];
+                        var labelsArray = ["Total"];
+                        var datasetsArray = buildDatasetsArray(data, labelsArray);
+                        var largestDataset = Math.max(...data)
+                        options.scales.y.max =largestDataset + 1
+                        window.invoicesChart = new Chart(document.getElementById(id), {
+                            type: "bar",
+                            data: {
+                                labels: labelsArray,
+                                datasets: datasetsArray
+                            },
+                            options: options
+                        });
+
+                        window.updateChart = function () {
+                            const filter = document.getElementById("filterOption").value;
+
+                            let filteredData;
+                            switch (filter) {
+                                case "paid": filteredData = [stats.paid_invoices, 0, 0]; break;
+                                case "pending": filteredData = [stats.pending_invoices, 0, 0]; break;
+                                case "overdue": filteredData = [stats.overdue_invoices, 0, 0]; break;
+                                default: 
+                                    filteredData = [stats.total_invoices, stats.paid_invoices, stats.pending_invoices, stats.overdue_invoices];
+                                    largestDataset = Math.max(...filteredData)
+                                    options.scales.y.max =largestDataset + 1
                             }
-                        },
-                        plugins: {
-                            legend: {
-                                labels: {
-                                    color: "#fff",
-                                    font: { size: 14 }
-                                }
-                            }
+                            console.log(invoicesChart.data.datasets[0].data)
+                            invoicesChart.data.datasets[0].data = filteredData;
+                            invoicesChart.update();
+                        };
+                        break;
+                    case "campaignsChart":
+                        var labelsArray = ["Total", "Active", "Paused", "Completed"];
+                        var datasetsArray = buildDatasetsArray(data, labelsArray);
+                        var largestDataset = Math.max(...data)
+                        options.scales.y.max =largestDataset + 1
+                        new Chart(document.getElementById(id), {
+                            type: "bar",
+                            data: {
+                                labels: labelsArray,
+                                datasets: datasetsArray
+                            },
+                            options: options
+                        });
+                        break;
+                    case "leadsChart":
+                        var labelsArray = ["Total", "New", "Contacted", "Converted"];
+                        var datasetsArray = buildDatasetsArray(data, labelsArray);
+                        var largestDataset = Math.max(...data)
+                        options.scales.y.max =largestDataset + 1
+                        new Chart(document.getElementById(id), {
+                            type: "bar",
+                            data: {
+                                labels: labelsArray,
+                                datasets: datasetsArray
+                            },
+                            options: options
+                        });
+                        break;
+                    case "tasksChart":
+                        var labelsArray = ["Total", "Pending", "In Progress", "Completed"];
+                        var datasetsArray = buildDatasetsArray(data, labelsArray);
+                        var largestDataset = Math.max(...data)
+                        options.scales.y.max =largestDataset + 1
+                        new Chart(document.getElementById(id), {
+                            type: "bar",
+                            data: {
+                                labels: labelsArray,
+                                datasets: datasetsArray
+                            },
+                            options: options
+                        });
+                        break;
+                    default: 
+                        var largestDataset = Math.max(...data)
+                        options.scales.y.max =largestDataset + 1
+                        if(largestDataset > 0){
+                            new Chart(document.getElementById(id), {
+                                type: "bar",
+                                data: {
+                                    labels: ["Total          "],
+                                    datasets: [{
+                                        label: label,
+                                        data: [data],
+                                        backgroundColor: "#017f81",
+                                        borderColor: "#fff",
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: options
+                            });
                         }
-                    }
-                });
+                        else{
+                            new Chart(document.getElementById(id), {
+                                type: "bar",
+                                data: {
+                                    labels: ["Total          "],
+                                    datasets: [{
+                                        label: label,
+                                        data: [data],
+                                        backgroundColor: "#017f81",
+                                        borderColor: "#fff",
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: true,
+                                    scales: {
+                                        x: {
+                                            stacked: true,
+                                            ticks: { 
+                                                color: "#fff",
+                                                padding: 5
+                                            },
+                                            grid: {
+                                                color: "#fff",
+                                                lineWidth: 2
+                                            }
+                                        },
+                                        y: {
+                                            beginAtZero: true,
+                                            max: 10,
+                                            ticks: {
+                                                stepSize: 1,
+                                                autoSkip: false,
+                                                precision: 0,
+                                                color: "#fff",
+                                                callback: function(value, index, values) {
+                                                    return Number.isInteger(value) ? value : "";
+                                                }
+                                            },    
+                                            grid: {
+                                                color: "#fff",
+                                                lineWidth: 2
+                                            }
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: {
+                                            display: false
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        break;
+                }
             };
 
-            createChart("clientsChart", "Total Clients", stats.total_clients);
-            createChart("projectsChart", "Total Projects", stats.total_projects);
-            createChart("invoicesChart", "Pending Invoices", stats.pending_invoices);
-            createChart("campaignsChart", "Active Campaigns", stats.total_campaigns);
-            createChart("leadsChart", "Active Leads", stats.active_leads);
-            createChart("tasksChart", "Completed Tasks", stats.completed_tasks);
+            createChart("clientsChart", "Total Clients", [stats.total_clients, stats.leads_clients, stats.active_clients, stats.inactive_clients]);
+            createChart("projectsChart", "Total Projects", [stats.total_projects, stats.planning_projects, stats.in_progess_projects, stats.on_hold_projects, stats.completed_projects]);
+            createChart("invoicesChart", "Pending Invoices", [stats.total_invoices, stats.paid_invoices, stats.pending_invoices, stats.overdue_invoices]);
+            createChart("campaignsChart", "Active Campaigns", [stats.total_campaigns, stats.active_campaigns, stats.paused_campaigns, stats.completed_campaigns]);
+            createChart("leadsChart", "Active Leads", [stats.total_leads, stats.new_leads, stats.contacted_leads, stats.converted_leads]);
+            createChart("tasksChart", "Completed Tasks", [stats.total_tasks, stats.pending_tasks, stats.in_progess_tasks, stats.completed_tasks]);
         });

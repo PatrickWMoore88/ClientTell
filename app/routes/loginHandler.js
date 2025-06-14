@@ -92,17 +92,39 @@ router.get('/dashboard', async (req, res) => {
     const statsQuery = `
       SELECT 
         (SELECT COUNT(*) FROM clients) AS total_clients,
+        (SELECT COUNT(*) FROM clients WHERE status = 'Leads') AS leads_clients,
+        (SELECT COUNT(*) FROM clients WHERE status = 'Active') AS active_clients,
+        (SELECT COUNT(*) FROM clients WHERE status = 'Inactive') AS inactive_clients,
         (SELECT COUNT(*) FROM projects) AS total_projects,
+        (SELECT COUNT(*) FROM projects WHERE status = 'Planning') AS planning_projects,
+        (SELECT COUNT(*) FROM projects WHERE status = 'In Progress') AS in_progess_projects,
+        (SELECT COUNT(*) FROM projects WHERE status = 'On Hold') AS on_hold_projects,
+        (SELECT COUNT(*) FROM projects WHERE status = 'Completed') AS completed_projects,
+        (SELECT COUNT(*) FROM invoices) AS total_invoices,
         (SELECT COUNT(*) FROM invoices WHERE status = 'Pending') AS pending_invoices,
+        (SELECT COUNT(*) FROM invoices WHERE status = 'Overdue') AS overdue_invoices,
         (SELECT COUNT(*) FROM invoices WHERE status = 'Paid') AS paid_invoices,
         (SELECT COUNT(*) FROM campaigns) AS total_campaigns,
-        (SELECT COUNT(*) FROM leads WHERE status = 'Active') AS active_leads,
+        (SELECT COUNT(*) FROM campaigns WHERE status = 'Active') AS active_campaigns,
+        (SELECT COUNT(*) FROM campaigns WHERE status = 'Paused') AS paused_campaigns,
+        (SELECT COUNT(*) FROM campaigns WHERE status = 'Completed') AS completed_campaigns,
+        (SELECT COUNT(*) FROM leads) AS total_leads,
+        (SELECT COUNT(*) FROM leads WHERE status = 'New') AS new_leads,
+        (SELECT COUNT(*) FROM leads WHERE status = 'Contacted') AS contacted_leads,
+        (SELECT COUNT(*) FROM leads WHERE status = 'Converted') AS converted_leads,
+        (SELECT COUNT(*) FROM leads WHERE source = 'Referral') AS referral_leads,
+        (SELECT COUNT(*) FROM leads WHERE source = 'Facebook') AS facebook_leads,
+        (SELECT COUNT(*) FROM leads WHERE source = 'Nextdoor') AS nextdoor_leads,
+        (SELECT COUNT(*) FROM leads WHERE source = 'Cold Call') AS cold_call_leads,
+        (SELECT COUNT(*) FROM tasks) AS total_tasks,
+        (SELECT COUNT(*) FROM tasks WHERE status = 'Pending') AS pending_tasks,
+        (SELECT COUNT(*) FROM tasks WHERE status = 'In Progress') AS in_progess_tasks,
         (SELECT COUNT(*) FROM tasks WHERE status = 'Completed') AS completed_tasks
     `;
 
     const result = await db.runQuery(statsQuery);
 
-    // console.log(result.rows[0])
+    console.log(result.rows[0])
     res.render('dashboard', { title: 'Dashboard', user: req.user, stats: result.rows[0] });
   } catch (error) {
     console.error('Error fetching stats:', error);
