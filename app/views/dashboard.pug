@@ -2,45 +2,140 @@ extends layout
 
 block content
     script#dashboardStats(type="application/json" data-stats=JSON.stringify(stats))
-    div.container.mt-5
-        h1.text-center Welcome #{user.username}
+    div.container-fluid
+        div#sidebarWrapper.sidebar.bg-dark.text-white.p-4
+            h4.sidebar-text Filter Data
+            br
+            div.card.filter-card
+                div.card-body
+                    h5.text-center(style="padding-bottom: 20px;") Client Filters
+                    div.form-group
+                    label.checkbox-container
+                        input(type="checkbox" name="filterClientOption" value="lead" onchange="updateClientChart()")
+                        | Leads
+                    label.checkbox-container
+                        input(type="checkbox" name="filterClientOption" value="active" onchange="updateClientChart()")
+                        | Active
+                    label.checkbox-container
+                        input(type="checkbox" name="filterClientOption" value="inactive" onchange="updateClientChart()")
+                        | Inactive
+            div.card.filter-card
+                div.card-body
+                    h5.text-center(style="padding-bottom: 20px;") Project Filters
+                    div.form-group
+                    label.checkbox-container
+                        input(type="checkbox" name="filterProjectOption" value="planning" onchange="updateProjectChart()")
+                        | Planning
+                    label.checkbox-container
+                        input(type="checkbox" name="filterProjectOption" value="in_progress" onchange="updateProjectChart()")
+                        | In Progress
+                    label.checkbox-container
+                        input(type="checkbox" name="filterProjectOption" value="on_hold" onchange="updateProjectChart()")
+                        | On Hold
+                    label.checkbox-container
+                        input(type="checkbox" name="filterProjectOption" value="completed" onchange="updateProjectChart()")
+                        | Completed
+            div.card.filter-card
+                div.card-body
+                    h5.text-center(style="padding-bottom: 20px;") Invoice Filters
+                    div.form-group
+                    label.checkbox-container
+                        input(type="checkbox" name="filterInvoiceOption" value="paid" onchange="updateInvoiceChart()")
+                        | Paid
+                    label.checkbox-container
+                        input(type="checkbox" name="filterInvoiceOption" value="pending" onchange="updateInvoiceChart()")
+                        | Pending
+                    label.checkbox-container
+                        input(type="checkbox" name="filterInvoiceOption" value="overdue" onchange="updateInvoiceChart()")
+                        | Overdue
+            div.card.filter-card
+                div.card-body
+                    h5.text-center(style="padding-bottom: 20px;") Campaign Filters
+                    div.form-group
+                    label.checkbox-container
+                        input(type="checkbox" name="filterCampaignOption" value="active" onchange="updateCampaignChart()")
+                        | Active
+                    label.checkbox-container
+                        input(type="checkbox" name="filterCampaignOption" value="paused" onchange="updateCampaignChart()")
+                        | Paused
+                    label.checkbox-container
+                        input(type="checkbox" name="filterCampaignOption" value="completed" onchange="updateCampaignChart()")
+                        | Completed
+            div.card.filter-card
+                div.card-body
+                    h5.text-center(style="padding-bottom: 20px;") Lead Filters
+                    div.form-group
+                    label.checkbox-container
+                        input(type="checkbox" name="filterLeadOption" value="new" onchange="updateLeadChart()")
+                        | New
+                    label.checkbox-container
+                        input(type="checkbox" name="filterLeadOption" value="contacted" onchange="updateLeadChart()")
+                        | Contacted
+                    label.checkbox-container
+                        input(type="checkbox" name="filterLeadOption" value="converted" onchange="updateLeadChart()")
+                        | Converted
+            div.card.filter-card
+                div.card-body
+                    h5.text-center(style="padding-bottom: 20px;") Task Filters
+                    div.form-group
+                    label.checkbox-container
+                        input(type="checkbox" name="filterTaskOption" value="pending" onchange="updateTaskChart()")
+                        | Pending
+                    label.checkbox-container
+                        input(type="checkbox" name="filterTaskOption" value="in_progress" onchange="updateTaskChart()")
+                        | In Progress
+                    label.checkbox-container
+                        input(type="checkbox" name="filterTaskOption" value="completed" onchange="updateTaskChart()")
+                        | Completed
+                
+        div.content
+            button#sidebarToggle.btn.btn-primary(onclick="toggleSidebar()") ☰
+            div.container.mt-5
+                h1.text-center Welcome #{user.username}
 
-        div.row.mt-4
-            each chart in ["clients", "projects", "invoices", "campaigns", "leads", "tasks"]
-                div.col-md-6
-                    div.card.bg-dark.text-white.p-4.chart-container
-                        if chart === "invoices"
-                            div.text-center.mt-3
-                                label(for="filterOption") Filter Invoices:
-                                select#filterOption(onchange="updateChart()", style="margin-left: 5px;")
-                                    option(value="all") Show All
-                                    option(value="paid") Paid Invoices
-                                    option(value="pending") Pending Invoices
-                                    option(value="overdue") Overdue Invoices
-                        h4.text-center #{chart.charAt(0).toUpperCase() + chart.slice(1)} Overview
-                        canvas(id=`${chart}Chart`)
-                        a.btn.btn-info.d-block.text-center.mt-3(href=`/get/${chart}`, style="margin-top: 10px;") View #{chart.charAt(0).toUpperCase() + chart.slice(1)}
+                div.row.mt-4
+                    each chart in ["clients", "projects", "invoices", "campaigns", "leads", "tasks"]
+                        div.col-md-6
+                            div.card.bg-dark.text-white.p-4.chart-container
+                                h4.text-center #{chart.charAt(0).toUpperCase() + chart.slice(1)} Overview
+                                canvas(id=`${chart}Chart`)
+                                a.btn.btn-info.d-block.text-center.mt-3(href=`/get/${chart}`, style="margin-top: 10px;") View #{chart.charAt(0).toUpperCase() + chart.slice(1)}
 
 
 block scripts
     script(src="https://cdn.jsdelivr.net/npm/chart.js")
     script.
         console.log("Dashboard script is loading!");
-        function updateChart() {
-            const filter = document.getElementById("filterOption").value;
 
-            let filteredData;
-            switch(filter) {
-                case "paid": filteredData = [stats.paid_invoices]; break;
-                case "pending": filteredData = [stats.pending_invoices]; break;
-                case "overdue": filteredData = [stats.overdue_invoices]; break;
-                default: filteredData = [stats.total_invoices, stats.paid_invoices, stats.pending_invoices, stats.overdue_invoices];
+        function toggleSidebar() {
+            const sidebar = document.querySelector(".sidebar");
+            const content = document.querySelector(".content");
+
+            sidebar.classList.toggle("collapsed");
+
+            if (sidebar.classList.contains("collapsed")) {
+                content.style.marginLeft = "0"; // Expands content to full-width
+            } else {
+                content.style.marginLeft = "260px"; // Sidebar is visible
             }
-
-            chart.data.datasets[0].data = filteredData;
-            chart.update();
         }
 
+        document.addEventListener("DOMContentLoaded", function () {
+            const sidebar = document.querySelector(".sidebar");
+
+            // Start Sidebar Collapsed
+            sidebar.classList.add("collapsed");
+
+            window.toggleSidebar = function () {
+                sidebar.classList.toggle("collapsed");
+
+                if (sidebar.classList.contains("collapsed")) {
+                    sidebar.style.transform = "translateX(-100%)"; // Hide sidebar
+                } else {
+                    sidebar.style.transform = "translateX(0)"; // Show sidebar
+                }
+            };
+        });
 
         //- function buildDatasetsArray(data,labels, colors){
         function buildDatasetsArray(data, labels){
@@ -67,6 +162,37 @@ block scripts
             });
         };
 
+        function adjustChartByLargestNum(data){
+            let largestDataset = Math.max(...data);
+
+            if(largestDataset >= 1000){
+                var stepsize = 1000;
+                options.scales.y.max = Math.ceil(largestDataset / stepsize) * stepsize;
+                options.scales.y.ticks.stepSize = stepsize;
+            }
+            else if(largestDataset >= 500){
+                var stepsize = 500;
+                options.scales.y.max = Math.ceil(largestDataset / stepsize) * stepsize;
+                options.scales.y.ticks.stepSize = stepsize;
+            }
+            else if(largestDataset >= 100){
+                var stepsize = 100;
+                options.scales.y.max = Math.ceil(largestDataset / stepsize) * stepsize;
+                options.scales.y.ticks.stepSize = stepsize;
+            }
+            else if(largestDataset >= 10){
+                var stepsize = 10;
+                options.scales.y.max = Math.ceil(largestDataset / stepsize) * stepsize;
+                options.scales.y.ticks.stepSize = stepsize;
+            }
+            else{
+                options.scales.y.max = largestDataset + 1;
+                options.scales.y.ticks.stepSize = 1;
+            }
+            
+            return options
+        }
+
         var options = {
             responsive: true,
             maintainAspectRatio: false,
@@ -90,7 +216,7 @@ block scripts
                         autoSkip: false,
                         precision: 0,
                         color: "#fff",
-                        callback: function(value, index, values) {
+                        callback: function(value, index, values) {    
                             return Number.isInteger(value) ? value : "";
                         }
                     },    
@@ -119,9 +245,8 @@ block scripts
                         //- var colorsArray = ["#017f81", "white", "#ffcc00", "green"];
                         //- var datasetsArray = buildDatasetsArray(data, labelsArray, colorsArray);
                         var datasetsArray = buildDatasetsArray(data, labelsArray);
-                        var largestDataset = Math.max(...data)
-                        options.scales.y.max =largestDataset + 1
-                        new Chart(document.getElementById(id), {
+                        adjustChartByLargestNum(data)
+                        window.clientsChart = new Chart(document.getElementById(id), {
                             type: "bar",
                             data: {
                                 labels: labelsArray,
@@ -129,13 +254,65 @@ block scripts
                             },
                             options: options
                         });
+
+                        window.updateClientChart = function () {
+                            if (!window.clientsChart) return console.error("Clients chart not found.");
+
+                            // Destroy Previous Chart Before Redrawing
+                            if (window.clientsChart) {
+                                window.clientsChart.destroy();
+                            }
+
+                            // Get Selected Filters
+                            const checkedFilters = Array.from(document.querySelectorAll('input[name="filterClientOption"]:checked'))
+                                                        .map(checkbox => checkbox.value);
+
+                            let filteredData;
+                            
+                            if (checkedFilters.length === 0) {
+                                // If no checkboxes are selected, default to full view
+                                filteredData = [stats.total_clients, stats.leads_clients, stats.active_clients, stats.inactive_clients];
+                                adjustChartByLargestNum(filteredData)
+                            } else {
+                                // Otherwise, update chart based on selected filters
+                                filteredData = [0, 0, 0, 0]; // Default to zeros
+                                if (checkedFilters.includes("lead")){
+                                    filteredData[1] = stats.leads_clients;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("active")){
+                                    filteredData[2] = stats.active_clients;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("inactive")){
+                                    filteredData[3] = stats.inactive_clients;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                            }
+
+                            // Recreate Chart with Updated Data
+                            window.clientsChart = new Chart(document.getElementById("clientsChart"), {
+                                type: "bar",
+                                data: {
+                                    labels: labelsArray,
+                                    datasets: [{
+                                        label: "Clients",
+                                        data: filteredData,
+                                        backgroundColor: "#017f81",
+                                        borderColor: "#fff",
+                                        borderWidth: 1,
+                                        barThickness: 20
+                                    }]
+                                },
+                                options: options
+                            });
+                        };
                         break;
                     case "projectsChart":
                         var labelsArray = ["Total", "Planning", "In Progress", "On Hold", "Completed"];
                         var datasetsArray = buildDatasetsArray(data, labelsArray);
-                        var largestDataset = Math.max(...data)
-                        options.scales.y.max =largestDataset + 1
-                        new Chart(document.getElementById(id), {
+                        adjustChartByLargestNum(data)
+                        window.projectsChart = new Chart(document.getElementById(id), {
                             type: "bar",
                             data: {
                                 labels: labelsArray,
@@ -143,13 +320,69 @@ block scripts
                             },
                             options: options
                         });
+
+                        window.updateProjectChart = function () {
+                            if (!window.projectsChart) return console.error("Projects chart not found.");
+
+                            // Destroy Previous Chart Before Redrawing
+                            if (window.projectsChart) {
+                                window.projectsChart.destroy();
+                            }
+
+                            // Get Selected Filters
+                            const checkedFilters = Array.from(document.querySelectorAll('input[name="filterProjectOption"]:checked'))
+                                                        .map(checkbox => checkbox.value);
+
+                            let filteredData;
+                            
+                            if (checkedFilters.length === 0) {
+                                // If no checkboxes are selected, default to full view
+                                filteredData = [stats.total_projects, stats.planning_projects, stats.in_progress_projects, stats.on_hold_projects, stats.completed_projects];
+                                console.log(filteredData)
+                                adjustChartByLargestNum(filteredData)
+                            } else {
+                                // Otherwise, update chart based on selected filters
+                                filteredData = [0, 0, 0, 0, 0]; // Default to zeros
+                                if (checkedFilters.includes("planning")){
+                                    filteredData[1] = stats.planning_projects;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("in_progress")){
+                                    filteredData[2] = stats.in_progress_projects;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("on_hold")){
+                                    filteredData[3] = stats.on_hold_projects;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("completed")){
+                                    filteredData[4] = stats.completed_projects;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                            }
+
+                            // Recreate Chart with Updated Data
+                            window.projectsChart = new Chart(document.getElementById("projectsChart"), {
+                                type: "bar",
+                                data: {
+                                    labels: labelsArray,
+                                    datasets: [{
+                                        label: "Projects",
+                                        data: filteredData,
+                                        backgroundColor: "#017f81",
+                                        borderColor: "#fff",
+                                        borderWidth: 1,
+                                        barThickness: 20
+                                    }]
+                                },
+                                options: options
+                            });
+                        };
                         break;
                     case "invoicesChart":
-                        //- var labelsArray = ["Total", "Paid", "Pending", "Overdue"];
-                        var labelsArray = ["Total"];
+                        var labelsArray = ["Total", "Paid", "Pending", "Overdue"];
                         var datasetsArray = buildDatasetsArray(data, labelsArray);
-                        var largestDataset = Math.max(...data)
-                        options.scales.y.max =largestDataset + 1
+                        adjustChartByLargestNum(data)
                         window.invoicesChart = new Chart(document.getElementById(id), {
                             type: "bar",
                             data: {
@@ -159,30 +392,64 @@ block scripts
                             options: options
                         });
 
-                        window.updateChart = function () {
-                            const filter = document.getElementById("filterOption").value;
+                        window.updateInvoiceChart = function () {
+                            if (!window.invoicesChart) return console.error("Invoices chart not found.");
+
+                            // Destroy Previous Chart Before Redrawing
+                            if (window.invoicesChart) {
+                                window.invoicesChart.destroy();
+                            }
+
+                            // Get Selected Filters
+                            const checkedFilters = Array.from(document.querySelectorAll('input[name="filterInvoiceOption"]:checked'))
+                                                        .map(checkbox => checkbox.value);
 
                             let filteredData;
-                            switch (filter) {
-                                case "paid": filteredData = [stats.paid_invoices, 0, 0]; break;
-                                case "pending": filteredData = [stats.pending_invoices, 0, 0]; break;
-                                case "overdue": filteredData = [stats.overdue_invoices, 0, 0]; break;
-                                default: 
-                                    filteredData = [stats.total_invoices, stats.paid_invoices, stats.pending_invoices, stats.overdue_invoices];
-                                    largestDataset = Math.max(...filteredData)
-                                    options.scales.y.max =largestDataset + 1
+                            
+                            if (checkedFilters.length === 0) {
+                                // If no checkboxes are selected, default to full view
+                                filteredData = [stats.total_invoices, stats.paid_invoices, stats.pending_invoices, stats.overdue_invoices];
+                                adjustChartByLargestNum(filteredData)
+                            } else {
+                                // Otherwise, update chart based on selected filters
+                                filteredData = [0, 0, 0, 0]; // Default to zeros
+                                if (checkedFilters.includes("paid")){
+                                    filteredData[1] = stats.paid_invoices;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("pending")){
+                                    filteredData[2] = stats.pending_invoices;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("overdue")){
+                                    filteredData[3] = stats.overdue_invoices;
+                                    adjustChartByLargestNum(filteredData)
+                                }
                             }
-                            console.log(invoicesChart.data.datasets[0].data)
-                            invoicesChart.data.datasets[0].data = filteredData;
-                            invoicesChart.update();
+
+                            // Recreate Chart with Updated Data
+                            window.invoicesChart = new Chart(document.getElementById("invoicesChart"), {
+                                type: "bar",
+                                data: {
+                                    labels: labelsArray,
+                                    datasets: [{
+                                        label: "Invoices",
+                                        data: filteredData,
+                                        backgroundColor: "#017f81",
+                                        borderColor: "#fff",
+                                        borderWidth: 1,
+                                        barThickness: 20
+                                    }]
+                                },
+                                options: options
+                            });
                         };
                         break;
                     case "campaignsChart":
                         var labelsArray = ["Total", "Active", "Paused", "Completed"];
                         var datasetsArray = buildDatasetsArray(data, labelsArray);
-                        var largestDataset = Math.max(...data)
-                        options.scales.y.max =largestDataset + 1
-                        new Chart(document.getElementById(id), {
+                        adjustChartByLargestNum(data)
+                        window.campaignsChart = new Chart(document.getElementById(id), {
                             type: "bar",
                             data: {
                                 labels: labelsArray,
@@ -190,13 +457,65 @@ block scripts
                             },
                             options: options
                         });
+
+                        window.updateCampaignChart = function () {
+                            if (!window.campaignsChart) return console.error("Campaigns chart not found.");
+
+                            // Destroy Previous Chart Before Redrawing
+                            if (window.campaignsChart) {
+                                window.campaignsChart.destroy();
+                            }
+
+                            // Get Selected Filters
+                            const checkedFilters = Array.from(document.querySelectorAll('input[name="filterCampaignOption"]:checked'))
+                                                        .map(checkbox => checkbox.value);
+
+                            let filteredData;
+                            
+                            if (checkedFilters.length === 0) {
+                                // If no checkboxes are selected, default to full view
+                                filteredData = [stats.total_campaigns, stats.active_campaigns, stats.active_campaigns, stats.active_campaigns];
+                                adjustChartByLargestNum(filteredData)
+                            } else {
+                                // Otherwise, update chart based on selected filters
+                                filteredData = [0, 0, 0, 0]; // Default to zeros
+                                if (checkedFilters.includes("active")){
+                                    filteredData[1] = stats.active_campaigns;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("paused")){
+                                    filteredData[2] = stats.paused_campaigns;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("completed")){
+                                    filteredData[3] = stats.completed_campaigns;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                            }
+
+                            // Recreate Chart with Updated Data
+                            window.campaignsChart = new Chart(document.getElementById("campaignsChart"), {
+                                type: "bar",
+                                data: {
+                                    labels: labelsArray,
+                                    datasets: [{
+                                        label: "Campaigns",
+                                        data: filteredData,
+                                        backgroundColor: "#017f81",
+                                        borderColor: "#fff",
+                                        borderWidth: 1,
+                                        barThickness: 20
+                                    }]
+                                },
+                                options: options
+                            });
+                        };
                         break;
                     case "leadsChart":
                         var labelsArray = ["Total", "New", "Contacted", "Converted"];
                         var datasetsArray = buildDatasetsArray(data, labelsArray);
-                        var largestDataset = Math.max(...data)
-                        options.scales.y.max =largestDataset + 1
-                        new Chart(document.getElementById(id), {
+                        adjustChartByLargestNum(data)
+                        window.leadsChart = new Chart(document.getElementById(id), {
                             type: "bar",
                             data: {
                                 labels: labelsArray,
@@ -204,13 +523,65 @@ block scripts
                             },
                             options: options
                         });
+
+                        window.updateLeadChart = function () {
+                            if (!window.leadsChart) return console.error("Leads chart not found.");
+
+                            // Destroy Previous Chart Before Redrawing
+                            if (window.leadsChart) {
+                                window.leadsChart.destroy();
+                            }
+
+                            // Get Selected Filters
+                            const checkedFilters = Array.from(document.querySelectorAll('input[name="filterLeadOption"]:checked'))
+                                                        .map(checkbox => checkbox.value);
+
+                            let filteredData;
+                            
+                            if (checkedFilters.length === 0) {
+                                // If no checkboxes are selected, default to full view
+                                filteredData = [stats.total_leads, stats.new_leads, stats.contacted_leads, stats.converted_leads];
+                                adjustChartByLargestNum(filteredData)
+                            } else {
+                                // Otherwise, update chart based on selected filters
+                                filteredData = [0, 0, 0, 0]; // Default to zeros
+                                if (checkedFilters.includes("new")){
+                                    filteredData[1] = stats.new_leads;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("contacted")){
+                                    filteredData[2] = stats.contacted_leads;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("converted")){
+                                    filteredData[3] = stats.converted_leads;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                            }
+
+                            // Recreate Chart with Updated Data
+                            window.leadsChart = new Chart(document.getElementById("leadsChart"), {
+                                type: "bar",
+                                data: {
+                                    labels: labelsArray,
+                                    datasets: [{
+                                        label: "Leads",
+                                        data: filteredData,
+                                        backgroundColor: "#017f81",
+                                        borderColor: "#fff",
+                                        borderWidth: 1,
+                                        barThickness: 20
+                                    }]
+                                },
+                                options: options
+                            });
+                        };
                         break;
                     case "tasksChart":
                         var labelsArray = ["Total", "Pending", "In Progress", "Completed"];
                         var datasetsArray = buildDatasetsArray(data, labelsArray);
-                        var largestDataset = Math.max(...data)
-                        options.scales.y.max =largestDataset + 1
-                        new Chart(document.getElementById(id), {
+                        adjustChartByLargestNum(data)
+                        window.tasksChart = new Chart(document.getElementById(id), {
                             type: "bar",
                             data: {
                                 labels: labelsArray,
@@ -218,10 +589,63 @@ block scripts
                             },
                             options: options
                         });
+
+                        window.updateTaskChart = function () {
+                            if (!window.tasksChart) return console.error("Tasks chart not found.");
+
+                            // Destroy Previous Chart Before Redrawing
+                            if (window.tasksChart) {
+                                window.tasksChart.destroy();
+                            }
+
+                            // Get Selected Filters
+                            const checkedFilters = Array.from(document.querySelectorAll('input[name="filterTaskOption"]:checked'))
+                                                        .map(checkbox => checkbox.value);
+
+                            let filteredData;
+                            
+                            if (checkedFilters.length === 0) {
+                                // If no checkboxes are selected, default to full view
+                                filteredData = [stats.total_tasks, stats.pending_tasks, stats.in_progress_tasks, stats.completed_tasks];
+                                adjustChartByLargestNum(filteredData)
+                                console.log(filteredData)
+                            } else {
+                                // Otherwise, update chart based on selected filters
+                                filteredData = [0, 0, 0, 0]; // Default to zeros
+                                if (checkedFilters.includes("pending")){
+                                    filteredData[1] = stats.pending_tasks;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("in_progress")){
+                                    filteredData[2] = stats.in_progress_tasks;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                                if (checkedFilters.includes("completed")){
+                                    filteredData[3] = stats.completed_tasks;
+                                    adjustChartByLargestNum(filteredData)
+                                }
+                            }
+
+                            // Recreate Chart with Updated Data
+                            window.tasksChart = new Chart(document.getElementById("tasksChart"), {
+                                type: "bar",
+                                data: {
+                                    labels: labelsArray,
+                                    datasets: [{
+                                        label: "Tasks",
+                                        data: filteredData,
+                                        backgroundColor: "#017f81",
+                                        borderColor: "#fff",
+                                        borderWidth: 1,
+                                        barThickness: 20
+                                    }]
+                                },
+                                options: options
+                            });
+                        };
                         break;
                     default: 
-                        var largestDataset = Math.max(...data)
-                        options.scales.y.max =largestDataset + 1
+                        adjustChartByLargestNum(data)
                         if(largestDataset > 0){
                             new Chart(document.getElementById(id), {
                                 type: "bar",
@@ -297,9 +721,9 @@ block scripts
             };
 
             createChart("clientsChart", "Total Clients", [stats.total_clients, stats.leads_clients, stats.active_clients, stats.inactive_clients]);
-            createChart("projectsChart", "Total Projects", [stats.total_projects, stats.planning_projects, stats.in_progess_projects, stats.on_hold_projects, stats.completed_projects]);
+            createChart("projectsChart", "Total Projects", [stats.total_projects, stats.planning_projects, stats.in_progress_projects, stats.on_hold_projects, stats.completed_projects]);
             createChart("invoicesChart", "Pending Invoices", [stats.total_invoices, stats.paid_invoices, stats.pending_invoices, stats.overdue_invoices]);
             createChart("campaignsChart", "Active Campaigns", [stats.total_campaigns, stats.active_campaigns, stats.paused_campaigns, stats.completed_campaigns]);
             createChart("leadsChart", "Active Leads", [stats.total_leads, stats.new_leads, stats.contacted_leads, stats.converted_leads]);
-            createChart("tasksChart", "Completed Tasks", [stats.total_tasks, stats.pending_tasks, stats.in_progess_tasks, stats.completed_tasks]);
+            createChart("tasksChart", "Completed Tasks", [stats.total_tasks, stats.pending_tasks, stats.in_progress_tasks, stats.completed_tasks]);
         });

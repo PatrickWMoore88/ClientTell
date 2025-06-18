@@ -22,6 +22,68 @@ body {
     }
 }
 
+.hero-section {
+    background-image: url('/images/crm-dashboard-resize.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 120px 20px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    max-height: 600px;
+    width: 100%;
+}
+
+.hero-section .overlay {
+    background: rgba(0,0,0,0.5);
+    padding: 60px 20px;
+    border-radius: 10px;
+}
+
+.divider {
+    width: 100%;
+    height: 80px;
+    text-align: center;
+    font-weight: bolder;
+    background-color: rgba(0,0,0,0.5);
+    margin: 40px 0;
+}
+
+.register-divider {
+    width: 100%;
+    height: 200px;
+    text-align: center;
+    font-weight: bolder;
+    background-color: rgba(0,0,0,0.5);
+    margin: 40px 0;
+}
+
+.home-card {
+    color: white; 
+    text-align: center; 
+    font-weight:bold
+}
+
+.item-desc {
+    text-align: center;
+}
+
+.about-section {
+    padding: 40px 15px;
+}
+
+.feature-card {
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
 
 div.main{
     flex-grow: 1;
@@ -212,6 +274,94 @@ canvas {
   max-width: 100% !important;
   height: 250px !important;
 }
+
+.bg-dark {
+    background-color: #222 !important;
+}
+
+#sidebarToggle {
+    position: fixed;
+    left: 10px; /* Moves it close to the sidebar */
+    z-index: 1100;
+    border-radius: 5px;
+    padding: 6px 12px;
+    font-size: 18px;
+    background-color: #017f81;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 60px; /* Adjust so it sits below your header */
+    height: calc(100vh - 60px); /* Ensures it spans full height below header */
+    width: 300px;
+    background-color: #222;
+    padding: 20px;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    transform: translateX(-100%);
+    overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #444; /* ✅ Dark-colored scrollbar */
+    border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #222;
+}
+
+.collapsed {
+    transform: translateX(-100%);
+}
+
+
+.sidebar-text {
+    margin-top: 80px;
+}
+
+.sidebar-button {
+    margin-top: 80px;
+}
+
+.filter-card {
+    background-color: #444;
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.filter-card select {
+    width: 100%; /* ✅ Makes dropdown fill the card */
+    padding: 5px;
+    margin-top: 5px;
+    border: none;
+    background-color: #017f81;
+    color: #fff;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* ✅ Adds space between text and checkbox */
+    cursor: pointer;
+}
+
+.checkbox-container input {
+    margin-right: 8px;
+}
+
+
 
 footer {
     position: relative;
