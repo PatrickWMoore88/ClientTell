@@ -14,7 +14,7 @@ const db = require('./app/config/db');
 db.initializeDatabase();
 
 app.use(session({
-  secret: 'yourSecretKey',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }));
