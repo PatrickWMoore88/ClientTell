@@ -22,6 +22,46 @@ body {
     }
 }
 
+/* Base styles */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+/* Hide mobile nav by default */
+.nav-links.mobile {
+  display: none;
+  flex-direction: column;
+  background-color: #222;
+  padding: 20px;
+}
+
+.nav-links.mobile.show {
+  display: flex;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .nav-links.desktop {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
 .hero-section {
     background-image: url('/images/crm-dashboard-resize.png');
     background-size: cover;

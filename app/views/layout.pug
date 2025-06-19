@@ -11,6 +11,7 @@ html
             nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
                 div.container
                     a.navbar-brand(href="/") ClientTell CRM
+                
                 button.navbar-toggler(type="button", data-bs-toggle="collapse", data-bs-target="#navbarNav")
                     span.navbar-toggler-icon
                 div#navbarNav.collapse.navbar-collapse
@@ -23,6 +24,17 @@ html
                             a.nav-link(href="/login" style="color: white") Log In
                         li.nav-item
                             a.nav-link(href="/status" style="color: white") Status
+                nav.navbar
+                    button#menuToggle.hamburger(type="button" aria-label="Toggle Menu")
+                        span
+                        span
+                        span
+
+                    ul#mobileNav.nav-links.mobile
+                        li: a(href="/") Home
+                        li: a(href="/about") About
+                        li: a(href="/contact") Contact
+                
         div.main
             block content
         div.footer
@@ -31,6 +43,14 @@ html
                 p 2025 ClientTell. All rights reserved.
         
         script.
+            document.addEventListener("DOMContentLoaded", () => {
+                const menuToggle = document.getElementById("menuToggle");
+                const mobileNav = document.getElementById("mobileNav");
+
+                menuToggle.addEventListener("click", () => {
+                    mobileNav.classList.toggle("show");
+                });
+            });
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
                 if (window.scrollY > 50) {
