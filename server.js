@@ -1,8 +1,8 @@
 require('dotenv').config();
-
-// server.js (new file)
 const app = require('./clientTell');
 
-app.listen(process.env.PORT, () => {
+const port = process.env.PORT
+
+app.listen(port, () => {
   console.log(`Server up and running.`);
 });
