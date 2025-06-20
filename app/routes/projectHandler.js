@@ -102,7 +102,6 @@ router.post('/update/projects/:id', async (req, res) => {
         WHERE p.id = $1;
       `, [req.params.id]);
 
-    console.log(result.rows[0])
     res.render('getProject', { title: 'Project', project: result.rows[0]});
   } catch (error) {
     console.error('Error fetching dropdown data:', error);

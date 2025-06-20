@@ -24,11 +24,13 @@ html
                             li.nav-item
                                 form(method="POST", action="/logout", style="margin: 0;")
                                     button.btn.nav-link(type="submit", style="color: white;") Log Out
+                            if user.username = admin
+                                li.nav-item
+                                    a.nav-link(href="/status" style="color: white") Status
                         else
                             li.nav-item
                                 a.nav-link(href="/login", style="color: white") Log In
-                        li.nav-item
-                            a.nav-link(href="/status" style="color: white") Status
+                        
                 nav.navbar
                     button#menuToggle.hamburger(type="button" aria-label="Toggle Menu")
                         span

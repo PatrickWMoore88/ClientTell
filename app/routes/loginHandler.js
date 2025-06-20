@@ -25,7 +25,6 @@ passport.use(new LocalStrategy(async (username, password, done) => {
       return done(null, false, { message: 'Incorrect password' });
     }
 
-    console.log('Login successful:', user.username);
     return done(null, user);
   } catch (err) {
     console.error('Error during login:', err);
@@ -131,7 +130,7 @@ router.get('/dashboard', requireLogin, async (req, res) => {
     `;
 
     const result = await db.runQuery(statsQuery);
-    res.render('dashboard', { title: 'Dashboard', user: req.user, stats: result.rows[0] });
+    res.render('dashboard', { title: 'Dashboard', user: req.user, admin: process.env.ADMIN_NAME, stats: result.rows[0] });
   } catch (error) {
     console.error('Error fetching stats:', error);
     res.status(500).send('Internal Server Error');
