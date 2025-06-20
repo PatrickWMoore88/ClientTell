@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
+const requireLogin = require('../middleware/auth');
 
 // // // // Table Data CRUD
 // // // // // Table Data Read Campaigns
 // // // // // // Get All Campaigns
-router.get('/get/campaigns', async (req, res) => {
+router.get('/get/campaigns', requireLogin, async (req, res) => {
   const campaignDataQuery = `SELECT 
       cam.*,
       c.id AS client_id, c.name AS client_name
@@ -18,7 +19,7 @@ router.get('/get/campaigns', async (req, res) => {
 
 
 // // // // // // Get A Single Campaign
-router.get('/get/campaigns/:id', async (req, res) => {
+router.get('/get/campaigns/:id', requireLogin, async (req, res) => {
   try {
     // Fetch Invoice and Related Clients and Projects
     const campaignDataQuery = `SELECT 
@@ -41,7 +42,7 @@ router.get('/get/campaigns/:id', async (req, res) => {
 
 // // // // Table Data Create Campaigns
 // // // // // // Get Create Campaign Page
-router.get('/create/campaigns', async (req, res) => {
+router.get('/create/campaigns', requireLogin, async (req, res) => {
   try {
     const clientsResult = await db.runQuery(`SELECT id, name FROM clients ORDER BY name`);
 
@@ -56,7 +57,7 @@ router.get('/create/campaigns', async (req, res) => {
 });
 
 // // // // // // Post New Campaigns
-router.post('/create/campaigns', async (req, res) => {
+router.post('/create/campaigns', requireLogin, async (req, res) => {
     const { client_id, name, type, budget, start_date, end_date, status } = req.body;
     var created_at = new Date().toLocaleDateString()
     await db.runQuery('INSERT INTO campaigns (client_id, name, type, budget, start_date, end_date, status, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)', [client_id, name, type, budget, start_date, end_date, status, created_at]);
@@ -66,7 +67,7 @@ router.post('/create/campaigns', async (req, res) => {
 
 // // // // Table Data Delete Campaigns
 // // // // // // Delete Given Campaign
-router.post('/delete/campaigns/:id', async (req, res) => {
+router.post('/delete/campaigns/:id', requireLogin, async (req, res) => {
   const results = await db.runQuery("DELETE FROM campaigns WHERE ID = $1 RETURNING *", [req.params.id]);
   console.log('Campaign Deleted:', results.rows[0]);
   res.redirect('/get/campaigns');
@@ -76,7 +77,7 @@ router.post('/delete/campaigns/:id', async (req, res) => {
 
 // // // // Table Data Update Campaigns
 // // // // // // Get Update Campaign Page
-router.get('/update/campaigns/:id', async (req, res) => {
+router.get('/update/campaigns/:id', requireLogin, async (req, res) => {
   try {
     const result = await db.runQuery(`SELECT id, name, type, budget, 
              TO_CHAR(start_date, 'YYYY-MM-DD') AS start_date, 
@@ -93,7 +94,7 @@ router.get('/update/campaigns/:id', async (req, res) => {
 });
 
 // // // // // // Post Updates To A Given Invoice
-router.post('/update/campaigns/:id', async (req, res) => {
+router.post('/update/campaigns/:id', requireLogin, async (req, res) => {
   try {
     var { client_id, name, type, budget, start_date, end_date, status } = req.body
     await db.runQuery(

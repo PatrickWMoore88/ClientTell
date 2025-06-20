@@ -2,19 +2,20 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 const db = require('../config/db');
+const requireLogin = require('../middleware/auth');
 
 const saltRounds = 10; // Adjust for security level
 
 // // // // Table Data CRUD
 // // // // // Table Data Read Users
 // // // // // // Get All Users
-router.get('/get/users', async (req, res) => {
+router.get('/get/users', requireLogin, async (req, res) => {
   const result = await db.runQuery('SELECT * FROM users');
   res.render('getUsers', { title: 'CRM Users', users: result.rows });
 });
 
 // // // // // // Get A Single User
-router.get('/get/users/:user_id', async (req, res) => {
+router.get('/get/users/:user_id', requireLogin, async (req, res) => {
   const result = await db.runQuery(`SELECT * FROM users WHERE ID = $1`, [req.params.user_id]);
   result.rows.length > 0 ? res.render('getUser', { title: 'CRM User', user: result.rows[0] }) : res.send('There is no user with that ID. Please Try Again');
 });
@@ -23,7 +24,7 @@ router.get('/get/users/:user_id', async (req, res) => {
 
 // // // // Table Data Create Users
 // // // // // // Get Create User Page
-router.get('/create/users', async (req, res) => {
+router.get('/create/users', requireLogin, async (req, res) => {
   try {
     res.render('createUser', { title: 'Create User' });
   } catch (err) {
@@ -33,7 +34,7 @@ router.get('/create/users', async (req, res) => {
 });
 
 // // // // // // Post New User
-router.post('/create/users', async (req, res) => {
+router.post('/create/users', requireLogin, async (req, res) => {
     const { username, password, email } = req.body;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     var memberSince = new Date().toLocaleDateString();
@@ -45,7 +46,7 @@ router.post('/create/users', async (req, res) => {
 
 // // // // Table Data Delete User
 // // // // // // Delete Given User
-router.post('/delete/users/:user_id', async (req, res) => {
+router.post('/delete/users/:user_id', requireLogin, async (req, res) => {
   const results = await db.runQuery("DELETE FROM users WHERE ID = $1 RETURNING *", [req.params.user_id]);
   console.log('User deleted:', results.rows[0]);
   res.redirect('/get/users');
@@ -55,7 +56,7 @@ router.post('/delete/users/:user_id', async (req, res) => {
 
 // // // // Table Data Update Users
 // // // // // // Get Update User Page
-router.get('/update/users/:user_id', async (req, res) => {
+router.get('/update/users/:user_id', requireLogin, async (req, res) => {
   try {
     const result = await db.runQuery(`SELECT * FROM users WHERE ID = $1`, [req.params.user_id]);
     result.rows.length > 0 ? res.render('updateUser', { title: 'Edit User', user: result.rows[0]}) : res.send('There is no user with that ID. Please Try Again');
@@ -66,7 +67,7 @@ router.get('/update/users/:user_id', async (req, res) => {
 });
 
 // // // // // // Post Updates To A Given User
-router.post('/update/users/:user_id', async (req, res) => {
+router.post('/update/users/:user_id', requireLogin, async (req, res) => {
   var { username, email, password } = req.body
   const user = await db.runQuery(`SELECT * FROM users WHERE ID = $1`, [req.params.user_id])
   let finalPassword = user.rows[0].password; // Default to existing password

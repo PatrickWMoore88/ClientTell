@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
+const requireLogin = require('../middleware/auth');
 
 // // // // Table Data CRUD
 // // // // // Table Data Read Invoices
 // // // // // // Get All Invoices
-router.get('/get/invoices', async (req, res) => {
+router.get('/get/invoices', requireLogin, async (req, res) => {
   const invoiceDataQuery = `SELECT 
     i.*,
     c.id AS client_id, c.name AS client_name,
@@ -19,7 +20,7 @@ router.get('/get/invoices', async (req, res) => {
 });
 
 // // // // // // Get A Single Invoice
-router.get('/get/invoices/:id', async (req, res) => {
+router.get('/get/invoices/:id', requireLogin, async (req, res) => {
    try {
     // Fetch Invoice and Related Clients and Projects
     const invoiceDataQuery = `SELECT 
@@ -43,7 +44,7 @@ router.get('/get/invoices/:id', async (req, res) => {
 
 // // // // Table Data Create Invoices
 // // // // // // Get Create Invoice Page
-router.get('/create/invoices', async (req, res) => {
+router.get('/create/invoices', requireLogin, async (req, res) => {
   try {
     const clientsResult = await db.runQuery(`SELECT id, name FROM clients ORDER BY name`);
     const projectsResult = await db.runQuery(`SELECT id, name FROM projects ORDER BY name`);
@@ -60,7 +61,7 @@ router.get('/create/invoices', async (req, res) => {
 });
 
 // // // // // // Post New Invoice
-router.post('/create/invoices', async (req, res) => {
+router.post('/create/invoices', requireLogin, async (req, res) => {
     const { client_id, project_id, amount, status, due_date } = req.body;
     var issued_at = new Date().toLocaleDateString()
     await db.runQuery('INSERT INTO invoices (client_id, project_id, amount, status, due_date, issued_at) VALUES ($1, $2, $3, $4, $5, $6)', [client_id, project_id, amount, status, due_date, issued_at]);
@@ -70,7 +71,7 @@ router.post('/create/invoices', async (req, res) => {
 
 // // // // Table Data Delete Invoices
 // // // // // // Delete Given Invoice
-router.post('/delete/invoices/:id', async (req, res) => {
+router.post('/delete/invoices/:id', requireLogin, async (req, res) => {
   const results = await db.runQuery("DELETE FROM invoices WHERE ID = $1 RETURNING *", [req.params.id]);
   console.log('Invoice Deleted:', results.rows[0]);
   res.redirect('/get/invoices');
@@ -80,7 +81,7 @@ router.post('/delete/invoices/:id', async (req, res) => {
 
 // // // // Table Data Update Invoices
 // // // // // // Get Update Invoice Page
-router.get('/update/invoices/:id', async (req, res) => {
+router.get('/update/invoices/:id', requireLogin, async (req, res) => {
   try {
     const clientsResult = await db.runQuery(`SELECT id, name FROM clients ORDER BY name`);
     const projectsResult = await db.runQuery(`SELECT id, name FROM projects ORDER BY name`);
@@ -96,7 +97,7 @@ router.get('/update/invoices/:id', async (req, res) => {
 });
 
 // // // // // // Post Updates To A Given Invoice
-router.post('/update/invoices/:id', async (req, res) => {
+router.post('/update/invoices/:id', requireLogin, async (req, res) => {
   try {
     var { client_id, project_id, amount, status, due_date } = req.body
     await db.runQuery(

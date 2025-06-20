@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
+const requireLogin = require('../middleware/auth');
 
 // // // // Table Data CRUD
 // // // // // Table Data Read Projects
 // // // // // // Get All Projects
-router.get('/get/projects', async (req, res) => {
+router.get('/get/projects', requireLogin, async (req, res) => {
   const projectDataQuery = `SELECT 
       p.*,
       c.id AS client_id, c.name AS client_name
@@ -18,7 +19,7 @@ router.get('/get/projects', async (req, res) => {
 
 
 // // // // // // Get A Single Project
-router.get('/get/projects/:id', async (req, res) => {
+router.get('/get/projects/:id', requireLogin, async (req, res) => {
   try {
       const projectDataQuery = `SELECT 
           p.*,
@@ -40,7 +41,7 @@ router.get('/get/projects/:id', async (req, res) => {
 
 // // // // Table Data Create Projects
 // // // // // // Get Create Project Page
-router.get('/create/projects', async (req, res) => {
+router.get('/create/projects', requireLogin, async (req, res) => {
   try {
     const clientsResult = await db.runQuery(`SELECT id, name FROM clients ORDER BY name`);
     res.render('createProject', { title: 'Create Project', clients: clientsResult.rows });
@@ -51,7 +52,7 @@ router.get('/create/projects', async (req, res) => {
 });
 
 // // // // // // Post New Project
-router.post('/create/projects', async (req, res) => {
+router.post('/create/projects', requireLogin, async (req, res) => {
     const { client_id, name, description, start_date, deadline, status } = req.body;
     var created_at = new Date().toLocaleDateString();
     await db.runQuery('INSERT INTO projects (client_id, name, description, start_date, deadline, status, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7)', [client_id, name, description, start_date, deadline, status, created_at]);
@@ -61,7 +62,7 @@ router.post('/create/projects', async (req, res) => {
 
 // // // // Table Data Delete Projects
 // // // // // // Delete Given Project
-router.post('/delete/projects/:id', async (req, res) => {
+router.post('/delete/projects/:id', requireLogin, async (req, res) => {
   const results = await db.runQuery("DELETE FROM projects WHERE ID = $1 RETURNING *", [req.params.id]);
   console.log('Project Deleted:', results.rows[0]);
   res.redirect('/get/projects');
@@ -71,7 +72,7 @@ router.post('/delete/projects/:id', async (req, res) => {
 
 // // // // Table Data Update Projects
 // // // // // // Get Update Project Page
-router.get('/update/projects/:id', async (req, res) => {
+router.get('/update/projects/:id', requireLogin, async (req, res) => {
   try {
     const clientsResult = await db.runQuery(`SELECT id, name FROM clients ORDER BY name`);
     const result = await db.runQuery(`SELECT id, client_id, name, description, status,
@@ -86,7 +87,7 @@ router.get('/update/projects/:id', async (req, res) => {
 });
 
 // // // // // // Post Updates To A Given Project
-router.post('/update/projects/:id', async (req, res) => {
+router.post('/update/projects/:id', requireLogin, async (req, res) => {
   try {
     var { client_id, name, description, start_date, deadline, status } = req.body
     await db.runQuery(

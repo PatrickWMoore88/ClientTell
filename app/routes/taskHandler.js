@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
+const requireLogin = require('../middleware/auth');
 
 // // // // Table Data CRUD
 // // // // // Table Data Read Tasks
 // // // // // // Get All Tasks
-router.get('/get/tasks', async (req, res) => {
+router.get('/get/tasks', requireLogin, async (req, res) => {
   try {
     // Fetch Invoice and Related Clients and Projects
     const taskDataQuery = `SELECT 
@@ -27,7 +28,7 @@ router.get('/get/tasks', async (req, res) => {
 
 
 // // // // // // Get A Single Task
-router.get('/get/tasks/:id', async (req, res) => {
+router.get('/get/tasks/:id', requireLogin, async (req, res) => {
   try {
     // Fetch Invoice and Related Clients and Projects
     const taskDataQuery = `SELECT 
@@ -52,7 +53,7 @@ router.get('/get/tasks/:id', async (req, res) => {
 
 // // // // Table Data Create Tasks
 // // // // // // Get Create Task Page
-router.get('/create/tasks', async (req, res) => {
+router.get('/create/tasks', requireLogin, async (req, res) => {
   try {
     const teamMembersResult = await db.runQuery(`SELECT id, name FROM team_members ORDER BY name`);
     const projectsResult = await db.runQuery(`SELECT id, name FROM projects ORDER BY name`);
@@ -69,7 +70,7 @@ router.get('/create/tasks', async (req, res) => {
 });
 
 // // // // // // Post New Task
-router.post('/create/tasks', async (req, res) => {
+router.post('/create/tasks', requireLogin, async (req, res) => {
     const { project_id, assigned_to, description, status, due_date } = req.body;
     // var created_at = new Date().toLocaleDateString();
     var created_at = new Date();
@@ -80,7 +81,7 @@ router.post('/create/tasks', async (req, res) => {
 
 // // // // Table Data Delete Tasks
 // // // // // // Delete Given Task
-router.post('/delete/tasks/:id', async (req, res) => {
+router.post('/delete/tasks/:id', requireLogin, async (req, res) => {
   const results = await db.runQuery("DELETE FROM tasks WHERE ID = $1 RETURNING *", [req.params.id]);
   console.log('Task Deleted:', results.rows[0]);
   res.redirect('/get/tasks');
@@ -90,7 +91,7 @@ router.post('/delete/tasks/:id', async (req, res) => {
 
 // // // // Table Data Update Tasks
 // // // // // // Get Update Task Page
-router.get('/update/tasks/:id', async (req, res) => {
+router.get('/update/tasks/:id', requireLogin, async (req, res) => {
   try {
     const teamMembersResult = await db.runQuery(`SELECT id, name FROM team_members ORDER BY name`);
     const projectsResult = await db.runQuery(`SELECT id, name FROM projects ORDER BY name`);
@@ -106,7 +107,7 @@ router.get('/update/tasks/:id', async (req, res) => {
 });
 
 // // // // // // Post Updates To A Given Task
-router.post('/update/tasks/:id', async (req, res) => {
+router.post('/update/tasks/:id', requireLogin, async (req, res) => {
   try {
     var { project_id, assigned_to, description, status, due_date } = req.body
     await db.runQuery(
