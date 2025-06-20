@@ -126,7 +126,8 @@ async function createTables() {
 
 async function seedDatabase() {
   const saltRounds = 10; // Adjust for security level
-  const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASS, saltRounds);
+  const hasedTestPassword = await bcrypt.hash("Test", saltRounds)
+  const hashedAdminPassword = await bcrypt.hash(process.env.ADMIN_PASS, saltRounds);
 
   const tablesToSeed = {
     clients: `
@@ -174,7 +175,8 @@ async function seedDatabase() {
     users: `
       INSERT INTO users (username, email, password)
       VALUES 
-      ('Administrator', 'info@conversionwebdesign.com', '${hashedPassword}');
+      ('Test', 'test@gmail.com', '${hasedTestPassword}'),
+      ('${process.env.ADMIN_NAME}', '${process.env.ADMIN_EMAIL}', '${hashedAdminPassword}');
     `
   };
 

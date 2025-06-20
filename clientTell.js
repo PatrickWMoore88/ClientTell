@@ -7,7 +7,6 @@ const passport = require('passport');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const app = express();
-const port = 3000;
 
 const db = require('./app/config/db');
 
