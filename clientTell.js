@@ -23,9 +23,15 @@ app.use(session({
 // BodyParser Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
+
+// // Custom Middleware
+// app.use((req, res, next) => {
+//   console.log(`➡️ ${req.method} ${req.originalUrl}`);
+//   next();
+// });
 
 // Method Override Middleware
 app.use(methodOverride('_method'));
@@ -64,10 +70,5 @@ app.set('view engine', 'pug');
 
 app.use(express.static('public'));
 app.use(express.static('images'));
-
-
-// app.listen(port, () => {
-//   console.log(`Server running on http://localhost:${port}`);
-// });
 
 module.exports = app;

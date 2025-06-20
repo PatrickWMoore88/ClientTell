@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../config/db');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const requireLogin = require('../middleware/auth');
 const bcrypt = require('bcryptjs');
 
 // Configure login strategy
@@ -71,23 +72,18 @@ router.post('/login', (req, res, next) => {
       console.warn('Authentication failed:', info.message);
       return res.redirect('/login');
     }
+
     req.logIn(user, (err) => {
       if (err) {
         console.error('Login error:', err);
         return next(err);
       }
-      console.log('Redirecting to dashboard...');
       return res.redirect('/dashboard');
     });
   })(req, res, next);
 });
 
-router.get('/dashboard', async (req, res) => {
-  // if (!req.user) {
-  //   console.warn('No active session. Redirecting to login.');
-  //   return res.redirect('/dashboard');
-  // }
-  // res.render('dashboard', { user: req.user });
+router.get('/dashboard', requireLogin, async (req, res) => {
   try {
     const statsQuery = `
       SELECT 
@@ -135,14 +131,27 @@ router.get('/dashboard', async (req, res) => {
     `;
 
     const result = await db.runQuery(statsQuery);
-
-    console.log(result.rows[0])
     res.render('dashboard', { title: 'Dashboard', user: req.user, stats: result.rows[0] });
   } catch (error) {
     console.error('Error fetching stats:', error);
     res.status(500).send('Internal Server Error');
   }
 });
+
+router.post('/logout', (req, res) => {
+  req.logout(err => {
+    if (err) {
+      console.error('Logout error:', err);
+      return res.status(500).send('Error logging out');
+    }
+
+    // Optionally clear user data from session if you're manually attaching it
+    req.session.destroy(() => {
+      res.redirect('/login'); // or home, your choice
+    });
+  });
+});
+
 
 
 module.exports = router;
