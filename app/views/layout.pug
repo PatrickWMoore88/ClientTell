@@ -40,8 +40,8 @@ html
 
                     nav.mobile-nav(id="mobileNav")
                         ul
-                            li: a(href="/about") About
-                            li: a(href="/contact") Contact
+                            li: a(href="/about", style="text-decoration: none;") About
+                            li: a(href="/contact", style="text-decoration: none;") Contact
                             if user
                                 li.nav-item
                                     form(method="GET", action="/dashboard", style="margin: 0;")
