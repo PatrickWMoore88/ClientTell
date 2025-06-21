@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
 const passport = require('passport');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
@@ -13,6 +14,7 @@ const db = require('./app/config/db');
 db.initializeDatabase();
 
 app.use(session({
+  store: new pgSession({ pool: db.pool }), // Reuse the pool
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
