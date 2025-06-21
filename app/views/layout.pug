@@ -12,8 +12,26 @@ html
                 div.container
                     a.navbar-brand(href="/") ClientTell CRM
                 
-                button.navbar-toggler(type="button", data-bs-toggle="collapse", data-bs-target="#navbarNav")
-                    span.navbar-toggler-icon
+
+
+                button.navbar-toggler(type="button", aria-label="Toggle navigation", onclick="toggleMenu()")
+                    nav.mobile-nav(id="mobileNav")
+                        ul
+                            li: a(href="/about", style="color: white;") About
+                            li: a(href="/contact", style="color: white;") Contact
+                            if user
+                                li.nav-item
+                                    form(method="GET", action="/dashboard", style="margin: 0;")
+                                        button.btn.nav-link(type="submit", style="color: white;") Dashboard
+                                li.nav-item
+                                    form(method="POST", action="/logout", style="margin: 0;")
+                                        button.btn.nav-link(type="submit", style="color: white;") Log Out
+                                if user.username == admin
+                                    li.nav-item
+                                        a.nav-link(href="/status" style="color: white") Status
+                            else
+                                li.nav-item
+                                    a.nav-link(href="/login", style="color: white") Log In
                 div#navbarNav.collapse.navbar-collapse
                     ul.navbar-nav.ms-auto
                         li.nav-item
@@ -33,27 +51,6 @@ html
                         else
                             li.nav-item
                                 a.nav-link(href="/login", style="color: white; text-decoration: none;") Log In
-                        
-                nav.navbar.navbar-toggler(type="button", aria-label="Toggle navigation", onclick="toggleMenu()")
-                        
-
-                    nav.mobile-nav(id="mobileNav")
-                        ul
-                            li: a(href="/about", style="color: white;") About
-                            li: a(href="/contact", style="color: white;") Contact
-                            if user
-                                li.nav-item
-                                    form(method="GET", action="/dashboard", style="margin: 0;")
-                                        button.btn.nav-link(type="submit", style="color: white;") Dashboard
-                                li.nav-item
-                                    form(method="POST", action="/logout", style="margin: 0;")
-                                        button.btn.nav-link(type="submit", style="color: white;") Log Out
-                                if user.username == admin
-                                    li.nav-item
-                                        a.nav-link(href="/status" style="color: white") Status
-                            else
-                                li.nav-item
-                                    a.nav-link(href="/login", style="color: white") Log In
                 
         div.main
             block content
