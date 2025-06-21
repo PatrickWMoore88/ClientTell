@@ -17,7 +17,7 @@ app.use(session({
   store: new pgSession({ 
     pool: db.pool,
     createTableIfMissing: true 
-  }), // Reuse the pool
+  }),
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
