@@ -29,14 +29,14 @@ html
                                     button.btn.nav-link(type="submit", style="color: white;") Log Out
                             if user.username == admin
                                 li.nav-item
-                                    a.nav-link(href="/status" style="color: white") Status
+                                    a.nav-link(href="/status" style="color: white; text-decoration: none;") Status
                         else
                             li.nav-item
-                                a.nav-link(href="/login", style="color: white") Log In
+                                a.nav-link(href="/login", style="color: white; text-decoration: none;") Log In
                         
                 nav.navbar
                     button.navbar-toggler(type="button", aria-label="Toggle navigation", onclick="toggleMenu()")
-                        span ☰
+                        //- span ☰
 
                     nav.mobile-nav(id="mobileNav")
                         ul
