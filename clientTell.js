@@ -14,7 +14,10 @@ const db = require('./app/config/db');
 db.initializeDatabase();
 
 app.use(session({
-  store: new pgSession({ pool: db.pool }), // Reuse the pool
+  store: new pgSession({ 
+    pool: db.pool,
+    createTableIfMissing: true 
+  }), // Reuse the pool
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
