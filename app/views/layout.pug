@@ -12,25 +12,7 @@ html
                 div.container
                     a.navbar-brand(href="/") ClientTell CRM
                 
-                div#navbarNav.collapse.navbar-collapse
-                    ul.navbar-nav.ms-auto
-                        li.nav-item
-                            a.nav-link(href="/about" style="color: white") About Us
-                        li.nav-item
-                            a.nav-link(href="/contact" style="color: white") Contact Us
-                        if user
-                            li.nav-item
-                                form(method="GET", action="/dashboard", style="margin: 0;")
-                                    button.btn.nav-link(type="submit", style="color: white;") Dashboard
-                            li.nav-item
-                                form(method="POST", action="/logout", style="margin: 0;")
-                                    button.btn.nav-link(type="submit", style="color: white;") Log Out
-                            if user.username == admin
-                                li.nav-item
-                                    a.nav-link(href="/status" style="color: white; text-decoration: none;") Status
-                        else
-                            li.nav-item
-                                a.nav-link(href="/login", style="color: white; text-decoration: none;") Log In
+
 
                 button.navbar-toggler(type="button", aria-label="Toggle navigation", onclick="toggleMenu()")
                     span ☰
@@ -52,6 +34,25 @@ html
                         else
                             li.nav-item
                                 a.nav-link(href="/login", style="color: white") Log In
+                div#navbarNav.collapse.navbar-collapse
+                    ul.navbar-nav.ms-auto
+                        li.nav-item
+                            a.nav-link(href="/about" style="color: white") About Us
+                        li.nav-item
+                            a.nav-link(href="/contact" style="color: white") Contact Us
+                        if user
+                            li.nav-item
+                                form(method="GET", action="/dashboard", style="margin: 0;")
+                                    button.btn.nav-link(type="submit", style="color: white;") Dashboard
+                            li.nav-item
+                                form(method="POST", action="/logout", style="margin: 0;")
+                                    button.btn.nav-link(type="submit", style="color: white;") Log Out
+                            if user.username == admin
+                                li.nav-item
+                                    a.nav-link(href="/status" style="color: white; text-decoration: none;") Status
+                        else
+                            li.nav-item
+                                a.nav-link(href="/login", style="color: white; text-decoration: none;") Log In
                 
         div.main
             block content
