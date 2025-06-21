@@ -11,8 +11,8 @@ passport.use(new LocalStrategy(async (username, password, done) => {
   try {
     const result = await db.runQuery('SELECT * FROM users WHERE username = $1', [username]);
     if (result.rows.length === 0) {
-      console.warn('Login failed: User not found');
-      return done(null, false, { message: 'User not found' });
+      console.warn('Login failed: Username or Password Not Found');
+      return done(null, false, { message: 'Login failed: Username or Password Not Found' });
     }
 
     const user = result.rows[0];
@@ -21,8 +21,8 @@ passport.use(new LocalStrategy(async (username, password, done) => {
     console.log('Password match result:', isMatch);
 
     if (!isMatch) {
-      console.warn('Login failed: Incorrect password');
-      return done(null, false, { message: 'Incorrect password' });
+      console.warn('Login Failed: Incorrect Username or Password');
+      return done(null, false, { message: 'Username or Password' });
     }
 
     return done(null, user);
