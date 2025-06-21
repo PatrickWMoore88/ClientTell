@@ -19,8 +19,8 @@ html
 
                 nav.mobile-nav(id="mobileNav")
                     ul
-                        li: a(href="/about", style="color: white;") About
-                        li: a(href="/contact", style="color: white;") Contact
+                        li: a(href="/about", style="color: white; text-decoration: none;") About
+                        li: a(href="/contact", style="color: white; text-decoration: none;") Contact
                         if user
                             li.nav-item
                                 form(method="GET", action="/dashboard", style="margin: 0;")

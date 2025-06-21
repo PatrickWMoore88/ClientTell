@@ -23,20 +23,21 @@ body {
 }
 
 /* Base styles */
-.hamburger {
+/* .hamburger {
   display: none;
   flex-direction: column;
   gap: 5px;
   background: none;
   border: none;
   cursor: pointer;
-}
+} */
 
-.hamburger span {
-  width: 25px;
-  height: 3px;
-  background: #fff;
-  transition: all 0.3s ease;
+span {
+    margin-right: auto;
+    width: 25px;
+    height: 3px;
+    background: #fff;
+    transition: all 0.3s ease;
 }
 
 .mobile-nav {
