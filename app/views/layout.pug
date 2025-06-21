@@ -35,15 +35,26 @@ html
                                 a.nav-link(href="/login", style="color: white") Log In
                         
                 nav.navbar
-                    button#menuToggle.hamburger(type="button" aria-label="Toggle Menu")
-                        span
-                        span
-                        span
+                    button.navbar-toggler(type="button", aria-label="Toggle navigation", onclick="toggleMenu()")
+                        span ☰
 
-                    ul#mobileNav.nav-links.mobile
-                        li: a(href="/") Home
-                        li: a(href="/about") About
-                        li: a(href="/contact") Contact
+                    nav.mobile-nav(id="mobileNav")
+                        ul
+                            li: a(href="/about") About
+                            li: a(href="/contact") Contact
+                            if user
+                                li.nav-item
+                                    form(method="GET", action="/dashboard", style="margin: 0;")
+                                        button.btn.nav-link(type="submit", style="color: white;") Dashboard
+                                li.nav-item
+                                    form(method="POST", action="/logout", style="margin: 0;")
+                                        button.btn.nav-link(type="submit", style="color: white;") Log Out
+                                if user.username == admin
+                                    li.nav-item
+                                        a.nav-link(href="/status" style="color: white") Status
+                            else
+                                li.nav-item
+                                    a.nav-link(href="/login", style="color: white") Log In
                 
         div.main
             block content

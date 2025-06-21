@@ -39,35 +39,49 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Hide mobile nav by default */
-.nav-links.mobile {
+.mobile-nav {
   display: none;
-  flex-direction: column;
-  background-color: #222;
-  padding: 20px;
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background: #111;
+  padding: 1rem;
+  border-radius: 8px;
+  z-index: 1000;
 }
 
-.nav-links.mobile.show {
-  display: flex;
+.mobile-nav.show {
+  display: block;
 }
 
-/* Responsive behavior */
-@media (max-width: 768px) {
-  .nav-links.desktop {
-    display: none;
-  }
 
-  .hamburger {
-    display: flex;
-  }
+.hero-container {
+    position: relative;
+    padding-bottom: 60px;
+}
+
+.hero-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.responsive-hero {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  max-height: 525px;
+  transform: scale(1.25);
 }
 
 .hero-section {
-    background-image: url('/images/crm-dashboard-resize.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 120px 20px;
+    margin-top: 25px;
+    padding: 4rem 2rem;
+    z-index: 2;
     text-align: center;
     color: #fff;
     position: relative;
@@ -76,7 +90,8 @@ body {
 }
 
 .hero-section .overlay {
-    background: rgba(0,0,0,0.5);
+    margin-top: 25px;
+    background: rgba(0,0,0,0.75);
     padding: 60px 20px;
     border-radius: 10px;
 }
@@ -84,8 +99,13 @@ body {
 .divider {
     width: 100%;
     height: 5px;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.75);
     margin: 40px 0;
+}
+
+.divider-container {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
 }
 
 .number-divider {
@@ -93,8 +113,9 @@ body {
     height: 80px;
     text-align: center;
     font-weight: bolder;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.75);
     margin: 40px 0;
+    border-radius: 10px;
 }
 
 .register-divider {
@@ -102,8 +123,9 @@ body {
     height: 200px;
     text-align: center;
     font-weight: bolder;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.75);
     margin: 40px 0;
+    border-radius: 10px;
 }
 
 .home-card {
@@ -122,7 +144,8 @@ body {
 
 .our-team-section {
     padding: 60px 20px;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.75);
+    border-radius: 10px;
 }
 
 .team-photo {

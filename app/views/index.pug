@@ -1,62 +1,45 @@
 extends layout
 
 block content
-  div.hero-section
-    div.overlay
-        h1 Welcome to ClientTell CRM
-        p Streamline your workflow with real-time data and intuitive tools
-        div.text-center.mt-5
-            a.btn.btn-primary(href="/register", class="btn btn-primary btn-lg") Get Started
-            a.btn.btn-outline-secondary(href="/login", class="btn btn-outline-secondary btn-lg") Log In
+    div.hero-container
+        div.hero-image-container
+            img(src="/images/crm-dashboard-resize.png", alt="Hero", class="responsive-hero")
+        div.hero-section
+            div.overlay
+                h1 Welcome to ClientTell CRM
+                p Streamline your workflow with real-time data and intuitive tools
+                div.text-center.mt-5
+                    a.btn.btn-primary(href="/register", class="btn btn-primary btn-lg") Get Started
+                    a.btn.btn-outline-secondary(href="/login", class="btn btn-outline-secondary btn-lg") Log In
 
-  div.number-divider
-    h1 Call Us At 832.803.8050
+    div.divider-container
+        div.number-divider
+            h1 Call Us At 832.803.8050
 
-  div.container.about-section
-      h2.text-center.mb-4 Why Choose Us?
-      div.row
-          each item in [{ title: "Secure & Efficient Client Management", desc: "Using latest security measures to protect you and your clients"}, {title: "User-Friendly Design & Intuitive Features", desc: "Intuitive Design With Ease Of Use"}, { title:"Detailed Project & Invoice Tracking", desc: "Easily Track Employees, Clients, Projects, Invoices, and Tasks"}]
-              div.col-md-4
-                  div.card.feature-card
-                      div.card-body
-                          h4.home-card= item.title
-                          p.item-desc= item.desc
-                        
-  div.register-divider
-    h1 Register Or Log In
-    div.text-center.mt-5
-            a.btn.btn-primary(href="/register", class="btn btn-primary btn-lg") Get Started
-            a.btn.btn-outline-secondary(href="/login", class="btn btn-outline-secondary btn-lg") Log In
-
-
-  div.container.about-section
-      h2.text-center.mb-4 What can this app do?
-      div.row
-          each item in [{ title: "Dashboard Insights", desc: "Visualize key metrics with interactive charts" }, { title: "Smart Filtering", desc: "Drill down into data with intuitive filters" }, { title: "Client Management", desc: "Track leads, conversions, and account health" }]
-              div.col-md-4
-                  div.card.feature-card
-                      div.card-body
-                          h4.home-card= item.title
-                          p.item-desc= item.desc
+    div.container.about-section
+        h2.text-center.mb-4 Why Choose Us?
+        div.row
+            each item in [{ title: "Secure & Efficient Client Management", desc: "Using latest security measures to protect you and your clients"}, {title: "User-Friendly Design & Intuitive Features", desc: "Intuitive Design With Ease Of Use"}, { title:"Detailed Project & Invoice Tracking", desc: "Easily Track Employees, Clients, Projects, Invoices, and Tasks"}]
+                div.col-md-4
+                    div.card.feature-card
+                        div.card-body
+                            h4.home-card= item.title
+                            p.item-desc= item.desc
+    div.divider-container                         
+        div.register-divider
+            h1 Register Or Log In
+            div.text-center.mt-5
+                    a.btn.btn-primary(href="/register", class="btn btn-primary btn-lg") Get Started
+                    a.btn.btn-outline-secondary(href="/login", class="btn btn-outline-secondary btn-lg") Log In
 
 
-      //- div.main
-      //-   main.container.mt-5
-      //-     div.text-center
-      //-       h1 ClientTell CRM - Streamline Your Business Relationships
-      //-       p Manage clients, track projects, monitor invoices, and drive success from one powerful dashboard.
+    div.container.about-section
+        h2.text-center.mb-4 What can this app do?
+        div.row
+            each item in [{ title: "Dashboard Insights", desc: "Visualize key metrics with interactive charts" }, { title: "Smart Filtering", desc: "Drill down into data with intuitive filters" }, { title: "Client Management", desc: "Track leads, conversions, and account health" }]
+                div.col-md-4
+                    div.card.feature-card
+                        div.card-body
+                            h4.home-card= item.title
+                            p.item-desc= item.desc
 
-      //-     div.row.mt-4
-      //-       div.col-md-6
-      //-         img.img-fluid(src="/images/business.jpg", alt="Business Growth")
-
-            //- div.col-md-6
-            //-   h3 Why Choose Us?
-            //-   ul
-            //-     li Secure & Efficient Client Management
-            //-     li Detailed Project & Invoice Tracking
-            //-     li User-Friendly Design & Intuitive Features
-
-          //- div.text-center.mt-5
-          //-   a.btn.btn-primary(href="/register", class="btn btn-primary btn-lg") Get Started
-          //-   a.btn.btn-outline-secondary(href="/login", class="btn btn-outline-secondary btn-lg") Log In
