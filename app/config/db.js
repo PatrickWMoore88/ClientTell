@@ -15,11 +15,11 @@ const orderedTables = ['users', 'contact', 'clients', 'projects', 'invoices', 'c
 
 async function loopTables(tables){
   for (const table of tables){
-    // Ensures tables are created first
-    await createTables(table);
-    
     // Make adjustments for edge cases "contact" and "team"
     const realTable = resolveTableName(table);
+    
+    // Ensures tables are created first
+    await createTables(table, realTable);
     
     // Runs after table checks, ensuring tables exist before seeding
     await seedDatabase(realTable);
@@ -61,7 +61,7 @@ async function runQuery(query, params){
   }
 }
 
-async function createTables(table) {
+async function createTables(table, realTable) {
   // Get existence status for each table
   const res = await runQuery(schema.checkQuery);
   const exists = res.rows[0];
@@ -72,9 +72,9 @@ async function createTables(table) {
   if (!exists[`${table}_exists`]) {
     const query = schema.tableDefinitions[table];
     await runQuery(query);
-    console.log(`ℹ️ '${table}' checked/created.`);
+    console.log(`ℹ️ '${realTable}' checked/created.`);
   } else {
-    console.log(`ℹ️ '${table}' already exists, skipping creation.`);
+    console.log(`ℹ️ '${realTable}' already exists, skipping creation.`);
   }
 }
 

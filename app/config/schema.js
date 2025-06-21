@@ -100,7 +100,7 @@ const dataToSeed = {
       ('Test', 'test@gmail.com', $1),
       ($2, $3, $4);
     `,
-    contact: `
+    contact_requests: `
       INSERT INTO contact_requests (name, email, message)
       VALUES 
       ('Test', 'test@gmail.com', 'Testing Messages');

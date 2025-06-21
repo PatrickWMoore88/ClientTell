@@ -16,7 +16,11 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: {maxAge: 1000 * 60 * 60} // 1 hour
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // requires HTTPS
+    maxAge: 1000 * 60 * 60 * 24
+  }
 }));
 
 // BodyParser Middleware
@@ -31,6 +35,11 @@ app.use(flash());
 //   console.log(`➡️ ${req.method} ${req.originalUrl}`);
 //   next();
 // });
+
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  next();
+});
 
 // Method Override Middleware
 app.use(methodOverride('_method'));

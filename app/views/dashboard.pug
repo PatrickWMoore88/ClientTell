@@ -99,8 +99,8 @@ block content
                             div.card.bg-dark.text-white.p-4.chart-container
                                 h4.text-center #{chart.charAt(0).toUpperCase() + chart.slice(1)} Overview
                                 canvas(id=`${chart}Chart`)
-                                a.btn.btn-info.d-block.text-center.mt-3(href=`/get/${chart}`, style="margin-top: 10px;") View #{chart.charAt(0).toUpperCase() + chart.slice(1)}
-
+                                button.btn.btn-info.d-block.text-center.mt-3(onclick=`window.location.href='/get/${chart}'`, style="margin-top: 10px;") View #{chart.charAt(0).toUpperCase() + chart.slice(1)}
+                                
 block scripts
     script(src="https://cdn.jsdelivr.net/npm/chart.js")
     script.

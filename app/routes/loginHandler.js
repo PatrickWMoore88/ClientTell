@@ -87,7 +87,7 @@ router.get('/dashboard', requireLogin, async (req, res) => {
     const statsQuery = `
       SELECT 
         (SELECT COUNT(*) FROM clients) AS total_clients,
-        (SELECT COUNT(*) FROM clients WHERE status = 'Leads') AS leads_clients,
+        (SELECT COUNT(*) FROM clients WHERE status = 'Lead') AS leads_clients,
         (SELECT COUNT(*) FROM clients WHERE status = 'Active') AS active_clients,
         (SELECT COUNT(*) FROM clients WHERE status = 'Inactive') AS inactive_clients,
 

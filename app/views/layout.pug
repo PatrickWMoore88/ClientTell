@@ -22,9 +22,12 @@ html
                             a.nav-link(href="/contact" style="color: white") Contact Us
                         if user
                             li.nav-item
+                                form(method="GET", action="/dashboard", style="margin: 0;")
+                                    button.btn.nav-link(type="submit", style="color: white;") Dashboard
+                            li.nav-item
                                 form(method="POST", action="/logout", style="margin: 0;")
                                     button.btn.nav-link(type="submit", style="color: white;") Log Out
-                            if user.username = admin
+                            if user.username == admin
                                 li.nav-item
                                     a.nav-link(href="/status" style="color: white") Status
                         else
