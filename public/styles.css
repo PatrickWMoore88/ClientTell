@@ -24,12 +24,12 @@ body {
 
 /* Base styles */
 .hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .hamburger span {
@@ -40,20 +40,19 @@ body {
 }
 
 .mobile-nav {
-  display: none;
-  position: absolute;
-  top: 60px;
-  right: 20px;
-  background: #111;
-  padding: 1rem;
-  border-radius: 8px;
-  z-index: 1000;
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: #111;
+    padding: 1rem;
+    border-radius: 8px;
+    z-index: 1000;
 }
 
 .mobile-nav.show {
-  display: block;
+    display: block;
 }
-
 
 .hero-container {
     position: relative;
@@ -257,12 +256,12 @@ p.info {
 }
 
 select {
-  appearance: none; /* Ensures cross-browser consistency */
-  -webkit-appearance: none; /* Fix for Safari */
-  -moz-appearance: none; /* Fix for Firefox */
-  background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="black" d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
-  padding-right: 30px; /* Space for the arrow */
-  border-radius: 5px;
+    appearance: none; /* Ensures cross-browser consistency */
+    -webkit-appearance: none; /* Fix for Safari */
+    -moz-appearance: none; /* Fix for Firefox */
+    background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="black" d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
+    padding-right: 30px; /* Space for the arrow */
+    border-radius: 5px;
 }
 
 .cardBackgroud {
@@ -342,22 +341,22 @@ select {
 }
 
 .chart-container {
-  width: 100%;
-  /* max-width: 400px; */
-  /* height: 300px; */
-  color: #fff !important;
-  margin-bottom: 30px;
-  padding: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #111;
-  border-radius: 10px;
+    width: 100%;
+    /* max-width: 400px; */
+    /* height: 300px; */
+    color: #fff !important;
+    margin-bottom: 30px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #111;
+    border-radius: 10px;
 }
 
 canvas {
-  max-width: 100% !important;
-  height: 250px !important;
+    max-width: 100% !important;
+    height: 250px !important;
 }
 
 .bg-dark {
