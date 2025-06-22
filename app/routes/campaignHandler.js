@@ -105,7 +105,7 @@ router.post('/update/campaigns/:id', requireLogin, async (req, res) => {
           SELECT 
             cam.*,
             c.name AS client_name
-          FROM projects p
+          FROM campaigns cam
           LEFT JOIN clients c ON cam.client_id = c.id
           WHERE cam.id = $1;
         `, [req.params.id]);

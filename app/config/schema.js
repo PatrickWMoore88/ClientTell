@@ -136,10 +136,10 @@ const dataToSeed = {
       ('Emily Davis', 'emily@example.com', '555-5678', 'Referral', 'New');
     `,
     team_members: `
-      INSERT INTO team_members (name, email, role)
+      INSERT INTO team_members (name, email, phone, role)
       VALUES 
-      ('Alice Johnson', 'alice@example.com', 'Project Manager'),
-      ('Bob White', 'bob@example.com', 'Frontend Developer');
+      ('Alice Johnson', 'alice@example.com', 218-345-9494, 'Project Manager'),
+      ('Bob White', 'bob@example.com', 218-345-9595, 'Frontend Developer');
     `,
     tasks: `
       INSERT INTO tasks (project_id, assigned_to, description, due_date, status)
