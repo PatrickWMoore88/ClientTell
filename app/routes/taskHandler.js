@@ -115,13 +115,13 @@ router.post('/update/tasks/:id', requireLogin, async (req, res) => {
         [project_id, assigned_to, description, status, due_date, req.params.id]
       );
     const result = await db.runQuery(`
-              SELECT 
-                t.*,
-                tm.name AS team_member_name
-              FROM tasks t
-              LEFT JOIN team_members tm ON t.assigned_to = tm.id
-              WHERE t.id = $1;
-            `, [req.params.id]);
+      SELECT 
+        t.*,
+        tm.name AS team_member_name
+      FROM tasks t
+      LEFT JOIN team_members tm ON t.assigned_to = tm.id
+      WHERE t.id = $1;
+    `, [req.params.id]);
     res.render('getTask', { title: 'Task', task: result.rows[0]});
   } catch (error) {
     console.error('Error fetching dropdown data:', error);
