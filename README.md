@@ -17,6 +17,7 @@ A full-featured CRM web application built with Express.js, PostgreSQL, and Pug. 
 
 🚀 Getting Started
 This project is hosted on Railway, so no local installation is necessary.
+
 🔗 Live App
 You can access the app directly at:
 https://clienttell-production.up.railway.app/
