@@ -2,19 +2,19 @@
 A full-featured CRM web application built with Express.js, PostgreSQL, and Pug. Designed for managing clients, campaigns, projects, team members, tasks, inovices, and users — with a responsive, polished UI and dynamic filtering.
 
 ## **📦 Features:**
-### - 🔐 User authentication with admin access control  
-### - 📁 Create, Read, Update, Delete (CRUD) operations for:  
-####    - Clients  
-####    - Campaigns  
-####    - Projects  
-####    - Team Members  
-####    - Tasks  
-####    - Invoices  
-####    - Users  
-### - 📊 Responsive dashboard with dynamic charts  
-### - 📱 Mobile-friendly navigation with collapsible sidebar + hamburger menu  
-### - 🔎 Facet-style filtering and inline data views  
-### - ✨ Smooth transitions and stylish design with custom CSS  
+- 🔐 User authentication with admin access control  
+- 📁 Create, Read, Update, Delete (CRUD) operations for:  
+    - Clients  
+    - Campaigns  
+    - Projects  
+    - Team Members  
+    - Tasks  
+    - Invoices  
+    - Users  
+- 📊 Responsive dashboard with dynamic charts  
+- 📱 Mobile-friendly navigation with collapsible sidebar + hamburger menu  
+- 🔎 Facet-style filtering and inline data views  
+- ✨ Smooth transitions and stylish design with custom CSS  
 
 ## **🚀 Getting Started:**  
     This project is hosted on Railway, so no local installation is necessary.
@@ -34,23 +34,23 @@ Password - Test
 ## **⚙️ Development (Optional for Maintainers)**  
 If you'd like to run the project locally for development:
 
-### Prerequisites:
+**Prerequisites:**
     - Node.js (v18 or newer)
     - PostgreSQL
     - A local .env file with DB credentials
 
 
-### Installation:
+**Installation:**
     ```
     git clone https://github.com/PatrickWMoore88/ClientTell
     cd clienttell-crm
     npm install
     ```
 
-### Database Setup:  
+**Database Setup:**  
     No manual setup required — the database is seeded automatically with required tables and sample data when the app boots.
 
-### Update your .env file:
+**Update your .env file:**
     ```
     DB_USER=your_user
     DB_PASSWORD=your_password
@@ -59,7 +59,7 @@ If you'd like to run the project locally for development:
     DB_PORT=5432
     ```
 
-### Run the App
+**Run the App**
     ```
     npm start
     ```
