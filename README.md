@@ -63,15 +63,15 @@ npm start
 Visit http://localhost:3000
 
 🛠 File Structure
-
-├── routes/             # Express route handlers (campaigns, clients, etc.)
-├── views/              # Pug templates
-├── public/             # Static assets (CSS, JS, fonts)
-├── config/             # DB configuration
-├── middleware/         # Auth & session control
-├── db/schema.sql       # Database schema
-└── app.js              # Main Express app
-
+\\\
+    ├── routes/             # Express route handlers (campaigns, clients, etc.)
+    ├── views/              # Pug templates
+    ├── public/             # Static assets (CSS, JS, fonts)
+    ├── config/             # DB configuration
+    ├── middleware/         # Auth & session control
+    ├── db/schema.sql       # Database schema
+    └── app.js              # Main Express app
+\\\
 
 🤝 Contributing
 Pull requests and feedback are welcome! If you spot an issue or have ideas for improvement, open a GitHub issue or fork the repo.
