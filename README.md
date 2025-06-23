@@ -32,7 +32,7 @@ Prerequisites
 
 
 Installation
-git clone https://github.com/your-username/clienttell-crm.git
+git clone https://github.com/PatrickWMoore88/ClientTell
 cd clienttell-crm
 npm install
 
