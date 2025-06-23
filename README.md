@@ -1,5 +1,5 @@
 # **ClientTell CRM**  
-A full-featured CRM web application built with Express.js, PostgreSQL, and Pug. Designed for managing clients, campaigns, projects, team members, tasks, inovices, and users — with a responsive, polished UI and dynamic filtering.
+> A full-featured CRM web application built with Express.js, PostgreSQL, and Pug. Designed for managing clients,campaigns, projects, team members, tasks, inovices, and users — with a responsive, polished UI and dynamic filtering.
 
 ## **📦 Features:**
 - 🔐 User authentication with admin access control  
@@ -58,7 +58,7 @@ DB_NAME=your_db
 DB_PORT=5432
 ```
 
-**Run the App**  
+**Run the App:**  
 ```
 npm start
 ```
