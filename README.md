@@ -22,9 +22,10 @@ You can access the app directly at:
 https://clienttell-production.up.railway.app/
 
 To Login to Dashboard Use the Following Creds:
+```
 Username - Test
 Password - Test
-
+```
 
 
 
@@ -38,32 +39,36 @@ Prerequisites
 
 
 Installation
+```
 git clone https://github.com/PatrickWMoore88/ClientTell
 cd clienttell-crm
 npm install
-
+```
 
 Database Setup
 Create your PostgreSQL database and run the schema:
+```
 psql -U your_user -d your_db -f db/schema.sql
-
+```
 
 Update your .env file:
+```
 DB_USER=your_user
 DB_PASSWORD=your_password
 DB_HOST=localhost
 DB_NAME=your_db
 DB_PORT=5432
-
+```
 
 Run the App
+```
 npm start
-
+```
 
 Visit http://localhost:3000
 
 🛠 File Structure
-\\\
+```
     ├── routes/             # Express route handlers (campaigns, clients, etc.)
     ├── views/              # Pug templates
     ├── public/             # Static assets (CSS, JS, fonts)
@@ -71,7 +76,7 @@ Visit http://localhost:3000
     ├── middleware/         # Auth & session control
     ├── db/schema.sql       # Database schema
     └── app.js              # Main Express app
-\\\
+```
 
 🤝 Contributing
 Pull requests and feedback are welcome! If you spot an issue or have ideas for improvement, open a GitHub issue or fork the repo.
