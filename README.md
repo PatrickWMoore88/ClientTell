@@ -1,20 +1,20 @@
-ClientTell CRM
+ClientTell CRM  
 A full-featured CRM web application built with Express.js, PostgreSQL, and Pug. Designed for managing clients, campaigns, projects, team members, tasks, inovices, and users — with a responsive, polished UI and dynamic filtering.
 
 📦 Features:  
-    - 🔐 User authentication with admin access control  
-    - 📁 Create, Read, Update, Delete (CRUD) operations for:  
-        - Clients  
-        - Campaigns  
-        - Projects  
-        - Team Members  
-        - Tasks  
-        - Invoices  
-        - Users  
-    - 📊 Responsive dashboard with dynamic charts  
-    - 📱 Mobile-friendly navigation with collapsible sidebar + hamburger menu  
-    - 🔎 Facet-style filtering and inline data views  
-    - ✨ Smooth transitions and stylish design with custom CSS  
+- 🔐 User authentication with admin access control  
+- 📁 Create, Read, Update, Delete (CRUD) operations for:  
+    - Clients  
+    - Campaigns  
+    - Projects  
+    - Team Members  
+    - Tasks  
+    - Invoices  
+    - Users  
+- 📊 Responsive dashboard with dynamic charts  
+- 📱 Mobile-friendly navigation with collapsible sidebar + hamburger menu  
+- 🔎 Facet-style filtering and inline data views  
+- ✨ Smooth transitions and stylish design with custom CSS  
 
 🚀 Getting Started:  
     This project is hosted on Railway, so no local installation is necessary.
