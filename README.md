@@ -23,7 +23,7 @@
 > You can access the app directly at: https://clienttell-production.up.railway.app/
 
 > To Login to Dashboard Use the Following Creds:  
->> ```
+```
 Username - Test
 Password - Test
 ```
@@ -40,7 +40,7 @@ Password - Test
 
 
 > **Installation:**  
->> ```
+```
 git clone https://github.com/PatrickWMoore88/ClientTell
 cd clienttell-crm
 npm install
@@ -50,7 +50,7 @@ npm install
 >> No manual setup required — the database is seeded automatically with required tables and sample data when the app boots.
 
 > **Update your .env file:**  
->> ```
+```
 DB_USER=your_user
 DB_PASSWORD=your_password
 DB_HOST=localhost
@@ -59,14 +59,14 @@ DB_PORT=5432
 ```
 
 > **Run the App:**  
->> ```
+```
 npm start
 ```
 
 >> Visit http://localhost:3000
 
 ## **🛠 File Structure:**
-> ```
+```
 ├── app/    
 |    ├── config/             # DB Configuration & Schema 
 |    ├── middleware/         # Auth & Session Control
