@@ -68,13 +68,16 @@ Visit http://localhost:3000
 
 🛠 File Structure:
 ```
-    ├── routes/             # Express route handlers (campaigns, clients, etc.)
-    ├── views/              # Pug templates
-    ├── public/             # Static assets (CSS, JS, fonts)
-    ├── config/             # DB configuration
-    ├── middleware/         # Auth & session control
-    ├── db/schema.sql       # Database schema
-    └── app.js              # Main Express app
+    ├── app    
+    |    ├── config/             # DB Configuration & Schema 
+    |    ├── middleware/         # Auth & Session Control
+    |    ├── routes/             # Express Route Handlers (campaigns, clients, etc.)
+    |    ├── views/              # Pug Templates
+    ├── public/                  # Static Assets (CSS, Images)
+    |    ├── images              
+    |    ├── styles.css              
+    └── clientTell.js            # Main Express app
+    └── server.js                # Build Server
 ```
 
 🤝 Contributing:  
